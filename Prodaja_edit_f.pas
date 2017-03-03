@@ -1,0 +1,201 @@
+unit Prodaja_edit_f;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Grids, DBGrids, DBCtrls, Mask, ExtCtrls, DB,
+  IBCustomDataSet, StrUtils;
+
+type
+  TF_Prodaja_edit = class(TForm)
+    P_Shapka: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label6: TLabel;
+    DBE_NOMER: TDBEdit;
+    DBE_Date_pro: TDBEdit;
+    DBLookupComboBox1: TDBLookupComboBox;
+    DBEdit1: TDBEdit;
+    DBGrid1: TDBGrid;
+    Panel1: TPanel;
+    B_Exit: TButton;
+    B_Ok: TButton;
+    IB_Prodaja_0_edit: TIBDataSet;
+    DS_Prodaja_0_edit: TDataSource;
+    IB_Prodaja_0_editID: TIntegerField;
+    IB_Prodaja_0_editDATE_PRO: TDateField;
+    IB_Prodaja_0_editID_CONTRAGENT: TIntegerField;
+    IB_Prodaja_0_editPRIMECHANIE: TIBStringField;
+    IB_Prodaja_0_editKONTRAGENT_NAME: TStringField;
+    IB_Prodaja_1_edit: TIBDataSet;
+    DS_Prodaja_1_edit: TDataSource;
+    IB_Prodaja_1_editID: TIntegerField;
+    IB_Prodaja_1_editID_PARENT: TIntegerField;
+    IB_Prodaja_1_editID_GOTOV_PROD: TIntegerField;
+    IB_Prodaja_1_editKOL_VO: TIntegerField;
+    IB_Prodaja_1_editID_ZAKAZ: TIntegerField;
+    IB_Prodaja_1_editGRUPA_NAME: TStringField;
+    IB_Prodaja_1_editGOTOVPROD_NAME: TStringField;
+    procedure FormActivate(Sender: TObject);
+    procedure DBGrid1EditButtonClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure IB_Prodaja_1_editNewRecord(DataSet: TDataSet);
+    procedure IB_Prodaja_1_editBeforePost(DataSet: TDataSet);
+    procedure IB_Prodaja_1_editPostError(DataSet: TDataSet;
+      E: EDatabaseError; var Action: TDataAction);
+    procedure B_OkClick(Sender: TObject);
+    procedure B_ExitClick(Sender: TObject);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Prodaja_edit: TF_Prodaja_edit;
+      OK_Pressed: boolean;
+implementation
+
+uses main_f, mebeli_dm, Prodaja_jurnal_f, Zakaz_Gotovprod_Ostatok_f;
+
+{$R *.dfm}
+
+procedure TF_Prodaja_edit.FormActivate(Sender: TObject);
+begin
+  IF operation='EDIT' Then
+    begin
+      IB_Prodaja_0_edit.ParamByName('id_prodaja').Value:=F_Prodaja_jurnal.IB_Prodaja_0.FieldByName('nomer_akt').AsInteger;
+      IB_Prodaja_0_edit.Open;
+      IB_Prodaja_1_edit.Open;
+      IB_Prodaja_0_edit.Edit;
+    end;
+  IF operation='INSERT' Then
+    begin
+      IB_Prodaja_0_edit.Open;
+      IB_Prodaja_1_edit.Open;
+      IB_Prodaja_0_edit.Insert;
+      IB_Prodaja_0_edit.FieldByName('date_pro').Value:=Date;
+    end;
+  DM_Mebeli.IB_Contragenty_1.Open;
+  OK_Pressed:=False;
+  IF (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+    DBE_Date_pro.ReadOnly:=true;  
+end;//
+
+procedure TF_Prodaja_edit.DBGrid1EditButtonClick(Sender: TObject);
+begin
+  IF F_Zakaz_Gotovprod_Ostatok.ShowModal<>mrOk Then exit;
+  IB_Prodaja_1_edit.Edit;
+  IB_Prodaja_1_edit.FieldByName('id_zakaz').Value:=DM_Mebeli.IB_Zakaz_Gotovprod_Ostatok.FieldByName('id_zakaz').AsInteger;
+  IB_Prodaja_1_edit.FieldByName('id_gotov_prod').Value:=DM_Mebeli.IB_Zakaz_Gotovprod_Ostatok.FieldByName('id_gotovprod').AsInteger;
+  IB_Prodaja_1_edit.FieldByName('kol_vo').Value:=DM_Mebeli.IB_Zakaz_Gotovprod_Ostatok.FieldByName('ostatok').AsInteger;
+  IB_Prodaja_1_edit.Post;
+    DM_Mebeli.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
+end;//proc
+
+procedure TF_Prodaja_edit.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+var res:TModalResult;
+begin
+  IF OK_Pressed Then
+    begin
+      IB_Prodaja_0_edit.Close;
+      IB_Prodaja_1_edit.Close;
+      DM_Mebeli.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
+      exit;
+    end;
+  res:=MessageDlg('Сохранить изменения?',mtConfirmation,[mbYes,mbNo,mbCancel],0);
+  IF res=mrCancel Then
+     begin
+      Action:=caNone;
+      exit;
+     end;
+  IF res=mrNo Then
+     IF DM_Mebeli.IBTransaction1.Active Then
+        DM_Mebeli.IBTransaction1.Rollback;
+  IF res=mrYes Then
+    begin
+      ok_pressed:=true;
+      IF DM_Mebeli.IBTransaction1.Active Then
+         begin
+            IF (IB_Prodaja_0_edit.State=dsEdit) OR (IB_Prodaja_0_edit.State=dsInsert) Then
+               IB_Prodaja_0_edit.Post;
+            IF (IB_Prodaja_1_edit.State=dsEdit) OR (IB_Prodaja_1_edit.State=dsInsert) Then
+               IB_Prodaja_1_edit.Post;
+            DM_Mebeli.IBTransaction1.Commit
+         end;//IF DM_Mebeli.IBTransaction1.Active
+    end;//IF res=mrYes
+    IB_Prodaja_0_edit.Close;
+    IB_Prodaja_1_edit.Close;
+    DM_Mebeli.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
+end;//proc
+
+procedure TF_Prodaja_edit.IB_Prodaja_1_editNewRecord(DataSet: TDataSet);
+begin
+  IB_Prodaja_1_edit.FieldByName('id_parent').Value:=IB_Prodaja_0_edit.FieldByName('id').AsInteger;
+end;
+
+procedure TF_Prodaja_edit.IB_Prodaja_1_editBeforePost(DataSet: TDataSet);
+begin
+  IF IB_Prodaja_1_edit.FieldByName('id_parent').IsNull Then
+    IB_Prodaja_1_edit.FieldByName('id_parent').Value:=IB_Prodaja_0_edit.FieldByName('id').AsInteger;
+end;//proc
+
+procedure TF_Prodaja_edit.IB_Prodaja_1_editPostError(DataSet: TDataSet;
+  E: EDatabaseError; var Action: TDataAction);
+var errmsg: string;
+begin
+  IF AnsiContainsText(E.Message,'UNIQUE')=True Then
+    errmsg:='Из одного заказа нельзя выбрать одну и туже продукцию!'
+  ELSE
+    begin
+      errmsg:=Copy(E.Message,Pos('~',E.Message)+1,Length(E.Message)-Pos('~',E.Message));
+      errmsg:=Copy(errmsg,1,Pos('~',errmsg)-1);
+    end;
+  ShowMessage(errmsg);
+  Action:=daAbort;
+end;//proc
+
+procedure TF_Prodaja_edit.B_OkClick(Sender: TObject);
+begin
+  IF (IB_Prodaja_0_edit.FieldByName('DATE_PRO').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+    begin
+      DM_Mebeli.IBTransaction1.Rollback;
+      OK_Pressed:=True;
+      close;
+    end;//IF DataZapretaRedakt
+
+  IF DM_Mebeli.IBTransaction1.Active Then
+     begin
+       IF (IB_Prodaja_0_edit.State=dsEdit) OR (IB_Prodaja_0_edit.State=dsInsert) Then
+          IB_Prodaja_0_edit.Post;
+       IF (IB_Prodaja_1_edit.State=dsEdit) OR (IB_Prodaja_1_edit.State=dsInsert) Then
+          IB_Prodaja_1_edit.Post;
+       DM_Mebeli.IBTransaction1.Commit;
+       OK_Pressed:=True;
+       close;
+     end;//IF
+end;//proc
+
+procedure TF_Prodaja_edit.B_ExitClick(Sender: TObject);
+begin
+  OK_Pressed:=FALSE;
+  Close;
+end;//proc
+
+procedure TF_Prodaja_edit.DBGrid1KeyPress(Sender: TObject; var Key: Char);
+begin
+  IF Key=Chr(32) Then
+    DBGrid1EditButtonClick(Sender);
+end;//proc
+
+procedure TF_Prodaja_edit.FormCreate(Sender: TObject);
+begin
+  F_Main.AdjustResolution(F_Prodaja_edit);
+end;
+
+end.
