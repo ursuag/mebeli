@@ -1,0 +1,52 @@
+CREATE GLOBAL TEMPORARY TABLE OSTATKI (
+    ID             INTEGER NOT NULL,
+    SKLAD          VARCHAR(50),
+    ID_SKLAD       INTEGER,
+    GRUPA          VARCHAR(50),
+    ID_GRUPA       INTEGER,
+    NAME           VARCHAR(100),
+    ED_IZM         VARCHAR(10),
+    KOL_VO         NUMERIC(15,3),
+    AREA           NUMERIC(9,3),
+    TIP_MATERIALA  INTEGER
+) ON COMMIT PRESERVE ROWS;
+
+
+
+
+/******************************************************************************/
+/***                              Primary Keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE OSTATKI ADD PRIMARY KEY (ID);
+
+
+/******************************************************************************/
+/***                                Indices                                 ***/
+/******************************************************************************/
+
+CREATE INDEX OSTATKI_IDX1 ON OSTATKI (TIP_MATERIALA, ID_SKLAD, ID_GRUPA, NAME);
+
+
+/* Fields descriptions */
+
+COMMENT ON COLUMN OSTATKI.TIP_MATERIALA IS 
+'1 - detali
+2 - listy
+3 - furnitura';
+
+
+
+/******************************************************************************/
+/***                               Privileges                               ***/
+/******************************************************************************/
+
+
+/* Privileges of users */
+GRANT ALL ON OSTATKI TO NATALIA;
+
+/* Privileges of roles */
+GRANT ALL ON OSTATKI TO "ADMIN";
+GRANT ALL ON OSTATKI TO BOSS;
+GRANT ALL ON OSTATKI TO BUHGALTER;
+GRANT ALL ON OSTATKI TO USERS;
