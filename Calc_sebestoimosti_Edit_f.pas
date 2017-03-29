@@ -32,16 +32,20 @@ type
     IB_Calc_Sebest_1GRUPA_NAME: TStringField;
     IB_Calc_Sebest_1GOTOVPROD_NAME: TStringField;
     IB_Calc_Sebest_1ARTICLE: TIntegerField;
-    DBEdit2: TDBEdit;
     DS_Calc_Sebest_2: TDataSource;
     IB_Calc_Sebest_2: TIBDataSet;
     DBGrid2: TDBGrid;
+    IB_Calc_Sebest_1KOL_VO: TIntegerField;
+    IB_Calc_Sebest_1SUMMA_MATERIALY: TIBBCDField;
+    IB_Calc_Sebest_1SUMMA_RASHODY: TIBBCDField;
     procedure FormCreate(Sender: TObject);
     procedure DT_Date_calcExit(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure IB_Calc_Sebest_1CalcFields(DataSet: TDataSet);
     procedure B_Calc_SebestClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure B_OkClick(Sender: TObject);
+    procedure B_ExitClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -104,18 +108,34 @@ end;//proc
 procedure TF_Calc_sebestoimosti_Edit.B_Calc_SebestClick(Sender: TObject);
 var ib_tmp:TIBDataSet;
 begin
+  IF MessageDlg('Документ будет перезаполнен новыми данными. Продолжить',mtWarning,[mbOk,mbNo],0)=mrNo then
+    exit;
+  IB_Calc_sebest_1.Close;
   IB_Calc_sebest_2.Close;
   ib_tmp:=TIBDataSet.Create(nil);
   ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
-  ib_tmp.SelectSQL.Add('delete from calc_sebest_2 where id_parent='+IB_Calc_Sebest_0.FieldByname('id').AsString);
+  ib_tmp.SelectSQL.Add('delete from calc_sebest_1 where id_parent='+IB_Calc_Sebest_0.FieldByname('id').AsString);
   ib_tmp.ExecSQL;
+  ib_tmp.SelectSQL[0]:='delete from calc_sebest_2 where id_parent='+IB_Calc_Sebest_0.FieldByname('id').AsString;
+  ib_tmp.ExecSQL;
+
+  ib_tmp.SelectSQL.Clear;
+  ib_tmp.SelectSQL.Add('insert into CALC_SEBEST_1 (id_parent, id_gotovprod, price_sebest, kol_vo, summa_materialy, summa_rashody)');
+  ib_tmp.SelectSQL.Add('select :id_parent,  id_gotovprod, price, kol_vo, summa_materialy, summa_rashody from CALC_SEBESTOIMOSTI(:date_calc)');
+  ib_tmp.ParamByname('id_parent').Value:=IB_Calc_Sebest_0.FieldByname('id').AsInteger;
+  ib_tmp.ParamByname('date_calc').Value:=IB_Calc_Sebest_0.FieldByname('date_doc').AsDateTime;
+  ib_tmp.ExecSQL;
+
   ib_tmp.SelectSQL.Clear;
   ib_tmp.SelectSQL.Add('insert into CALC_SEBEST_2 (id_parent, doc_name, statya_rashoda, material_name, summa)');
-  ib_tmp.SelectSQL.Add('select :id_parent, doc_name, statya_rashoda, material_name, summa from get_summa_for_sebest(current_date) order by 1,2');
+  ib_tmp.SelectSQL.Add('select :id_parent, doc_name, statya_rashoda, material_name, summa from get_summa_for_sebest(:date_calc) order by 1,2');
   ib_tmp.ParamByname('id_parent').Value:=IB_Calc_Sebest_0.FieldByname('id').AsInteger;
+  ib_tmp.ParamByname('date_calc').Value:=IB_Calc_Sebest_0.FieldByname('date_doc').AsDateTime;
   ib_tmp.ExecSQL;
   ib_tmp.Close;
+
   ib_tmp.Free;
+  IB_Calc_sebest_1.Open;
   IB_Calc_sebest_2.Open;
 end;
 
@@ -123,6 +143,21 @@ procedure TF_Calc_sebestoimosti_Edit.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   if DM_Mebeli.IBTransaction1.Active then DM_Mebeli.IBTransaction1.Rollback;
+end;
+
+procedure TF_Calc_sebestoimosti_Edit.B_OkClick(Sender: TObject);
+begin
+  if (IB_Calc_Sebest_0.State=dsEdit) or (IB_Calc_Sebest_0.State=dsInsert) then
+    IB_Calc_Sebest_0.post;
+  DM_Mebeli.IBTransaction1.Commit;
+  close;
+end;
+
+procedure TF_Calc_sebestoimosti_Edit.B_ExitClick(Sender: TObject);
+begin
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  close;
 end;
 
 end.

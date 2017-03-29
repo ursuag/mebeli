@@ -1,6 +1,6 @@
 object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
-  Left = 0
-  Top = 0
+  Left = 23
+  Top = 97
   AutoScroll = False
   Caption = #1050#1072#1083#1100#1082#1091#1083#1103#1094#1080#1103' '#1089#1077#1073#1077#1089#1090#1086#1080#1084#1086#1089#1090#1080' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
   ClientHeight = 690
@@ -86,17 +86,6 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
       TabOrder = 2
       OnExit = DT_Date_calcExit
     end
-    object DBEdit2: TDBEdit
-      Left = 403
-      Top = 7
-      Width = 89
-      Height = 26
-      AutoSize = False
-      DataField = 'DATE_DOC'
-      DataSource = DS_Calc_Sebest_0
-      ReadOnly = True
-      TabOrder = 3
-    end
   end
   object DBGrid1: TDBGrid
     Left = 0
@@ -104,17 +93,19 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
     Width = 1176
     Height = 273
     DataSource = DS_Calc_Sebest_1
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -15
+    Font.Name = 'Arial'
     Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
+    ReadOnly = True
     TabOrder = 1
-    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Charset = RUSSIAN_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -13
-    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Height = -15
+    TitleFont.Name = 'Arial'
     TitleFont.Style = [fsBold]
     Columns = <
       item
@@ -131,7 +122,7 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
         FieldName = 'GRUPA_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1043#1056#1059#1055#1055#1040
-        Width = 335
+        Width = 294
         Visible = True
       end
       item
@@ -140,7 +131,7 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
         FieldName = 'GOTOVPROD_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1055#1056#1054#1044#1059#1050#1062#1048#1071
-        Width = 324
+        Width = 265
         Visible = True
       end
       item
@@ -148,6 +139,22 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
         FieldName = 'PRICE_SEBEST'
         Title.Alignment = taCenter
         Title.Caption = #1057#1077#1073#1077#1089#1090#1086#1080#1084#1086#1089#1090#1100
+        Width = 134
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUMMA_MATERIALY'
+        Title.Alignment = taCenter
+        Title.Caption = #1052#1072#1090#1077#1088#1080#1072#1083#1099
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUMMA_RASHODY'
+        Title.Alignment = taCenter
+        Title.Caption = #1056#1072#1089#1093#1086#1076#1099
+        Width = 87
         Visible = True
       end>
   end
@@ -167,6 +174,7 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
       Caption = '&'#1054#1090#1084#1077#1085#1072
       ModalResult = 2
       TabOrder = 1
+      OnClick = B_ExitClick
     end
     object B_Ok: TButton
       Left = 976
@@ -176,6 +184,7 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
       Caption = '&'#1047#1072#1087#1080#1089#1072#1090#1100
       Default = True
       TabOrder = 0
+      OnClick = B_OkClick
     end
     object B_Calc_Sebest: TButton
       Left = 8
@@ -194,18 +203,19 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
     Width = 1176
     Height = 257
     DataSource = DS_Calc_Sebest_2
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -16
+    Font.Name = 'Arial'
     Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
     ReadOnly = True
     TabOrder = 3
-    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Charset = RUSSIAN_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -13
-    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Height = -16
+    TitleFont.Name = 'Arial'
     TitleFont.Style = [fsBold]
     Columns = <
       item
@@ -300,9 +310,15 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into calc_sebest_1'
-      '  (ID, ID_PARENT, ID_GOTOVPROD, PRICE_SEBEST)'
+      
+        '  (ID, ID_PARENT, ID_GOTOVPROD, PRICE_SEBEST, KOL_VO, SUMMA_MATE' +
+        'RIALY, '
+      '   SUMMA_RASHODY)'
       'values'
-      '  (:ID, :ID_PARENT, :ID_GOTOVPROD, :PRICE_SEBEST)')
+      
+        '  (:ID, :ID_PARENT, :ID_GOTOVPROD, :PRICE_SEBEST, :KOL_VO, :SUMM' +
+        'A_MATERIALY, '
+      '   :SUMMA_RASHODY)')
     RefreshSQL.Strings = (
       'Select *'
       'from calc_sebest_1 '
@@ -317,7 +333,10 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
       '  ID = :ID,'
       '  ID_PARENT = :ID_PARENT,'
       '  ID_GOTOVPROD = :ID_GOTOVPROD,'
-      '  PRICE_SEBEST = :PRICE_SEBEST'
+      '  PRICE_SEBEST = :PRICE_SEBEST,'
+      '  KOL_VO = :KOL_VO,'
+      '  SUMMA_MATERIALY = :SUMMA_MATERIALY,'
+      '  SUMMA_RASHODY = :SUMMA_RASHODY'
       'where'
       '  ID = :OLD_ID')
     GeneratorField.Field = 'ID'
@@ -363,6 +382,22 @@ object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
       FieldKind = fkCalculated
       FieldName = 'ARTICLE'
       Calculated = True
+    end
+    object IB_Calc_Sebest_1KOL_VO: TIntegerField
+      FieldName = 'KOL_VO'
+      Origin = 'CALC_SEBEST_1.KOL_VO'
+    end
+    object IB_Calc_Sebest_1SUMMA_MATERIALY: TIBBCDField
+      FieldName = 'SUMMA_MATERIALY'
+      Origin = 'CALC_SEBEST_1.SUMMA_MATERIALY'
+      Precision = 18
+      Size = 2
+    end
+    object IB_Calc_Sebest_1SUMMA_RASHODY: TIBBCDField
+      FieldName = 'SUMMA_RASHODY'
+      Origin = 'CALC_SEBEST_1.SUMMA_RASHODY'
+      Precision = 18
+      Size = 2
     end
   end
   object DS_Calc_Sebest_1: TDataSource

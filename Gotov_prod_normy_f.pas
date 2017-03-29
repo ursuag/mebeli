@@ -291,7 +291,7 @@ begin
   ib_temp.ExecSQL;
 
   ib_temp.SelectSQL.Clear;
-  ib_temp.SelectSQL.Add('insert into gotov_prod_vidrabot (id_gotov_prod, id_vid_rabot, id_norma) select id_gotov_prod, id_vid_rabot, :id_new_norma from gotov_prod_vidrabot where id_norma=:id_old_norma');
+  ib_temp.SelectSQL.Add('insert into gotov_prod_vidrabot (id_gotov_prod, id_vid_rabot, id_norma, id_category) select id_gotov_prod, id_vid_rabot, :id_new_norma, id_category from gotov_prod_vidrabot where id_norma=:id_old_norma');
   ib_temp.ParamByName('id_new_norma').Value:=id_new_norma;
   ib_temp.ParamByName('id_old_norma').Value:=IB_Gotovprod_normy.FieldByName('id').AsInteger;
   ib_temp.ExecSQL;

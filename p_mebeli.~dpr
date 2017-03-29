@@ -115,7 +115,7 @@ begin
   Application.CreateForm(TF_About, F_About);
   Application.CreateForm(TF_Spisanie_jurnal, F_Spisanie_jurnal);
   Application.CreateForm(TF_Spisanie_edit, F_Spisanie_edit);
-//  Application.CreateForm(TF_Reports, F_Reports);
+  Application.CreateForm(TF_Reports, F_Reports);
   Application.CreateForm(TF_Print_Forms, F_Print_Forms);
   Application.CreateForm(TF_Akt_vip_prod_rashod_furnitura, F_Akt_vip_prod_rashod_furnitura);
   Application.CreateForm(TF_Gotov_prod_categories, F_Gotov_prod_categories);
@@ -124,11 +124,11 @@ begin
   Application.CreateForm(TF_Prodaja_edit, F_Prodaja_edit);
   Application.CreateForm(TF_Zakaz_Gotovprod_Ostatok, F_Zakaz_Gotovprod_Ostatok);
   Application.CreateForm(TF_Constanty, F_Constanty);
-//  Application.CreateForm(TF_Peremeschenie_jurnal_print, F_Peremeschenie_jurnal_print);
-//  Application.CreateForm(TF_Spisanie_jurnal_print, F_Spisanie_jurnal_print);
-//  Application.CreateForm(TF_Print_Forms_2, F_Print_Forms_2);
-//  Application.CreateForm(TF_Statyi_Rashoda, F_Statyi_Rashoda);
-//  Application.CreateForm(TF_Statyi_Rashoda_edit, F_Statyi_Rashoda_edit);
+  Application.CreateForm(TF_Peremeschenie_jurnal_print, F_Peremeschenie_jurnal_print);
+  Application.CreateForm(TF_Spisanie_jurnal_print, F_Spisanie_jurnal_print);
+  Application.CreateForm(TF_Print_Forms_2, F_Print_Forms_2);
+  Application.CreateForm(TF_Statyi_Rashoda, F_Statyi_Rashoda);
+  Application.CreateForm(TF_Statyi_Rashoda_edit, F_Statyi_Rashoda_edit);
   Application.CreateForm(TF_Gotov_prod_normy, F_Gotov_prod_normy);
   Application.CreateForm(TF_Signs_Management, F_Signs_Management);
   Application.CreateForm(TF_Bank_Jurnal, F_Bank_Jurnal);
