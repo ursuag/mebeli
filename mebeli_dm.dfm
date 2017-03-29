@@ -1,11 +1,10 @@
 object DM_Mebeli: TDM_Mebeli
   OldCreateOrder = False
-  Left = 1
-  Height = 554
-  Width = 798
+  Height = 728
+  Width = 1062
   object DB_Mebeli: TIBDatabase
     Connected = True
-    DatabaseName = 'D:\'#1052#1086#1080' '#1076#1086#1082#1091#1084#1077#1085#1090#1099'\'#1055#1056#1054#1043#1056#1040#1052#1052#1067'\'#1052#1077#1073#1077#1083#1100' '#1089#1082#1083#1072#1076'\MEBELI.FDB'
+    DatabaseName = 'D:\'#1052#1086#1080' '#1076#1086#1082#1091#1084#1077#1085#1090#1099'\'#1055#1056#1054#1043#1056#1040#1052#1052#1067'\'#1052#1077#1073#1077#1083#1100' '#1089#1082#1083#1072#1076'\mebeli\MEBELI.FDB'
     Params.Strings = (
       'user_name=SYSDBA'
       'password=miscacosolapii'
@@ -4383,5 +4382,34 @@ object DM_Mebeli: TDM_Mebeli
     DataSet = IB_Statyi_Dohoda
     Left = 1016
     Top = 392
+  end
+  object DB_Images: TIBDatabase
+    Connected = True
+    DatabaseName = 'D:\'#1052#1086#1080' '#1076#1086#1082#1091#1084#1077#1085#1090#1099'\'#1055#1056#1054#1043#1056#1040#1052#1052#1067'\'#1052#1077#1073#1077#1083#1100' '#1089#1082#1083#1072#1076'\mebeli\MEBELI_images.FDB'
+    Params.Strings = (
+      'user_name=SYSDBA'
+      'password=miscacosolapii'
+      'sql_role_name=admin'
+      '')
+    LoginPrompt = False
+    DefaultTransaction = Transaction_Images
+    IdleTimer = 0
+    SQLDialect = 3
+    TraceFlags = []
+    AllowStreamedConnected = False
+    Left = 168
+    Top = 16
+  end
+  object Transaction_Images: TIBTransaction
+    Active = True
+    DefaultDatabase = DB_Images
+    DefaultAction = TARollbackRetaining
+    Params.Strings = (
+      'read_committed'
+      'rec_version'
+      'nowait')
+    AutoStopAction = saNone
+    Left = 224
+    Top = 16
   end
 end

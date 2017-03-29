@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Mask, DBCtrls, DB, IBCustomDataSet, Grids, DBGrids,
-  ExtCtrls, Menus, Buttons;
+  ExtCtrls, Menus, Buttons, Jpeg, DBTables, ExtDlgs;
 
 type
   TF_Gotov_prod_normy = class(TForm)
@@ -80,6 +80,17 @@ type
     DBE_Article: TDBEdit;
     Label6: TLabel;
     DBEdit1: TDBEdit;
+    N7: TMenuItem;
+    N_Load_image: TMenuItem;
+    N_Delete_image: TMenuItem;
+    M_Image: TPopupMenu;
+    N_Load_image_popup: TMenuItem;
+    N_Delete_image_popup: TMenuItem;
+    IB_Image: TIBDataSet;
+    DS_Image: TDataSource;
+    dlgOpenPicture: TOpenPictureDialog;
+    Panel2: TPanel;
+    Gotovprod_image: TImage;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -98,8 +109,12 @@ type
     procedure IB_Gotov_prod_0_EBeforePost(DataSet: TDataSet);
     procedure MainMenu1Change(Sender: TObject; Source: TMenuItem;
       Rebuild: Boolean);
-    procedure IB_Gotov_prod_0_EPostError(DataSet: TDataSet;
-      E: EDatabaseError; var Action: TDataAction);
+    procedure N_Load_imageClick(Sender: TObject);
+    procedure N_Load_image_popupClick(Sender: TObject);
+    procedure N_Delete_imageClick(Sender: TObject);
+    procedure N_Delete_image_popupClick(Sender: TObject);
+    procedure IB_ImageNewRecord(DataSet: TDataSet);
+    procedure Image_fromDB;
   private
     { Private declarations }
   public
@@ -135,6 +150,27 @@ begin
   F_Gotov_prod_normy.IB_Gotovprod_normy.Locate('id',id_norma,[]);
 end;
 
+procedure TF_Gotov_prod_normy.Image_fromDB;
+var
+  Image : TJPEGImage;
+  BLOB : TStream;
+begin
+  Gotovprod_image.Picture:=nil;
+  IB_Image.Close;
+  IB_Image.ParamByname('id_gotovprod').Value:=IB_Gotov_prod_0_E.FieldValues['id'];
+  IB_Image.Open;
+  if IB_Image.FieldByName('id').IsNull then
+    exit;
+  Image:=TJPEGImage.Create;
+  blob := IB_Image.CreateBlobStream(IB_Image.FieldByName('image_jpg'), bmRead);
+  Image.LoadFromStream(BLOB);
+  Gotovprod_image.Picture.Bitmap.Assign(image);
+  IB_Image.Close;
+  Image.Free;
+  Blob.Free;
+end;
+
+
 procedure TF_Gotov_prod_normy.FormCreate(Sender: TObject);
 begin
   F_Main.AdjustResolution(F_Gotov_prod_normy);
@@ -158,6 +194,7 @@ begin
   IB_Gotovprod_normy.ParamByName('id_gotov_prod').Value:=IB_Gotov_prod_0_E.FieldByName('id').AsInteger;
   reopen_tables;
   DBE_NAME.SetFocus;
+  Image_fromDB;
 end;
 
 procedure TF_Gotov_prod_normy.FormClose(Sender: TObject;
@@ -168,6 +205,7 @@ begin
   IB_Gotov_prod_1.Close;
   IB_Gotov_prod_2.Close;
   IB_Gotov_prod_vidrabot.Close;
+  Gotovprod_image.Picture:=nil;
 end;
 
 procedure TF_Gotov_prod_normy.N_EditClick(Sender: TObject);
@@ -437,12 +475,79 @@ begin
     ShowMessage('Нормы берутся из связанного товара');
 end;
 
-procedure TF_Gotov_prod_normy.IB_Gotov_prod_0_EPostError(DataSet: TDataSet;
-  E: EDatabaseError; var Action: TDataAction);
+procedure TF_Gotov_prod_normy.N_Load_imageClick(Sender: TObject);
+var
+  Image : TJPEGImage;
+  BLOB : TStream;
+  F: TFileStream;
 begin
-{  dm_mebeli.trigger_error(e.Message);
-  IB_Gotov_prod_0_E.Cancel;
-  IB_Gotov_prod_0_E.Refresh;}
+  if not dlgOpenPicture.Execute then exit;
+  F:=TFileStream.Create(dlgOpenPicture.FileName, fmOpenRead);
+  if F.Size>100000 then
+    begin
+      ShowMessage('Размер файла не должен превышать 100кб. Рекомендуемый максимальный размер 500x500px');
+      F.Free;
+      exit;
+    end;
+  F.Free;
+  IB_Image.Close;
+  IB_Image.ParamByname('id_gotovprod').Value:=IB_Gotov_prod_0_E.FieldValues['id'];
+  IB_Image.Open;
+  Image:=TJPEGImage.Create;
+  if FileExists(dlgOpenPicture.FileName) then
+      if IB_Image.fieldbyname('id').IsNull then
+        begin
+          image.LoadFromFile(dlgOpenPicture.FileName);
+          IB_Image.Insert;
+          IB_Image.FieldByName('image_jpg').Assign(image);
+          IB_Image.Post;
+          DM_Mebeli.Transaction_Images.Commit;
+        end//if null
+      else
+        begin
+          image.LoadFromFile(dlgOpenPicture.FileName);
+          IB_Image.Edit;
+          IB_Image.FieldByName('image_jpg').Assign(image);
+          IB_Image.Post;
+          DM_Mebeli.Transaction_Images.Commit;
+        end;//else if null
+
+  IB_Image.Close;
+  IB_Image.ParamByname('id_gotovprod').Value:=IB_Gotov_prod_0_E.FieldValues['id'];
+  IB_Image.Open;
+  blob := IB_Image.CreateBlobStream(IB_Image.FieldByName('image_jpg'), bmRead);
+  Image.LoadFromStream(BLOB);
+  Gotovprod_image.Picture.Bitmap.Assign(image);
+  Image.Free;
+  Blob.Free;
+end;
+
+procedure TF_Gotov_prod_normy.N_Load_image_popupClick(Sender: TObject);
+begin
+  N_Load_imageClick(Sender);
+end;
+
+procedure TF_Gotov_prod_normy.N_Delete_imageClick(Sender: TObject);
+begin
+  IB_Image.Close;
+  IB_Image.ParamByname('id_gotovprod').Value:=IB_Gotov_prod_0_E.FieldValues['id'];
+  IB_Image.Open;
+  IB_Image.Delete;
+  image_fromDB;
+end;
+
+procedure TF_Gotov_prod_normy.N_Delete_image_popupClick(Sender: TObject);
+begin
+  N_Delete_imageClick(Sender);
+end;
+
+procedure TF_Gotov_prod_normy.IB_ImageNewRecord(DataSet: TDataSet);
+begin
+  IB_Image.FieldByname('id_gotovprod').Value:=IB_Gotov_prod_0_E.FieldValues['id'];
+  if IB_Gotov_prod_0_E.FieldByname('article').IsNull then
+    IB_Image.FieldByname('article').Value:=null
+  else
+    IB_Image.FieldByname('article').Value:=IB_Gotov_prod_0_E.FieldByname('article').AsInteger;
 end;
 
 end.

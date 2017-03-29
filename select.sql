@@ -1,3 +1,19 @@
+select vip_prod.id_gotov_prod, vip_prod.kol_vo, sebest_suma.summa summa_materialy
+from (
+select avp1.id_gotov_prod, avp1.kol_vo
+from akt_vip_prod_0 avp0, akt_vip_prod_1 avp1
+where (avp0.date_a>coalesce((select max(date_doc) from calc_sebest_0 where date_doc<:date_sebest),'2000-01-01'))
+and (avp0.nomer=avp1.id_parent)) vip_prod
+left join
+(select sebest.id_gotovprod id_gotovprod, sum(sebest.summa) summa
+from GET_SUMMA_FOR_SEBEST(current_date) sebest
+where sebest.id_statya_rashoda is null
+group by sebest.id_gotovprod) sebest_suma
+on sebest_suma.id_gotovprod=vip_prod.id_gotov_prod
+
+
+*******
+
 select first 1 prl0.id_contragent id_contragent, coalesce(prl1.summa,0)/(prl1.kol_vo*pl.area/1000000.000) as tsena_m2
 from prihod_listy_0 prl0, prihod_listy_1 prl1, pilomat_listy pl
 where (prl0.id=prl1.id_parent) and (prl1.id_listy=pl.id)

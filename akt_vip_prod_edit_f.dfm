@@ -1,6 +1,6 @@
 object F_Akt_vip_prod_edit: TF_Akt_vip_prod_edit
-  Left = 0
-  Top = 0
+  Left = 6
+  Top = 163
   Anchors = []
   AutoScroll = False
   Caption = #1040#1082#1090' '#1074#1099#1087#1091#1089#1082#1072' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080

@@ -118,6 +118,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure N_LavoareClick(Sender: TObject);
     procedure N_ReviziiClick(Sender: TObject);
+    procedure N_Calculation_SebestClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -158,7 +159,7 @@ uses mebeli_dm, password_dlg, sotrudniki_f, sklad_f, password_f,
   Gotov_prod_categories_f, Contragenty_f, Prodaja_jurnal_f, constanty_f,
   Statyi_Rashoda_f, Signs_Management_f, Bank_Jurnal_f, Statyi_Dohoda_f,
   Cassa_Jurnal_f, Remont_jurnal_f, Lavoare_list_f, Revizii_jurnal_df,
-  gotov_prod_edit_f;
+  gotov_prod_edit_f, Calc_sebestoimosti_f;
 
 {$R *.dfm}
 procedure TF_Main.AdjustResolution(oForm:TForm);
@@ -648,6 +649,7 @@ end;//function
 
 procedure TF_Main.FormActivate(Sender: TObject);
 var     db_path: string;
+ db_images_path: string;
         db_user: string[100];
    db_user_pass: string[50];
   db_ServerName: string[200];
@@ -678,6 +680,7 @@ begin
     end;
 
   db_servername:=mebeli_INI.ReadString('DATABASE', 'servername','localhost');
+  db_images_path:=db_servername+':'+ExtractFilePath(db_path)+'mebeli_images.fdb';
   db_path:=db_servername+':'+db_path;
 
   db_user:=mebeli_INI.ReadString('DATABASE', 'user','NONE');
@@ -711,6 +714,15 @@ begin
            Application.Terminate;
          end;//except
        end;//Try
+
+      DB_Images.Close;
+      DB_Images.Params.Clear;
+      DB_Images.DatabaseName:=db_images_path;
+      DB_Images.Params.Add('user_name='+db_user);
+      DB_Images.Params.Add('password='+db_user_pass);
+      DB_Images.Params.Add('lc_ctype=WIN1251');
+      DB_Images.Open;
+      
       IBQuery1.SQl.Clear;
       IBQuery1.SQl.Add('select * from RDB$USER_PRIVILEGES where rdb$user='''+db_user+''' and rdb$object_type=13');
       IBQuery1.Open;
@@ -984,6 +996,11 @@ end;
 procedure TF_Main.N_ReviziiClick(Sender: TObject);
 begin
   F_Revizii_jurnal.ShowModal;
+end;
+
+procedure TF_Main.N_Calculation_SebestClick(Sender: TObject);
+begin
+  F_Calc_sebestoimosti.ShowModal;
 end;
 
 end.

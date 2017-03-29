@@ -1,8 +1,8 @@
 object F_Print_Forms: TF_Print_Forms
-  Left = 1
-  Top = 1
-  Width = 798
-  Height = 552
+  Left = 8
+  Top = 165
+  Width = 1179
+  Height = 695
   Caption = 'Print_forms'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,8 +15,8 @@ object F_Print_Forms: TF_Print_Forms
   PixelsPerInch = 96
   TextHeight = 13
   object QR_Ostatki_vidrabot: TQuickRep
-    Left = 144
-    Top = 16
+    Left = 232
+    Top = 192
     Width = 794
     Height = 1123
     Frame.Color = clBlack
@@ -420,8 +420,8 @@ object F_Print_Forms: TF_Print_Forms
     end
   end
   object QR_Dvij_vid_rab: TQuickRep
-    Left = 16
-    Top = 16
+    Left = 8
+    Top = 80
     Width = 794
     Height = 1123
     Frame.Color = clBlack
@@ -1048,8 +1048,8 @@ object F_Print_Forms: TF_Print_Forms
     end
   end
   object QR_kolvo_aktviprabot: TQuickRep
-    Left = 16
-    Top = 72
+    Left = 32
+    Top = 8
     Width = 794
     Height = 1123
     Frame.Color = clBlack
@@ -2537,8 +2537,8 @@ object F_Print_Forms: TF_Print_Forms
     end
   end
   object QR_Akt_raspila: TQuickRep
-    Left = 80
-    Top = 16
+    Left = 272
+    Top = 136
     Width = 794
     Height = 1123
     Frame.Color = clBlack
@@ -8372,8 +8372,8 @@ object F_Print_Forms: TF_Print_Forms
     end
   end
   object QR_Ostatki_sklad: TQuickRep
-    Left = 264
-    Top = 64
+    Left = 272
+    Top = 264
     Width = 794
     Height = 1123
     Frame.Color = clBlack

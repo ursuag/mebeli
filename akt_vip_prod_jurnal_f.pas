@@ -44,6 +44,13 @@ type
     N_Change_Rashod_firnitura: TMenuItem;
     IB_Rashod_furnitura_F: TIBDataSet;
     DS_Rashod_furnitura_F: TDataSource;
+    N4: TMenuItem;
+    N_Insert_main: TMenuItem;
+    N_Edit_main: TMenuItem;
+    N5: TMenuItem;
+    N_Delete_main: TMenuItem;
+    N6: TMenuItem;
+    N_Search_ID: TMenuItem;
     procedure FormActivate(Sender: TObject);
     procedure B_InsertClick(Sender: TObject);
     procedure B_EditClick(Sender: TObject);
@@ -59,6 +66,7 @@ type
     procedure B_Podrobno_CloseClick(Sender: TObject);
     procedure N_Change_Rashod_firnituraClick(Sender: TObject);
     procedure DBG_FurnituraExit(Sender: TObject);
+    procedure N_Search_IDClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -247,6 +255,13 @@ begin
     Reopen_tables;
   end;//IF DM_Mebeli.IBTransaction1.Active Then
 
+end;
+
+procedure TF_Akt_vip_prod_jurnal.N_Search_IDClick(Sender: TObject);
+var id_doc: integer;
+begin
+  id_doc:=StrToInt( InputBox('Поиск по номеру','Введите номер акта', '1') );
+  DM_Mebeli.IB_Akt_vip_prod_0.Locate('nomer',id_doc,[]);
 end;
 
 end.

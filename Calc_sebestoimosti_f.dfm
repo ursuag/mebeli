@@ -99,7 +99,7 @@ object F_Calc_sebestoimosti: TF_Calc_sebestoimosti
     Width = 1176
     Height = 297
     HelpType = htKeyword
-    DataSource = DS_Calc_Sebest_1_Jurnal
+    DataSource = DS_Calc_Sebest_1
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -144,19 +144,22 @@ object F_Calc_sebestoimosti: TF_Calc_sebestoimosti
   object MainMenu1: TMainMenu
     Left = 216
     Top = 112
-    object N2: TMenuItem
+    object N_Docs: TMenuItem
       Caption = #1044#1086#1082#1091#1084#1077#1085#1090#1099
-      object B_New_doc_mainmenu: TMenuItem
+      object N_Insert_main: TMenuItem
         Caption = #1053#1086#1074#1072#1103' '#1082#1072#1083#1100#1082#1091#1083#1103#1094#1080#1103
+        OnClick = N_Insert_mainClick
       end
-      object N_Edit_mainmenu: TMenuItem
+      object N_Edit_main: TMenuItem
         Caption = #1048#1079#1084#1077#1085#1080#1090#1100' '#1082#1072#1083#1100#1082#1091#1083#1103#1094#1080#1102
+        OnClick = N_Edit_mainClick
       end
       object N5: TMenuItem
         Caption = '-'
       end
-      object N_Delete_Mainmenu: TMenuItem
+      object N_Delete_Main: TMenuItem
         Caption = #1059#1076#1072#1083#1080#1090#1100
+        OnClick = N_Delete_MainClick
       end
     end
     object N_Period_of_view: TMenuItem
@@ -206,26 +209,23 @@ object F_Calc_sebestoimosti: TF_Calc_sebestoimosti
   object PopupMenu1: TPopupMenu
     Left = 728
     Top = 176
-    object N_Prihod: TMenuItem
-      Caption = #1053#1086#1074#1099#1081' '#1087#1088#1080#1093#1086#1076' '#1087#1086' '#1082#1072#1089#1089#1077
+    object N_Insert_popup: TMenuItem
+      Caption = #1053#1086#1074#1072#1103' '#1082#1072#1083#1100#1082#1091#1083#1103#1094#1080#1103
+      OnClick = N_Insert_popupClick
     end
-    object N_Rashod: TMenuItem
-      Caption = #1053#1086#1074#1099#1081' '#1088#1072#1089#1093#1086#1076' '#1087#1086' '#1082#1072#1089#1089#1077
-    end
-    object N7: TMenuItem
-      Caption = '-'
-    end
-    object N_Edit: TMenuItem
-      Caption = #1048#1079#1084#1077#1085#1080#1090#1100
+    object N_Edit_popup: TMenuItem
+      Caption = #1048#1079#1084#1077#1085#1080#1090#1100' '#1082#1072#1083#1100#1082#1091#1083#1103#1094#1080#1102
+      OnClick = N_Edit_popupClick
     end
     object N1: TMenuItem
       Caption = '-'
     end
     object N_Delete: TMenuItem
       Caption = #1059#1076#1072#1083#1080#1090#1100
+      OnClick = N_DeleteClick
     end
   end
-  object IB_Calc_Sebest_1_Jurnal: TIBDataSet
+  object IB_Calc_Sebest_1: TIBDataSet
     Database = DM_Mebeli.DB_Mebeli
     Transaction = DM_Mebeli.IBTransaction1
     BufferChunks = 1000
@@ -268,9 +268,9 @@ object F_Calc_sebestoimosti: TF_Calc_sebestoimosti
     Left = 528
     Top = 392
   end
-  object DS_Calc_Sebest_1_Jurnal: TDataSource
+  object DS_Calc_Sebest_1: TDataSource
     AutoEdit = False
-    DataSet = IB_Calc_Sebest_1_Jurnal
+    DataSet = IB_Calc_Sebest_1
     Left = 568
     Top = 392
   end

@@ -1,6 +1,6 @@
 object F_Prihod_detali_edit: TF_Prihod_detali_edit
-  Left = 111
-  Top = 0
+  Left = 47
+  Top = 146
   BorderStyle = bsSingle
   Caption = #1055#1086#1089#1090#1091#1087#1083#1077#1085#1080#1077' '#1076#1077#1090#1072#1083#1077#1081
   ClientHeight = 690

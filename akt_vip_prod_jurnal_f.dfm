@@ -1,5 +1,5 @@
 object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
-  Left = 6
+  Left = 8
   Top = 0
   AutoScroll = False
   Caption = #1040#1082#1090#1099' '#1074#1099#1087#1091#1089#1082#1072' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
@@ -548,6 +548,28 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
   object MainMenu1: TMainMenu
     Left = 216
     Top = 112
+    object N4: TMenuItem
+      Caption = #1044#1086#1082#1091#1084#1077#1085#1090
+      object N_Insert_main: TMenuItem
+        Caption = #1053#1086#1074#1099#1081
+      end
+      object N_Edit_main: TMenuItem
+        Caption = #1048#1079#1084#1077#1085#1080#1090#1100
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object N_Delete_main: TMenuItem
+        Caption = #1059#1076#1072#1083#1080#1090#1100
+      end
+      object N6: TMenuItem
+        Caption = '-'
+      end
+      object N_Search_ID: TMenuItem
+        Caption = #1053#1072#1081#1090#1080' '#1087#1086' '#1085#1086#1084#1077#1088#1091
+        OnClick = N_Search_IDClick
+      end
+    end
     object N_Period_of_view: TMenuItem
       Caption = #1055#1077#1088#1080#1086#1076' '#1087#1088#1086#1089#1084#1086#1090#1088#1072
       OnClick = N_Period_of_viewClick

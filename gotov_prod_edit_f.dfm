@@ -1,6 +1,6 @@
 object F_Gotov_prod_edit: TF_Gotov_prod_edit
-  Left = 0
-  Top = 0
+  Left = 36
+  Top = 87
   AutoScroll = False
   Caption = #1043#1086#1090#1086#1074#1072#1103' '#1087#1088#1086#1076#1091#1082#1094#1080#1103
   ClientHeight = 702
@@ -45,7 +45,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
   object DBGR_FURNITURA: TDBGrid
     Left = 1
     Top = 262
-    Width = 1169
+    Width = 1168
     Height = 237
     DataSource = DS_Gotov_Prod_2
     Font.Charset = RUSSIAN_CHARSET
@@ -74,6 +74,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1044
+        Width = 86
         Visible = True
       end
       item
@@ -103,7 +104,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1052#1055#1051#1045#1050#1058#1059#1070#1065#1048#1045
-        Width = 367
+        Width = 402
         Visible = True
       end
       item
@@ -119,7 +120,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = #1045#1044'.'#1048#1047#1052'.'
-        Width = 146
+        Width = 160
         Visible = True
       end
       item
@@ -132,7 +133,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
         Font.Style = []
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1051'-'#1042#1054
-        Width = 166
+        Width = 123
         Visible = True
       end>
   end
@@ -182,7 +183,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = #1043#1056#1059#1055#1055#1040
-        Width = 303
+        Width = 295
         Visible = True
       end
       item
@@ -197,7 +198,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = #1044#1045#1058#1040#1051#1048
-        Width = 393
+        Width = 472
         Visible = True
       end
       item
@@ -249,7 +250,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
   object DBG_Vid_rabot: TDBGrid
     Left = 1
     Top = 503
-    Width = 1169
+    Width = 1000
     Height = 152
     DataSource = DS_GOTOV_PROD_VIDRABOT
     Font.Charset = RUSSIAN_CHARSET
@@ -301,7 +302,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
         FieldName = 'CATEGORY_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1103
-        Width = 266
+        Width = 403
         Visible = True
       end>
   end

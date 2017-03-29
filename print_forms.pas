@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, QuickRpt, QRCtrls, DB, IBCustomDataSet, IBQuery, ExtCtrls,
-  QRPrntr, DateUtils;
+  QRPrntr, DateUtils, QRXMLSFilt, QRPDFFilt;
 
 type
   TF_Print_Forms = class(TForm)

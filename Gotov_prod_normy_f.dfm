@@ -1,6 +1,6 @@
 object F_Gotov_prod_normy: TF_Gotov_prod_normy
   Left = 0
-  Top = 66
+  Top = 75
   AutoScroll = False
   Caption = #1053#1086#1088#1084#1099' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
   ClientHeight = 682
@@ -154,7 +154,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
   object DBGrid3: TDBGrid
     Left = 1
     Top = 535
-    Width = 1169
+    Width = 864
     Height = 97
     DataSource = DS_Gotov_prod_vidrabot
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
@@ -198,7 +198,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
   object DBGR_FURNITURA: TDBGrid
     Left = 1
     Top = 388
-    Width = 1169
+    Width = 864
     Height = 145
     DataSource = DS_Gotov_Prod_2
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
@@ -233,7 +233,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
         FieldName = 'FURNITURA_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1052#1055#1051#1045#1050#1058#1059#1070#1065#1048#1045
-        Width = 367
+        Width = 281
         Visible = True
       end
       item
@@ -243,7 +243,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
         FieldName = 'ED_IZM'
         Title.Alignment = taCenter
         Title.Caption = #1045#1044'.'#1048#1047#1052'.'
-        Width = 146
+        Width = 80
         Visible = True
       end
       item
@@ -251,14 +251,14 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
         FieldName = 'KOL_VO'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1051'-'#1042#1054
-        Width = 166
+        Width = 91
         Visible = True
       end>
   end
   object DBGR_DETALI: TDBGrid
     Left = 1
     Top = 235
-    Width = 1169
+    Width = 864
     Height = 153
     DataSource = DS_Gotov_prod_1
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
@@ -286,7 +286,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
         FieldName = 'DETALI_GRUPA'
         Title.Alignment = taCenter
         Title.Caption = #1043#1056#1059#1055#1055#1040
-        Width = 303
+        Width = 261
         Visible = True
       end
       item
@@ -295,7 +295,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
         FieldName = 'DETALI_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1044#1045#1058#1040#1051#1048
-        Width = 393
+        Width = 347
         Visible = True
       end
       item
@@ -442,6 +442,26 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     ReadOnly = True
     TabOrder = 11
   end
+  object Panel2: TPanel
+    Left = 866
+    Top = 232
+    Width = 315
+    Height = 404
+    BevelInner = bvSpace
+    BevelOuter = bvLowered
+    Caption = #1060#1086#1090#1086' '#1086#1090#1089#1091#1090#1089#1090#1074#1091#1077#1090
+    TabOrder = 12
+    object Gotovprod_image: TImage
+      Left = 4
+      Top = 30
+      Width = 305
+      Height = 329
+      Center = True
+      PopupMenu = M_Image
+      Proportional = True
+      Stretch = True
+    end
+  end
   object IB_Gotov_prod_1: TIBDataSet
     Database = DM_Mebeli.DB_Mebeli
     Transaction = DM_Mebeli.IBTransaction1
@@ -473,8 +493,8 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     ModifySQL.Strings = (
       '')
     DataSource = DS_Gotovprod_normy
-    Left = 960
-    Top = 232
+    Left = 752
+    Top = 288
     object IB_Gotov_prod_1ID: TIntegerField
       FieldName = 'ID'
       Origin = 'PILOMAT_DETALI.ID'
@@ -503,8 +523,8 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
   object DS_Gotov_prod_1: TDataSource
     AutoEdit = False
     DataSet = IB_Gotov_prod_1
-    Left = 1016
-    Top = 232
+    Left = 808
+    Top = 288
   end
   object IB_Gotov_prod_2: TIBDataSet
     Database = DM_Mebeli.DB_Mebeli
@@ -548,7 +568,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
       'where'
       '  ID = :OLD_ID')
     DataSource = DS_Gotovprod_normy
-    Left = 976
+    Left = 760
     Top = 432
     object IB_Gotov_prod_2ID: TIntegerField
       FieldName = 'ID'
@@ -584,7 +604,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
   object DS_Gotov_Prod_2: TDataSource
     AutoEdit = False
     DataSet = IB_Gotov_prod_2
-    Left = 1016
+    Left = 800
     Top = 432
   end
   object IB_Gotovprod_normy: TIBDataSet
@@ -669,7 +689,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
       'where'
       '  ID = :OLD_ID')
     DataSource = DS_Gotovprod_normy
-    Left = 936
+    Left = 776
     Top = 560
     object IB_Gotov_prod_vidrabotID: TIntegerField
       FieldName = 'ID'
@@ -692,7 +712,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
   object DS_Gotov_prod_vidrabot: TDataSource
     AutoEdit = False
     DataSet = IB_Gotov_prod_vidrabot
-    Left = 976
+    Left = 816
     Top = 560
   end
   object MainMenu1: TMainMenu
@@ -746,6 +766,17 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     object N5: TMenuItem
       Caption = #1054#1090#1095#1077#1090#1099
     end
+    object N7: TMenuItem
+      Caption = #1060#1086#1090#1086#1075#1088#1072#1092#1080#1103
+      object N_Load_image: TMenuItem
+        Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1092#1086#1090#1086#1075#1088#1072#1092#1080#1102
+        OnClick = N_Load_imageClick
+      end
+      object N_Delete_image: TMenuItem
+        Caption = #1059#1076#1072#1083#1080#1090#1100' '#1092#1086#1090#1086#1075#1088#1072#1092#1080#1102
+        OnClick = N_Delete_imageClick
+      end
+    end
   end
   object IB_GOTOV_PROD_CATEGORIES_NORMY: TIBDataSet
     Database = DM_Mebeli.DB_Mebeli
@@ -792,7 +823,6 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     Transaction = DM_Mebeli.IBTransaction1
     ForcedRefresh = True
     BeforePost = IB_Gotov_prod_0_EBeforePost
-    OnPostError = IB_Gotov_prod_0_EPostError
     BufferChunks = 1000
     CachedUpdates = False
     DeleteSQL.Strings = (
@@ -904,5 +934,71 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
       FieldName = 'ARTICLE'
       Origin = 'GOTOV_PROD_0.ARTICLE'
     end
+  end
+  object M_Image: TPopupMenu
+    Left = 1128
+    Top = 248
+    object N_Load_image_popup: TMenuItem
+      Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1092#1086#1090#1086#1075#1088#1072#1092#1080#1102
+      OnClick = N_Load_image_popupClick
+    end
+    object N_Delete_image_popup: TMenuItem
+      Caption = #1059#1076#1072#1083#1080#1090#1100' '#1092#1086#1090#1086#1075#1088#1072#1092#1080#1102
+      OnClick = N_Delete_image_popupClick
+    end
+  end
+  object IB_Image: TIBDataSet
+    Database = DM_Mebeli.DB_Images
+    Transaction = DM_Mebeli.Transaction_Images
+    ForcedRefresh = True
+    OnNewRecord = IB_ImageNewRecord
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from GOTOVPROD_IMAGES'
+      'where'
+      '  ID = :OLD_ID')
+    InsertSQL.Strings = (
+      'insert into GOTOVPROD_IMAGES'
+      '  (ID, ID_GOTOVPROD, ARTICLE, IMAGE_JPG)'
+      'values'
+      '  (:ID, :ID_GOTOVPROD, :ARTICLE, :IMAGE_JPG)')
+    RefreshSQL.Strings = (
+      'Select '
+      '  ID,'
+      '  ID_GOTOVPROD,'
+      '  ARTICLE,'
+      '  IMAGE_JPG'
+      'from GOTOVPROD_IMAGES '
+      'where'
+      '  ID = :ID')
+    SelectSQL.Strings = (
+      'select * from GOTOVPROD_IMAGES'
+      'where ID_GOTOVPROD= :ID_GOTOVPROD')
+    ModifySQL.Strings = (
+      'update GOTOVPROD_IMAGES'
+      'set'
+      '  ID = :ID,'
+      '  ID_GOTOVPROD = :ID_GOTOVPROD,'
+      '  ARTICLE = :ARTICLE,'
+      '  IMAGE_JPG = :IMAGE_JPG'
+      'where'
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    GeneratorField.Generator = 'GEN_GOTOVPROD_IMAGES_ID'
+    Left = 888
+    Top = 304
+  end
+  object DS_Image: TDataSource
+    AutoEdit = False
+    DataSet = IB_Image
+    Left = 920
+    Top = 304
+  end
+  object dlgOpenPicture: TOpenPictureDialog
+    Filter = 'JPEG Image File (*.jpg)|*.jpg;*.jpeg'
+    Options = [ofReadOnly, ofEnableSizing]
+    Left = 992
+    Top = 320
   end
 end

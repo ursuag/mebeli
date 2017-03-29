@@ -395,6 +395,8 @@ type
     IB_Akt_vip_prod_1ARTICLE: TIntegerField;
     IB_Prihod_listy_1LISTY_NAME: TStringField;
     IB_Prihod_listy_1GRUPA_NAME: TStringField;
+    DB_Images: TIBDatabase;
+    Transaction_Images: TIBTransaction;
     procedure IB_Pilomat_grupa_vidrabotNewRecord(DataSet: TDataSet);
     procedure IB_Pilomat_listyBeforePost(DataSet: TDataSet);
     procedure IB_Pilomat_detaliBeforePost(DataSet: TDataSet);

@@ -41,7 +41,7 @@ object F_Reports: TF_Reports
     Top = 24
     Width = 833
     Height = 609
-    ActivePage = Report_Akt_vip_rab
+    ActivePage = Ostat_sklad
     HotTrack = True
     MultiLine = True
     TabOrder = 0

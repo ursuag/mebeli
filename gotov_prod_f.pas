@@ -226,7 +226,6 @@ end;
 procedure TF_Gotov_prod.E_Grupa_FilterExit(Sender: TObject);
 begin
   E_Grupa_filter.Text:='Ведите текст для поиска по группе';
-  E_Gotovprod_filter.SetFocus;
 end;
 
 procedure TF_Gotov_prod.E_Gotovprod_FilterEnter(Sender: TObject);

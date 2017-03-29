@@ -1,11 +1,11 @@
 object F_Main: TF_Main
-  Left = 69
-  Top = 183
+  Left = 0
+  Top = 0
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = #1052#1077#1073#1077#1083#1100#1085#1099#1081' '#1094#1077#1093
-  ClientHeight = 740
-  ClientWidth = 1200
+  ClientHeight = 670
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
   Font.Color = clWindowText
@@ -6642,6 +6642,7 @@ object F_Main: TF_Main
       Caption = #1057#1077#1073#1077#1089#1090#1086#1080#1084#1086#1089#1090#1100
       object N_Calculation_Sebest: TMenuItem
         Caption = #1050#1072#1083#1100#1082#1091#1083#1103#1094#1080#1103' '#1089#1077#1073#1077#1089#1090#1086#1080#1084#1086#1089#1090#1080
+        OnClick = N_Calculation_SebestClick
       end
       object N_Zakrytie_Mesiatsa: TMenuItem
         Caption = #1047#1072#1082#1088#1099#1090#1080#1077' '#1084#1077#1089#1103#1094#1072

@@ -1,10 +1,10 @@
 object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
-  Left = 1
-  Top = 0
+  Left = 27
+  Top = 99
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1072#1082#1090#1086#1074' '#1088#1072#1089#1087#1080#1083#1072
-  ClientHeight = 496
-  ClientWidth = 782
+  ClientHeight = 740
+  ClientWidth = 1200
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
