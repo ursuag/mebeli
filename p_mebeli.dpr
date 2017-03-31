@@ -72,7 +72,9 @@ uses
   Calc_sebestoimosti_f in 'Calc_sebestoimosti_f.pas' {F_Calc_sebestoimosti},
   Revizii_jurnal_df in 'Revizii_jurnal_df.pas' {F_Revizii_jurnal},
   Revizia_edit_f in 'Revizia_edit_f.pas' {F_Revizia_edit},
-  Calc_sebestoimosti_Edit_f in 'Calc_sebestoimosti_Edit_f.pas' {F_Calc_sebestoimosti_Edit};
+  Calc_sebestoimosti_Edit_f in 'Calc_sebestoimosti_Edit_f.pas' {F_Calc_sebestoimosti_Edit},
+  Ostatok_furnitura_f in 'Ostatok_furnitura_f.pas' {F_Ostatok_furnitura},
+  Ostatok_furnitura_edit_f in 'Ostatok_furnitura_edit_f.pas' {F_Ostatok_furnitura_edit};
 
 {$R *.res}
 
@@ -147,5 +149,7 @@ begin
   Application.CreateForm(TF_Revizii_jurnal, F_Revizii_jurnal);
   Application.CreateForm(TF_Revizia_edit, F_Revizia_edit);
   Application.CreateForm(TF_Calc_sebestoimosti_Edit, F_Calc_sebestoimosti_Edit);
+  Application.CreateForm(TF_Ostatok_furnitura, F_Ostatok_furnitura);
+  Application.CreateForm(TF_Ostatok_furnitura_edit, F_Ostatok_furnitura_edit);
   Application.Run;
 end.

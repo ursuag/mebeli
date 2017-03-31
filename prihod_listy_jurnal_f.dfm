@@ -1,6 +1,6 @@
 object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
-  Left = 1
-  Top = 0
+  Left = 2
+  Top = 68
   AutoScroll = False
   AutoSize = True
   Caption = #1046#1091#1088#1085#1072#1083' '#1087#1088#1080#1093#1086#1076#1072' '#1083#1080#1089#1090#1086#1074#1099#1093' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074

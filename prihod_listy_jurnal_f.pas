@@ -95,9 +95,9 @@ end;//proc
 
 procedure TF_Prihod_listy_jurnal.B_EditClick(Sender: TObject);
 begin
-  IF not F_IB_Prihod_listy_0.FieldByName('id_akt_raspil').IsNull Then
+  IF (not F_IB_Prihod_listy_0.FieldByName('id_akt_raspil').IsNull) or (not F_IB_Prihod_listy_0.FieldByName('is_ostatok').IsNull) or (not F_IB_Prihod_listy_0.FieldByName('id_revizia').IsNull) Then
     begin
-      ShowMessage('Приход сформирован Актом распила, вручную изменять нельзя!');
+      ShowMessage('Изменять нельзя!');
       exit;
     end;
   id_akt:=F_IB_Prihod_listy_0.fieldByName('id').AsInteger;

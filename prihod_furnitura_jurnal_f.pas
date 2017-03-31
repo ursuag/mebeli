@@ -101,7 +101,7 @@ end;//proc
 procedure TF_Prihod_furnitura_jurnal.B_DeleteClick(Sender: TObject);
 var
   id_for_delete: integer;
-var ib_temp: TIBDataSet;
+        ib_temp: TIBDataSet;
 begin
   IF MessageDlg('Вы уверены, что хотите удалить?',mtWarning,[mbOk,mbNo],0)=mrOk Then
     begin

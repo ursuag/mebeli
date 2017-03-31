@@ -1,10 +1,10 @@
 object F_prihod_furnitura_edit: TF_prihod_furnitura_edit
-  Left = 167
-  Top = 92
+  Left = 0
+  Top = 0
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = #1040#1082#1090' '#1087#1088#1080#1093#1086#1076#1072' '#1082#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1093
-  ClientHeight = 701
+  ClientHeight = 690
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET

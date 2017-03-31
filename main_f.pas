@@ -77,6 +77,10 @@ type
     N11: TMenuItem;
     N12: TMenuItem;
     N_Revizii: TMenuItem;
+    N13: TMenuItem;
+    N_Ostatok_listy: TMenuItem;
+    N_Ostatok_detali: TMenuItem;
+    N_Ostatok_furnitura: TMenuItem;
     procedure N_ExitClick(Sender: TObject);
     function VolumeID:dword;
     procedure FormCreate(Sender: TObject);
@@ -119,6 +123,7 @@ type
     procedure N_LavoareClick(Sender: TObject);
     procedure N_ReviziiClick(Sender: TObject);
     procedure N_Calculation_SebestClick(Sender: TObject);
+    procedure N_Ostatok_furnituraClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -159,7 +164,7 @@ uses mebeli_dm, password_dlg, sotrudniki_f, sklad_f, password_f,
   Gotov_prod_categories_f, Contragenty_f, Prodaja_jurnal_f, constanty_f,
   Statyi_Rashoda_f, Signs_Management_f, Bank_Jurnal_f, Statyi_Dohoda_f,
   Cassa_Jurnal_f, Remont_jurnal_f, Lavoare_list_f, Revizii_jurnal_df,
-  gotov_prod_edit_f, Calc_sebestoimosti_f;
+  gotov_prod_edit_f, Calc_sebestoimosti_f, Ostatok_furnitura_f;
 
 {$R *.dfm}
 procedure TF_Main.AdjustResolution(oForm:TForm);
@@ -1001,6 +1006,11 @@ end;
 procedure TF_Main.N_Calculation_SebestClick(Sender: TObject);
 begin
   F_Calc_sebestoimosti.ShowModal;
+end;
+
+procedure TF_Main.N_Ostatok_furnituraClick(Sender: TObject);
+begin
+  F_Ostatok_furnitura.ShowModal;
 end;
 
 end.

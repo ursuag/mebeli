@@ -1,6 +1,6 @@
 object F_Main: TF_Main
-  Left = 0
-  Top = 0
+  Left = 2
+  Top = 63
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = #1052#1077#1073#1077#1083#1100#1085#1099#1081' '#1094#1077#1093
@@ -6593,6 +6593,19 @@ object F_Main: TF_Main
       object N_prihod_furnitura: TMenuItem
         Caption = #1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1093
         OnClick = N_prihod_furnituraClick
+      end
+      object N13: TMenuItem
+        Caption = '-'
+      end
+      object N_Ostatok_listy: TMenuItem
+        Caption = #1054#1089#1090#1072#1090#1082#1086#1074' '#1083#1080#1089#1090#1086#1074' '#1085#1072' '#1085#1072#1095#1072#1083#1086
+      end
+      object N_Ostatok_detali: TMenuItem
+        Caption = #1054#1089#1090#1072#1090#1082#1086#1074' '#1076#1077#1090#1072#1083#1077#1081' '#1085#1072' '#1085#1072#1095#1072#1083#1086
+      end
+      object N_Ostatok_furnitura: TMenuItem
+        Caption = #1054#1089#1090#1072#1090#1082#1086#1074' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074' '#1085#1072' '#1085#1072#1095#1072#1083#1086
+        OnClick = N_Ostatok_furnituraClick
       end
     end
     object N_Akty: TMenuItem

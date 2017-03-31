@@ -802,6 +802,7 @@ begin
   ib_tmp.SelectSQL.Add('select gpg.name as name from gotov_prod_grupa as gpg, gotov_prod_0 as gp0 where (gpg.id=gp0.id_grupa) and (gp0.id='+IB_Akt_vip_rabot_1.FieldByName('id_gotov_prod').AsString+')');
   ib_tmp.open;
   IB_Akt_vip_rabot_1.FieldByName('GRUPA_NAME').Value:=ib_tmp.FieldByName('name').AsString;
+  ib_tmp.Close;
   ib_tmp.Free;
 end;//proc
 
