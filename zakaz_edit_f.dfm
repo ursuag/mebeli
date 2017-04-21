@@ -1,6 +1,6 @@
 object F_Zakaz_edit: TF_Zakaz_edit
-  Left = 14
-  Top = 61
+  Left = 0
+  Top = 84
   AutoScroll = False
   Caption = #1047#1072#1082#1072#1079
   ClientHeight = 702

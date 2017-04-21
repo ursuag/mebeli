@@ -1,6 +1,6 @@
 object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
-  Left = 0
-  Top = 0
+  Left = 14
+  Top = 35
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1072#1082#1090#1086#1074' '#1074#1099#1087#1086#1083#1085#1077#1085#1085#1099#1093' '#1088#1072#1073#1086#1090
   ClientHeight = 682
@@ -103,7 +103,7 @@ object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
     Width = 545
     Height = 337
     TabStop = False
-    DataSource = DM_Mebeli.DS_Akt_vip_rabot_1
+    DataSource = DS_Akt_vip_rabot_1
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -220,7 +220,6 @@ object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
     Width = 620
     Height = 321
     TabStop = False
-    Color = clInactiveCaptionText
     DataSource = DS_Rashod_furnitura_F
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -527,7 +526,9 @@ object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
         '(select ed_izm from furnitura where id=rashf.id_furnitura) ed_iz' +
         'm'
       'from rashod_furnitura rashf'
-      'where rashf.id_akt_vip_rabot=:nomer'
+      
+        'where (rashf.id_akt_vip_rabot=:id_parent) and (rashf.id_gotov_pr' +
+        'od= :id_gotov_prod)'
       
         'group by rashf.id_akt_vip_rabot, rashf.id_gotov_prod, rashf.id_f' +
         'urnitura'
@@ -541,7 +542,7 @@ object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
       'where'
       '  ID = :OLD_ID')
     GeneratorField.Field = 'ID'
-    DataSource = DM_Mebeli.DS_Akt_vip_rabot_0
+    DataSource = DS_Akt_vip_rabot_1
     Left = 672
     Top = 376
   end
@@ -550,5 +551,60 @@ object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
     DataSet = IB_Rashod_furnitura_F
     Left = 720
     Top = 376
+  end
+  object IB_Akt_vip_rabot_1: TIBDataSet
+    Database = DM_Mebeli.DB_Mebeli
+    Transaction = DM_Mebeli.IBTransaction1
+    ForcedRefresh = True
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from PEREMESCHENIE_0'
+      'where'
+      '  ID = :OLD_ID')
+    InsertSQL.Strings = (
+      'insert into PEREMESCHENIE_0'
+      '  (ID, DATE_PER, PRIMECHANIE)'
+      'values'
+      '  (:ID, :DATE_PER, :PRIMECHANIE)')
+    RefreshSQL.Strings = (
+      'Select '
+      '  ID,'
+      '  DATE_PER,'
+      '  ID_SKLAD_OTKUDA,'
+      '  ID_SKLAD_KUDA,'
+      '  PRIMECHANIE'
+      'from PEREMESCHENIE_0 '
+      'where'
+      '  ID = :ID')
+    SelectSQL.Strings = (
+      
+        'select avr1.id_gotov_prod id_gotov_prod, avr1.kol_vo kol_vo, gpg' +
+        '.name grupa_name, gp0.name gotov_prod_name, avr1.id_parent id_pa' +
+        'rent'
+      
+        'from AKT_VIP_RABOT_1 avr1, gotov_prod_0 gp0, gotov_prod_grupa gp' +
+        'g'
+      
+        'where (avr1.id_parent=:NOMER) and (avr1.id_gotov_prod=gp0.id) an' +
+        'd (gpg.id=gp0.id_grupa)')
+    ModifySQL.Strings = (
+      'update PEREMESCHENIE_0'
+      'set'
+      '  ID = :ID,'
+      '  DATE_PER = :DATE_PER,'
+      '  PRIMECHANIE = :PRIMECHANIE'
+      'where'
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    DataSource = DM_Mebeli.DS_Akt_vip_rabot_0
+    Left = 32
+    Top = 352
+  end
+  object DS_Akt_vip_rabot_1: TDataSource
+    AutoEdit = False
+    DataSet = IB_Akt_vip_rabot_1
+    Left = 80
+    Top = 352
   end
 end

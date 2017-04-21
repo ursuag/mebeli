@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, Grids, DBGrids, StdCtrls, ExtCtrls, DB, IBCustomDataSet;
+  Dialogs, Menus, Grids, DBGrids, StdCtrls, ExtCtrls, DB, IBCustomDataSet,
+  DBCtrls, ComObj;
 
 type
   TF_Pilomat = class(TForm)
@@ -36,6 +37,13 @@ type
     IB_Pilomat_Detali_F: TIBDataSet;
     DS_Pilomat_Detali_F: TDataSource;
     DS_Pilomat_grupa_F: TDataSource;
+    E_Grupa_Search: TEdit;
+    E_Detali_Search: TEdit;
+    E_Listy_Search: TEdit;
+    N1: TMenuItem;
+    N_Import_listy: TMenuItem;
+    N_Import_detali: TMenuItem;
+    OpenDialog1: TOpenDialog;
     procedure N_Insert_grupaClick(Sender: TObject);
     procedure N_edit_grupaClick(Sender: TObject);
     procedure N_Insert_listyClick(Sender: TObject);
@@ -60,6 +68,20 @@ type
       Shift: TShiftState);
     procedure B_SelectClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure E_Grupa_SearchEnter(Sender: TObject);
+    procedure E_Grupa_SearchExit(Sender: TObject);
+    procedure E_Grupa_SearchKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure E_Listy_SearchEnter(Sender: TObject);
+    procedure E_Listy_SearchExit(Sender: TObject);
+    procedure E_Listy_SearchKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure E_Detali_SearchEnter(Sender: TObject);
+    procedure E_Detali_SearchExit(Sender: TObject);
+    procedure E_Detali_SearchKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure N_Import_listyClick(Sender: TObject);
+    procedure N_Import_detaliClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -87,6 +109,42 @@ begin
   DM_Mebeli.IB_Pilomat_grupa.Close;
   DM_Mebeli.IB_Pilomat_listy.Close;
   DM_Mebeli.IB_Pilomat_detali.Close;
+  F_Pilomat.IB_Pilomat_grupa_F.Close;
+  F_Pilomat.IB_Pilomat_listy_F.Close;
+  F_Pilomat.IB_Pilomat_detali_F.Close;
+
+  if F_Pilomat.E_Grupa_Search.Text='Отфильтровать группу' then
+    begin
+      DM_Mebeli.IB_Pilomat_grupa.ParamByname('grupa_name').Value:='%%';
+      F_Pilomat.IB_Pilomat_grupa_F.ParamByname('grupa_name').Value:='%%'
+    end
+  else
+    begin
+      DM_Mebeli.IB_Pilomat_grupa.ParamByname('grupa_name').Value:='%'+F_Pilomat.E_Grupa_Search.Text+'%';
+      F_Pilomat.IB_Pilomat_grupa_F.ParamByname('grupa_name').Value:='%'+F_Pilomat.E_Grupa_Search.Text+'%';
+    end;
+
+  if F_Pilomat.E_Listy_Search.Text='Отфильтровать листы' then
+    begin
+      DM_Mebeli.IB_Pilomat_listy.ParamByname('listy_name').Value:='%%';
+      F_Pilomat.IB_Pilomat_listy_F.ParamByname('listy_name').Value:='%%'
+    end
+  else
+    begin
+      DM_Mebeli.IB_Pilomat_listy.ParamByname('listy_name').Value:='%'+F_Pilomat.E_listy_Search.Text+'%';
+      F_Pilomat.IB_Pilomat_listy_F.ParamByname('listy_name').Value:='%'+F_Pilomat.E_listy_Search.Text+'%';
+    end;
+
+  if F_Pilomat.E_Detali_Search.Text='Отфильтровать детали' then
+    begin
+      DM_Mebeli.IB_Pilomat_Detali.ParamByname('detali_name').Value:='%%';
+      F_Pilomat.IB_Pilomat_Detali_F.ParamByname('detali_name').Value:='%%'
+    end
+  else
+    begin
+      DM_Mebeli.IB_Pilomat_Detali.ParamByname('detali_name').Value:='%'+F_Pilomat.E_Detali_Search.Text+'%';
+      F_Pilomat.IB_Pilomat_Detali_F.ParamByname('detali_name').Value:='%'+F_Pilomat.E_detali_Search.Text+'%';
+    end;
 
   DM_Mebeli.IB_Pilomat_grupa.Open;
   DM_Mebeli.IB_Pilomat_listy.Open;
@@ -94,6 +152,15 @@ begin
   DM_Mebeli.IB_Pilomat_grupa.Locate('ID',F_Pilomat.id_group,[]);
   DM_Mebeli.IB_Pilomat_listy.Locate('ID',F_Pilomat.id_listy,[]);
   DM_Mebeli.IB_Pilomat_detali.Locate('ID',F_Pilomat.id_detali,[]);
+  F_Pilomat.IB_Pilomat_grupa_F.Open;
+  F_Pilomat.IB_Pilomat_listy_F.Open;
+  F_Pilomat.IB_Pilomat_detali_F.Open;
+  if pos('SELECT',operation)>0 then
+    begin
+      F_Pilomat.IB_Pilomat_grupa_F.Locate('ID',F_Pilomat.id_group,[]);
+      F_Pilomat.IB_Pilomat_listy_F.Locate('ID',F_Pilomat.id_listy,[]);
+      F_Pilomat.IB_Pilomat_detali_F.Locate('ID',F_Pilomat.id_detali,[]);
+    end;
 end;//proc
 
 procedure TF_Pilomat.N_Insert_grupaClick(Sender: TObject);
@@ -141,8 +208,9 @@ var i: byte;
 begin
   DM_Mebeli.IB_Pilomat_detali.Close;
   DM_Mebeli.IB_Pilomat_listy.Close;
-  DM_Mebeli.IB_Pilomat_detali.SelectSQL[1]:='where id_grupa=:ID';
-  DM_Mebeli.IB_Pilomat_listy.SelectSQL[1]:='where id_grupa=:ID';
+  DM_Mebeli.IB_Pilomat_listy.SelectSQL[1]:='where (id_grupa=:ID) and (Upper(name) like Upper(:listy_name))';
+  DM_Mebeli.IB_Pilomat_detali.SelectSQL[1]:='where (id_grupa=:ID) and (Upper(name) like Upper(:detali_name))';
+
   IF operation='SELECT_STOCKS' Then
     begin
       DBG_Grupa.DataSource:=DS_Pilomat_grupa_F;
@@ -151,13 +219,17 @@ begin
 
       IB_Pilomat_grupa_F.SelectSQL.Clear;
       IB_Pilomat_grupa_F.SelectSQL.Add('select pg.id, pg.name from pilomat_grupa pg');
-      IB_Pilomat_grupa_F.SelectSQL.Add('where exists (select list_id from GET_LISTY_ESTI_OSTATOK(pg.id))');
-      IB_Pilomat_grupa_F.SelectSQL.Add('order by pg.name');
+      IB_Pilomat_grupa_F.SelectSQL.Add('where (exists (select list_id from GET_LISTY_ESTI_OSTATOK(pg.id)))');
+      IB_Pilomat_grupa_F.SelectSQL.Add('and (Upper(name) like upper(:grupa_name)) order by pg.name');
 
       IB_Pilomat_listy_F.SelectSQL.Clear;
       IB_Pilomat_listy_F.SelectSQL.Add('select list_id id, list_name name, list_ostatok');
-      IB_Pilomat_listy_F.SelectSQL.Add('from GET_LISTY_ESTI_OSTATOK(:id)');
+      IB_Pilomat_listy_F.SelectSQL.Add('from GET_LISTY_ESTI_OSTATOK(:id) where upper(list_name) like upper(:listy_name)');
       IB_Pilomat_listy_F.SelectSQL.Add('order by list_name');
+
+      IB_Pilomat_grupa_F.ParamByname('grupa_name').Value:='%%';
+      IB_Pilomat_listy_F.ParamByname('listy_name').Value:='%%';
+      IB_Pilomat_detali_F.ParamByname('detali_name').Value:='%%';
 
       Reopen_Tables;
       IB_Pilomat_Listy_F.Open;
@@ -178,9 +250,13 @@ begin
         DBG_Detali.DataSource:=DS_Pilomat_Detali_F;
 
         IB_Pilomat_grupa_F.SelectSQL.Clear;
-        IB_Pilomat_grupa_F.SelectSQL.Add('select * from pilomat_grupa order by name');
+        IB_Pilomat_grupa_F.SelectSQL.Add('select * from pilomat_grupa where Upper(name) like upper(:grupa_name) order by name');
+        IB_Pilomat_grupa_F.ParamByName('grupa_name').Value:='%%';
         IB_Pilomat_listy_F.SelectSQL.Clear;
-        IB_Pilomat_listy_F.SelectSQL.Add('select * from pilomat_listy where id_grupa= :id order by name');
+        IB_Pilomat_listy_F.SelectSQL.Add('select * from pilomat_listy where (id_grupa=:id) and (upper(name) like upper(:listy_name)) order by name');
+        IB_Pilomat_grupa_F.ParamByname('grupa_name').Value:='%%';
+        IB_Pilomat_listy_F.ParamByname('listy_name').Value:='%%';
+        IB_Pilomat_detali_F.ParamByname('detali_name').Value:='%%';
 
         Reopen_Tables;
         IB_Pilomat_Listy_F.Open;
@@ -198,6 +274,9 @@ begin
           DBG_Grupa.DataSource:=DM_Mebeli.DS_Pilomat_grupa;
           DBG_Listy.DataSource:=DM_Mebeli.DS_Pilomat_listy;
           DBG_Detali.DataSource:=DM_Mebeli.DS_Pilomat_detali;
+          DM_Mebeli.IB_Pilomat_grupa.ParamByName('grupa_name').Value:='%%';
+          DM_Mebeli.IB_Pilomat_listy.ParamByName('listy_name').Value:='%%';
+          DM_Mebeli.IB_Pilomat_detali.ParamByName('detali_name').Value:='%%';
           Reopen_Tables;
           id_group:=0;
           id_listy:=0;
@@ -303,6 +382,8 @@ begin
     N_Insert_listyClick(sender);
   IF (Key=79) and (Shift=[ssCtrl]) Then //79 = Key 'O'
     N_edit_listyClick(Sender);
+  IF (Key=13) and (operation='SELECT') Then
+    B_SelectClick(Sender);
 end;//proc
 
 procedure TF_Pilomat.N1Click(Sender: TObject);
@@ -326,6 +407,8 @@ begin
     N_Insert_detaliClick(sender);
   IF (Key=KEY_O) and (Shift=[ssCtrl]) Then
     N_edit_detaliClick(Sender);
+  IF  (key=13) and (operation='SELECT') Then
+    B_SelectClick(Sender);
 end;//proc
 
 procedure TF_Pilomat.B_SelectClick(Sender: TObject);
@@ -333,13 +416,293 @@ begin
   id_detali:=IB_Pilomat_detali_F.FieldByName('ID').AsInteger;
   id_listy:=IB_Pilomat_listy_F.FieldByName('id').AsInteger;
   id_group:=IB_Pilomat_grupa_F.FieldByName('ID').AsInteger;
-//  DM_Mebeli.IB_Pilomat_listy.Locate('ID',id_listy,[]);
   ModalResult:=mrOk;
 end;//proc
 
 procedure TF_Pilomat.FormCreate(Sender: TObject);
 begin
   F_Main.AdjustResolution(F_Pilomat);
+end;
+
+procedure TF_Pilomat.E_Grupa_SearchEnter(Sender: TObject);
+begin
+  if E_Grupa_Search.Text='Отфильтровать группу' then
+    E_Grupa_Search.Text:='';
+end;
+
+procedure TF_Pilomat.E_Grupa_SearchExit(Sender: TObject);
+begin
+  if E_Grupa_Search.Text='' then
+    E_Grupa_Search.Text:='Отфильтровать группу';
+end;
+
+procedure TF_Pilomat.E_Grupa_SearchKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key=13 then
+    begin
+      if E_Grupa_Search.text='' then
+        begin
+          DM_Mebeli.IB_Pilomat_grupa.ParamByName('grupa_name').Value:='%%';
+          IB_Pilomat_grupa_F.ParamByName('grupa_name').Value:='%%';
+        end
+      else
+        begin
+          DM_Mebeli.IB_Pilomat_grupa.ParamByName('grupa_name').Value:='%'+E_Grupa_Search.text+'%';
+          IB_Pilomat_grupa_F.ParamByName('grupa_name').Value:='%'+E_Grupa_Search.text+'%';
+          DM_Mebeli.IB_Pilomat_listy.ParamByName('listy_name').Value:='%%';
+          DM_Mebeli.IB_Pilomat_detali.ParamByName('detali_name').Value:='%%';
+        end;
+      reopen_tables;
+    end;
+
+  if key=27 then
+    begin
+      DM_Mebeli.IB_Pilomat_grupa.ParamByName('grupa_name').Value:='%%';
+      IB_Pilomat_grupa_F.ParamByName('grupa_name').Value:='%%';
+      E_Grupa_Search.text:='';
+      reopen_tables;
+    end
+end;
+
+procedure TF_Pilomat.E_Listy_SearchEnter(Sender: TObject);
+begin
+  if E_Listy_Search.Text='Отфильтровать листы' then
+    E_Listy_Search.Text:='';
+end;
+
+procedure TF_Pilomat.E_Listy_SearchExit(Sender: TObject);
+begin
+  if E_Listy_Search.Text='' then
+    E_Listy_Search.Text:='Отфильтровать листы';
+end;
+
+procedure TF_Pilomat.E_Listy_SearchKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key=13 then
+    begin
+      if E_Listy_Search.text='' then
+        begin
+          DM_Mebeli.IB_Pilomat_listy.ParamByName('listy_name').Value:='%%';
+          IB_Pilomat_listy_F.ParamByName('listy_name').Value:='%%';
+        end
+      else
+        begin
+          DM_Mebeli.IB_Pilomat_listy.ParamByName('listy_name').Value:='%'+E_Listy_Search.text+'%';
+          IB_Pilomat_listy_F.ParamByName('listy_name').Value:='%'+E_Listy_Search.text+'%';
+        end;
+      reopen_tables;
+    end;
+
+  if key=27 then
+    begin
+      DM_Mebeli.IB_Pilomat_listy.ParamByName('listy_name').Value:='%%';
+      IB_Pilomat_listy_F.ParamByName('listy_name').Value:='%%';
+      E_Listy_Search.text:='';
+      reopen_tables;
+    end
+end;
+
+procedure TF_Pilomat.E_Detali_SearchEnter(Sender: TObject);
+begin
+  if E_Detali_Search.Text='Отфильтровать детали' then
+    E_Detali_Search.Text:='';
+end;
+
+procedure TF_Pilomat.E_Detali_SearchExit(Sender: TObject);
+begin
+  if E_Detali_Search.Text='' then
+    E_Detali_Search.Text:='Отфильтровать детали';
+end;
+
+procedure TF_Pilomat.E_Detali_SearchKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key=13 then
+    begin
+      if E_Detali_Search.text='' then
+        begin
+          DM_Mebeli.IB_Pilomat_detali.ParamByName('detali_name').Value:='%%';
+          IB_Pilomat_detali_F.ParamByName('detali_name').Value:='%%';
+        end
+      else
+        begin
+          DM_Mebeli.IB_Pilomat_detali.ParamByName('detali_name').Value:='%'+E_Detali_Search.text+'%';
+          IB_Pilomat_detali_F.ParamByName('detali_name').Value:='%'+E_Detali_Search.text+'%';
+        end;
+      reopen_tables;
+    end;
+
+  if key=27 then
+    begin
+      DM_Mebeli.IB_Pilomat_detali.ParamByName('detali_name').Value:='%%';
+      IB_Pilomat_detali_F.ParamByName('detali_name').Value:='%%';
+      E_detali_Search.text:='';
+      reopen_tables;
+    end
+end;
+
+procedure TF_Pilomat.N_Import_listyClick(Sender: TObject);
+var
+        s,s1 : string;
+     Excel: Variant;
+         j: Integer;
+r FIB_Query: TIBDataSet;
+ FIB_listy: TIBDataSet;
+begin
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+  FIB_Listy:=TIBDataSet.Create(nil);
+  FIB_Listy.Database:=DM_Mebeli.DB_Mebeli;
+
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('insert into pilomat_listy (id, id_grupa, razmer_x, razmer_y, name, islist)');
+  FIB_Query.SelectSQL.Add('values (:id, :id_grupa, :razmer_x, :razmer_y, :name, 0)');
+
+  FIB_Listy.SelectSQL.Clear;
+  FIB_Listy.SelectSQL.Add('select id from pilomat_listy where id= :id_listy');
+
+  F_Main.IBQuery1.Close;
+  F_Main.IBQuery1.SQL.Clear;
+  F_Main.IBQuery1.SQL.Add('select id from pilomat_grupa where name= :grupa_name');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+//  Memo1.Lines.Clear;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('id').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('id_grupa').Value:=s;
+      s:=Excel.Cells[j, 3];
+      FIB_Query.ParamByName('name').Value:=s;
+      s:=Excel.Cells[j, 4];
+      FIB_Query.ParamByName('razmer_x').Value:=StrToInt(s);
+      s:=Excel.Cells[j, 5];
+      FIB_Query.ParamByName('razmer_y').Value:=StrToInt(s);
+
+
+      FIB_Listy.ParamByname('id_listy').Value:=FIB_Query.ParamByName('id').AsInteger;
+      FIB_Listy.Open;
+      if not FIB_Listy.FieldByname('id').IsNull then
+        begin
+          s1:=Excel.Cells[j,1];
+          s:=s1+'_';
+          s1:=Excel.Cells[j,2];
+          s:=s+'_'+s1;
+          s1:=Excel.Cells[j,3];
+          s:=s+'_'+s1;
+//          Memo1.Lines.Add(s);
+        end
+      else
+        begin
+          FIB_Query.ExecSQL;
+        end;
+
+      FIB_Listy.Close;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  DM_Mebeli.IBTransaction1.Commit;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Pilomat.N_Import_detaliClick(Sender: TObject);
+var
+        s,s1 : string;
+     Excel: Variant;
+         j: Integer;
+         id_grupa: integer;
+ FIB_Query: TIBDataSet;
+ FIB_listy: TIBDataSet;
+begin
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+  FIB_Listy:=TIBDataSet.Create(nil);
+  FIB_Listy.Database:=DM_Mebeli.DB_Mebeli;
+
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('insert into pilomat_detali (id, id_grupa, razmer_x, razmer_y, name)');
+  FIB_Query.SelectSQL.Add('values (:id, :id_grupa, :razmer_x, :razmer_y, :name)');
+
+  FIB_Listy.SelectSQL.Clear;
+  FIB_Listy.SelectSQL.Add('select id from pilomat_detali where id= :id_detali');
+
+  F_Main.IBQuery1.Close;
+  F_Main.IBQuery1.SQL.Clear;
+  F_Main.IBQuery1.SQL.Add('select id from pilomat_grupa where name= :grupa_name');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+//  Memo1.Lines.Clear;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('id').Value:=s;
+      s:=Excel.Cells[j, 2];
+      F_Main.IBQuery1.ParamByName('grupa_name').Value:=s;
+      F_Main.IBQuery1.Open;
+      if F_Main.IBQuery1.FieldByname('id').IsNull then
+        id_grupa:=0
+      else
+        id_grupa:=F_Main.IBQuery1.FieldByname('id').AsInteger;
+      s:=Excel.Cells[j, 3];
+      FIB_Query.ParamByName('name').Value:=s;
+      s:=Excel.Cells[j, 4];
+      FIB_Query.ParamByName('razmer_x').Value:=StrToInt(s);
+      s:=Excel.Cells[j, 5];
+      FIB_Query.ParamByName('razmer_y').Value:=StrToInt(s);
+      FIB_Query.ParamByName('id_grupa').Value:=id_grupa;
+
+      FIB_Listy.ParamByname('id_detali').Value:=FIB_Query.ParamByName('id').AsInteger;
+      FIB_Listy.Open;
+      if not FIB_Listy.FieldByname('id').IsNull then
+        begin
+          s1:=Excel.Cells[j,1];
+          s:=s1+'_';
+          s1:=Excel.Cells[j,2];
+          s:=s+'_'+s1;
+          s1:=Excel.Cells[j,3];
+          s:=s+'_'+s1;
+//          Memo1.Lines.Add(s);
+        end
+      else
+        begin
+          FIB_Query.ExecSQL;
+        end;
+
+      FIB_Listy.Close;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  DM_Mebeli.IBTransaction1.Commit;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
 end;
 
 end.

@@ -148,7 +148,7 @@ begin
       Old_Date:=DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').AsDateTime;
      end;//IF operation='EDIT'
   ID_Akt:=DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('NOMER').AsInteger;
-
+  DM_Mebeli.IB_Akt_vip_rabot_1.Open;
   IF (DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
     begin
       B_Exit.Enabled:=false;
@@ -163,7 +163,7 @@ begin
   DM_Mebeli.IB_Akt_vip_rabot_0.Edit;
   IF F_Zakaz_select.ShowModal=mrOk Then
     begin
-      DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('id_zakaz').Value:=DM_Mebeli.IB_Zakaz_0.FieldByname('ID').AsInteger;
+      DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('id_zakaz').Value:=id_zakaz;
       F_Main.IBQuery1.Close;
       F_Main.IBQuery1.SQL.Clear;
       F_Main.IBQuery1.SQL.Add('update akt_vip_rabot_0 set id_zakaz='+DM_Mebeli.IB_Zakaz_0.FieldByname('ID').AsString+' where nomer='+DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('NOMER').AsString);

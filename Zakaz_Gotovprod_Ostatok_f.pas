@@ -16,6 +16,8 @@ type
     procedure DBGrid1DblClick(Sender: TObject);
     procedure B_CloseClick(Sender: TObject);
     procedure B_SelectClick(Sender: TObject);
+    procedure DBGrid1KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -48,7 +50,14 @@ end;
 
 procedure TF_Zakaz_Gotovprod_Ostatok.B_SelectClick(Sender: TObject);
 begin
-  Close;
+  ModalResult:=mrOk;
+end;
+
+procedure TF_Zakaz_Gotovprod_Ostatok.DBGrid1KeyUp(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if key=13 then
+    ModalResult:=mrOk;
 end;
 
 end.

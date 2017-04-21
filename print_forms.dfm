@@ -1,6 +1,6 @@
 object F_Print_Forms: TF_Print_Forms
-  Left = 8
-  Top = 165
+  Left = 20
+  Top = 39
   Width = 1179
   Height = 695
   Caption = 'Print_forms'

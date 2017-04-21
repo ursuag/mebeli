@@ -74,7 +74,10 @@ uses
   Revizia_edit_f in 'Revizia_edit_f.pas' {F_Revizia_edit},
   Calc_sebestoimosti_Edit_f in 'Calc_sebestoimosti_Edit_f.pas' {F_Calc_sebestoimosti_Edit},
   Ostatok_furnitura_f in 'Ostatok_furnitura_f.pas' {F_Ostatok_furnitura},
-  Ostatok_furnitura_edit_f in 'Ostatok_furnitura_edit_f.pas' {F_Ostatok_furnitura_edit};
+  Ostatok_furnitura_edit_f in 'Ostatok_furnitura_edit_f.pas' {F_Ostatok_furnitura_edit},
+  Ostatok_listy_f in 'Ostatok_listy_f.pas' {F_Ostatok_listy},
+  Ostatok_listy_edit_f in 'Ostatok_listy_edit_f.pas' {F_Ostatok_listy_edit},
+  Ostatok_detali_f in 'Ostatok_detali_f.pas' {F_Ostatok_detali};
 
 {$R *.res}
 
@@ -151,5 +154,8 @@ begin
   Application.CreateForm(TF_Calc_sebestoimosti_Edit, F_Calc_sebestoimosti_Edit);
   Application.CreateForm(TF_Ostatok_furnitura, F_Ostatok_furnitura);
   Application.CreateForm(TF_Ostatok_furnitura_edit, F_Ostatok_furnitura_edit);
+  Application.CreateForm(TF_Ostatok_listy, F_Ostatok_listy);
+  Application.CreateForm(TF_Ostatok_listy_edit, F_Ostatok_listy_edit);
+  Application.CreateForm(TF_Ostatok_detali, F_Ostatok_detali);
   Application.Run;
 end.

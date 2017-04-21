@@ -1,6 +1,6 @@
 object F_Akt_vip_rab_edit: TF_Akt_vip_rab_edit
-  Left = 20
-  Top = 69
+  Left = 0
+  Top = 96
   AutoScroll = False
   Caption = #1040#1082#1090' '#1074#1099#1087#1086#1083#1085#1077#1085#1085#1099#1093' '#1088#1072#1073#1086#1090
   ClientHeight = 702

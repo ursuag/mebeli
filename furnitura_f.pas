@@ -48,6 +48,8 @@ type
       Shift: TShiftState);
     procedure E_Furnitura_FilterKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure DBG_FurnituraKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -211,7 +213,6 @@ end;
 procedure TF_Furnitura.E_Grupa_FilterExit(Sender: TObject);
 begin
   E_Grupa_filter.Text:='Ведите текст для поиска по группе';
-  E_Furnitura_Filter.SetFocus;
 end;
 
 procedure TF_Furnitura.E_Furnitura_FilterEnter(Sender: TObject);
@@ -222,7 +223,6 @@ end;
 procedure TF_Furnitura.E_Furnitura_FilterExit(Sender: TObject);
 begin
   E_Furnitura_filter.Text:='Ведите текст для поиска материала';
-  DBG_Furnitura.SetFocus;
 end;
 
 procedure TF_Furnitura.E_Grupa_FilterKeyUp(Sender: TObject; var Key: Word;
@@ -237,6 +237,13 @@ procedure TF_Furnitura.E_Furnitura_FilterKeyUp(Sender: TObject;
 begin
   if Length(E_Furnitura_Filter.Text)>2 then
     DM_Mebeli.IB_Furnitura.Locate('name',E_Furnitura_Filter.Text,[loCaseInsensitive, loPartialKey]);
+end;
+
+procedure TF_Furnitura.DBG_FurnituraKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key=13 then
+    DBG_FurnituraDblClick(sender);
 end;
 
 end.

@@ -19,11 +19,6 @@ type
     DS_Gotov_prod_1: TDataSource;
     IB_Gotov_prod_2: TIBDataSet;
     DS_Gotov_Prod_2: TDataSource;
-    IB_Gotov_prod_1ID: TIntegerField;
-    IB_Gotov_prod_1DETALI_GRUPA: TIBStringField;
-    IB_Gotov_prod_1DETALI_NAME: TIBStringField;
-    IB_Gotov_prod_1KOL_VO: TIntegerField;
-    IB_Gotov_prod_1ID_DETALI: TIntegerField;
     IB_Gotov_prod_2ID: TIntegerField;
     IB_Gotov_prod_2ID_FURNITURA: TIntegerField;
     IB_Gotov_prod_2FURNITURA_GRUPA: TIBStringField;
@@ -37,7 +32,6 @@ type
     IB_GOTOV_PROD_VIDRABOTVid_rabot: TStringField;
     IB_GOTOV_PROD_VIDRABOTID_NORMA: TIntegerField;
     IB_Gotov_prod_2ID_NORMA: TIntegerField;
-    IB_Gotov_prod_1ID_NORMA: TIntegerField;
     DBE_Data: TDBEdit;
     DBE_Descr: TDBEdit;
     Label1: TLabel;
@@ -53,6 +47,13 @@ type
     IB_GOTOV_PROD_VIDRABOTID_GOTOV_PROD: TIntegerField;
     IB_GOTOV_PROD_VIDRABOTID_CATEGORY: TIntegerField;
     IB_GOTOV_PROD_VIDRABOTCATEGORY_NAME: TStringField;
+    IB_Gotov_prod_1ID_PARENT: TIntegerField;
+    IB_Gotov_prod_1ID_DETALI: TIntegerField;
+    IB_Gotov_prod_1KOL_VO: TIntegerField;
+    IB_Gotov_prod_1ID: TIntegerField;
+    IB_Gotov_prod_1ID_NORMA: TIntegerField;
+    IB_Gotov_prod_1DETALI_GRUPA: TStringField;
+    IB_Gotov_prod_1DETALI_NAME: TStringField;
     procedure FormActivate(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);
     procedure B_OkClick(Sender: TObject);
@@ -64,6 +65,9 @@ type
     procedure IB_Gotov_prod_2NewRecord(DataSet: TDataSet);
     procedure IB_Gotov_prod_1NewRecord(DataSet: TDataSet);
     procedure IB_GOTOV_PROD_CATEGORIES_NORMYNewRecord(DataSet: TDataSet);
+    procedure DBGR_DETALIKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure IB_Gotov_prod_1CalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -131,7 +135,6 @@ end;//proc
 
 procedure TF_Gotov_prod_edit.DBGR_DETALIEditButtonClick(Sender: TObject);
 var old_operation: string[20];
-    id: integer;
 begin
   old_operation:=operation;
   operation:='SELECT';
@@ -142,13 +145,7 @@ begin
       Else
         IB_Gotov_prod_1.Edit;
       IB_Gotov_prod_1.FieldByName('ID_DETALI').Value:=F_Pilomat.id_detali;
-      IB_Gotov_prod_1.FieldByName('kol_vo').Value:=0;
       IB_Gotov_prod_1.FieldByName('ID_NORMA').Value:=F_Gotov_prod_normy.IB_Gotovprod_normy.FieldByName('id').AsInteger;
-      IB_Gotov_prod_1.Post;
-      id:=IB_Gotov_prod_1.FieldByName('id').AsInteger+1;
-      IB_Gotov_prod_1.Close;
-      IB_Gotov_prod_1.Open;
-      IB_Gotov_prod_1.Locate('id',id,[]);
       DBGR_DETALI.SelectedIndex:=3;
     end;//IF =mrOk
   operation:=old_operation;
@@ -207,5 +204,27 @@ procedure TF_Gotov_prod_edit.IB_GOTOV_PROD_CATEGORIES_NORMYNewRecord(
 begin
   IB_GOTOV_PROD_CATEGORIES_NORMY.FieldByName('id_norma').Value:=F_Gotov_prod_normy.IB_Gotovprod_normy.FieldByName('id').AsInteger;
 end;
+
+procedure TF_Gotov_prod_edit.DBGR_DETALIKeyUp(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if (key=32) or (key=45) then
+    DBGR_DETALIEditButtonClick(Sender); 
+end;
+
+procedure TF_Gotov_prod_edit.IB_Gotov_prod_1CalcFields(DataSet: TDataSet);
+var ib_tmp:TIBDataSet;
+begin
+  IF IB_Gotov_prod_1.FieldByName('ID_DETALI').IsNull Then exit;
+  ib_tmp:=TIBDataSet.Create(nil);
+  ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
+  ib_tmp.SelectSQL.Add('select pg.name grupa_name, pd.name detaly_name from pilomat_grupa pg, pilomat_detali pd where (pd.id_grupa=pg.id) and (pd.id=:id_detali)');
+  ib_tmp.ParamByname('id_detali').Value:=IB_Gotov_prod_1.FieldByName('ID_DETALI').AsInteger;
+  ib_tmp.open;
+  IB_Gotov_prod_1.FieldByName('DETALI_GRUPA').Value:=ib_tmp.FieldByName('grupa_name').AsString;
+  IB_Gotov_prod_1.FieldByName('DETALI_NAME').Value:=ib_tmp.FieldByName('detaly_name').AsString;
+  ib_tmp.Close;
+  ib_tmp.Free;
+end;//proc
 
 end.

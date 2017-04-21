@@ -1,10 +1,10 @@
 object F_Main: TF_Main
-  Left = 2
-  Top = 63
+  Left = 0
+  Top = 115
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = #1052#1077#1073#1077#1083#1100#1085#1099#1081' '#1094#1077#1093
-  ClientHeight = 670
+  ClientHeight = 682
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -6289,14 +6289,14 @@ object F_Main: TF_Main
   end
   object L_Role: TLabel
     Left = 184
-    Top = 26
+    Top = 23
     Width = 54
-    Height = 19
+    Height = 16
     Caption = 'L_Role'
-    Font.Charset = RUSSIAN_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clMaroon
-    Font.Height = -16
-    Font.Name = 'Arial'
+    Font.Height = -15
+    Font.Name = 'CourierPS'
     Font.Style = [fsBold]
     ParentFont = False
     Transparent = True
@@ -6304,13 +6304,13 @@ object F_Main: TF_Main
   object L_user: TLabel
     Left = 184
     Top = 6
-    Width = 53
-    Height = 19
+    Width = 54
+    Height = 16
     Caption = 'L_user'
-    Font.Charset = RUSSIAN_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clMaroon
-    Font.Height = -16
-    Font.Name = 'Arial'
+    Font.Height = -15
+    Font.Name = 'CourierPS'
     Font.Style = [fsBold]
     ParentFont = False
     Transparent = True
@@ -6318,20 +6318,20 @@ object F_Main: TF_Main
   object L_Server: TLabel
     Left = 360
     Top = 6
-    Width = 69
-    Height = 19
+    Width = 72
+    Height = 16
     Caption = 'L_Server'
-    Font.Charset = RUSSIAN_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clMaroon
-    Font.Height = -16
-    Font.Name = 'Arial'
+    Font.Height = -15
+    Font.Name = 'CourierPS'
     Font.Style = [fsBold]
     ParentFont = False
     Transparent = True
   end
   object Label1: TLabel
     Left = 416
-    Top = 46
+    Top = 51
     Width = 228
     Height = 23
     Caption = #1055#1088#1086#1080#1079#1074#1086#1076#1089#1090#1074#1086' '#1052#1077#1073#1077#1083#1080
@@ -6343,11 +6343,25 @@ object F_Main: TF_Main
     ParentFont = False
     Transparent = True
   end
+  object L_Database: TLabel
+    Left = 360
+    Top = 27
+    Width = 90
+    Height = 16
+    Caption = 'L_Database'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clMaroon
+    Font.Height = -15
+    Font.Name = 'CourierPS'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Transparent = True
+  end
   object DBGrid1: TDBGrid
     Left = 1
-    Top = 67
+    Top = 77
     Width = 1176
-    Height = 265
+    Height = 260
     DataSource = DM_Mebeli.DS_Zakaz_0
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
@@ -6393,10 +6407,10 @@ object F_Main: TF_Main
   end
   object DBGrid2: TDBGrid
     Left = 0
-    Top = 334
+    Top = 339
     Width = 1177
     Height = 283
-    DataSource = DM_Mebeli.DS_Zakaz_1
+    DataSource = DS_Zakaz_1
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -6414,7 +6428,7 @@ object F_Main: TF_Main
     Columns = <
       item
         Expanded = False
-        FieldName = 'ID_GOTOV_PROD'
+        FieldName = 'ARTICLE'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1044
         Visible = True
@@ -6429,7 +6443,7 @@ object F_Main: TF_Main
       end
       item
         Expanded = False
-        FieldName = 'GOTPROD_NAME'
+        FieldName = 'GOTOVPROD_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045' '#1048#1047#1044#1045#1051#1048#1071
         Width = 466
@@ -6454,7 +6468,7 @@ object F_Main: TF_Main
   end
   object Panel1: TPanel
     Left = 0
-    Top = 623
+    Top = 628
     Width = 1177
     Height = 49
     BevelInner = bvLowered
@@ -6582,6 +6596,7 @@ object F_Main: TF_Main
     end
     object N_Prihod: TMenuItem
       Caption = #1055#1088#1080#1093#1086#1076
+      OnClick = N_PrihodClick
       object N_prihod_listy: TMenuItem
         Caption = #1051#1080#1089#1090#1086#1074#1099#1093' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074
         OnClick = N_prihod_listyClick
@@ -6599,9 +6614,11 @@ object F_Main: TF_Main
       end
       object N_Ostatok_listy: TMenuItem
         Caption = #1054#1089#1090#1072#1090#1082#1086#1074' '#1083#1080#1089#1090#1086#1074' '#1085#1072' '#1085#1072#1095#1072#1083#1086
+        OnClick = N_Ostatok_listyClick
       end
       object N_Ostatok_detali: TMenuItem
         Caption = #1054#1089#1090#1072#1090#1082#1086#1074' '#1076#1077#1090#1072#1083#1077#1081' '#1085#1072' '#1085#1072#1095#1072#1083#1086
+        OnClick = N_Ostatok_detaliClick
       end
       object N_Ostatok_furnitura: TMenuItem
         Caption = #1054#1089#1090#1072#1090#1082#1086#1074' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074' '#1085#1072' '#1085#1072#1095#1072#1083#1086
@@ -6870,5 +6887,55 @@ object F_Main: TF_Main
       801F000000000000C0FF000000000000C0FF000000000000FFFF000000000000
       FFFF000000000000FFFF00000000000000000000000000000000000000000000
       000000000000}
+  end
+  object DS_Zakaz_1: TDataSource
+    DataSet = F_IB_Zakaz_1
+    Left = 152
+    Top = 464
+  end
+  object F_IB_Zakaz_1: TIBDataSet
+    Database = DM_Mebeli.DB_Mebeli
+    Transaction = DM_Mebeli.IBTransaction1
+    ForcedRefresh = True
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from zakaz_1'
+      'where'
+      '  ID_PARENT = :OLD_ID_PARENT and'
+      '  ID_GOTOV_PROD = :OLD_ID_GOTOV_PROD')
+    InsertSQL.Strings = (
+      'insert into zakaz_1'
+      '  (ID_PARENT, ID_GOTOV_PROD, KOL_VO, PRIORITET)'
+      'values'
+      '  (:ID_PARENT, :ID_GOTOV_PROD, :KOL_VO, :PRIORITET)')
+    RefreshSQL.Strings = (
+      'Select *'
+      'from zakaz_1 '
+      'where'
+      '  ID_PARENT = :ID_PARENT and'
+      '  ID_GOTOV_PROD = :ID_GOTOV_PROD')
+    SelectSQL.Strings = (
+      
+        'select gp0.article article , gpg.name grupa_name, gp0.name gotov' +
+        'prod_name, z1.kol_vo kol_vo, z1.prioritet prioritet'
+      'from zakaz_1 z1, gotov_prod_0 gp0, gotov_prod_grupa gpg'
+      
+        'where (z1.id_parent=:ID) and (gp0.id_grupa=gpg.id) and (z1.id_go' +
+        'tov_prod=gp0.id)'
+      'order by gpg.name, gp0.name')
+    ModifySQL.Strings = (
+      'update zakaz_1'
+      'set'
+      '  ID_PARENT = :ID_PARENT,'
+      '  ID_GOTOV_PROD = :ID_GOTOV_PROD,'
+      '  KOL_VO = :KOL_VO,'
+      '  PRIORITET = :PRIORITET'
+      'where'
+      '  ID_PARENT = :OLD_ID_PARENT and'
+      '  ID_GOTOV_PROD = :OLD_ID_GOTOV_PROD')
+    DataSource = DM_Mebeli.DS_Zakaz_0
+    Left = 56
+    Top = 464
   end
 end

@@ -156,6 +156,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
     TitleFont.Name = 'Arial'
     TitleFont.Style = [fsBold]
     OnEditButtonClick = DBGR_DETALIEditButtonClick
+    OnKeyUp = DBGR_DETALIKeyUp
     Columns = <
       item
         ButtonStyle = cbsEllipsis
@@ -337,6 +338,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
     Database = DM_Mebeli.DB_Mebeli
     Transaction = DM_Mebeli.IBTransaction1
     ForcedRefresh = True
+    OnCalcFields = IB_Gotov_prod_1CalcFields
     OnNewRecord = IB_Gotov_prod_1NewRecord
     BufferChunks = 1000
     CachedUpdates = False
@@ -361,15 +363,7 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
       'order by pg.name, pd.name'
       '')
     SelectSQL.Strings = (
-      
-        'select gp1.id_parent id_parent, gp1.id id, pd.id id_detali, pg.n' +
-        'ame detali_grupa, pd.name detali_name, gp1.kol_vo kol_vo, gp1.id' +
-        '_norma'
-      'from gotov_prod_1 gp1, pilomat_detali pd, pilomat_grupa pg'
-      
-        'where (gp1.id_detali=pd.id) and (pg.id=pd.id_grupa) and (gp1.id_' +
-        'norma=:id)'
-      'order by pg.name, pd.name')
+      'select * from gotov_prod_1 where id_norma=:id')
     ModifySQL.Strings = (
       'update GOTOV_PROD_1'
       'set'
@@ -383,33 +377,41 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
     DataSource = F_Gotov_prod_normy.DS_Gotovprod_normy
     Left = 920
     Top = 176
-    object IB_Gotov_prod_1ID: TIntegerField
-      FieldName = 'ID'
-      Origin = 'PILOMAT_DETALI.ID'
+    object IB_Gotov_prod_1ID_PARENT: TIntegerField
+      FieldName = 'ID_PARENT'
+      Origin = 'GOTOV_PROD_1.ID_PARENT'
     end
-    object IB_Gotov_prod_1DETALI_GRUPA: TIBStringField
-      FieldName = 'DETALI_GRUPA'
-      Origin = 'PILOMAT_GRUPA.NAME'
-      Size = 60
-    end
-    object IB_Gotov_prod_1DETALI_NAME: TIBStringField
-      FieldName = 'DETALI_NAME'
-      Origin = 'PILOMAT_DETALI.NAME'
-      Size = 50
+    object IB_Gotov_prod_1ID_DETALI: TIntegerField
+      FieldName = 'ID_DETALI'
+      Origin = 'GOTOV_PROD_1.ID_DETALI'
+      Required = True
     end
     object IB_Gotov_prod_1KOL_VO: TIntegerField
       FieldName = 'KOL_VO'
       Origin = 'GOTOV_PROD_1.KOL_VO'
       Required = True
     end
-    object IB_Gotov_prod_1ID_DETALI: TIntegerField
-      FieldName = 'ID_DETALI'
-      Origin = 'PILOMAT_DETALI.ID'
+    object IB_Gotov_prod_1ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'GOTOV_PROD_1.ID'
       Required = True
     end
     object IB_Gotov_prod_1ID_NORMA: TIntegerField
       FieldName = 'ID_NORMA'
       Origin = 'GOTOV_PROD_1.ID_NORMA'
+      Required = True
+    end
+    object IB_Gotov_prod_1DETALI_GRUPA: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'DETALI_GRUPA'
+      Size = 200
+      Calculated = True
+    end
+    object IB_Gotov_prod_1DETALI_NAME: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'DETALI_NAME'
+      Size = 200
+      Calculated = True
     end
   end
   object DS_Gotov_prod_1: TDataSource

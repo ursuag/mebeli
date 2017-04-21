@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Grids, DBGrids, DBCtrls, Mask, ExtCtrls, DB;
+  Dialogs, StdCtrls, Grids, DBGrids, DBCtrls, Mask, ExtCtrls, DB,
+  IBCustomDataSet;
 
 type
   TF_prihod_furnitura_edit = class(TForm)
@@ -28,6 +29,29 @@ type
     Label7: TLabel;
     Label8: TLabel;
     E_Itogo: TEdit;
+    DS_Furnitura_Grupa: TDataSource;
+    IB_Furnitura_Grupa: TIBDataSet;
+    IB_Furnitura: TIBDataSet;
+    DS_Furnitura: TDataSource;
+    IB_Prihod_furnitura_1: TIBDataSet;
+    DS_Prihod_furnitura_1: TDataSource;
+    IB_Prihod_furnitura_1ID_PARENT: TIntegerField;
+    IB_Prihod_furnitura_1ID_FURNITURA: TIntegerField;
+    IB_Prihod_furnitura_1KOL_VO: TIBBCDField;
+    IB_Prihod_furnitura_1ID: TIntegerField;
+    IB_Prihod_furnitura_1SUMMA: TIBBCDField;
+    IB_Prihod_furnitura_1ID_FURNITURA_GRUPA: TIntegerField;
+    IB_Prihod_furnitura_1GRUPA_NAME: TStringField;
+    IB_Prihod_furnitura_1FURNITURA_EDIZM: TStringField;
+    IB_FurnituraID: TIntegerField;
+    IB_FurnituraNAME: TIBStringField;
+    IB_FurnituraED_IZM: TIBStringField;
+    IB_FurnituraID_PARENT: TIntegerField;
+    IB_FurnituraMANUFACTURER_NAME: TIBStringField;
+    IB_FurnituraMANUFACTURER_CODE: TIBStringField;
+    IB_FurnituraARTICLE: TIntegerField;
+    DBL_Furnitura: TDBLookupComboBox;
+    IB_Prihod_furnitura_1FURNITURA_NAME: TStringField;
     procedure FormActivate(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);
     procedure B_OkClick(Sender: TObject);
@@ -37,6 +61,12 @@ type
     procedure DBE_Date_pExit(Sender: TObject);
     procedure DBGrid1EditButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure IB_Prihod_furnitura_1NewRecord(DataSet: TDataSet);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGrid1ColExit(Sender: TObject);
+    procedure DBL_FurnituraCloseUp(Sender: TObject);
+    procedure IB_Prihod_furnitura_1CalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -55,6 +85,10 @@ uses prihod_furnitura_jurnal_f, main_f, mebeli_dm, furnitura_f;
 
 procedure TF_prihod_furnitura_edit.FormActivate(Sender: TObject);
 begin
+  DBL_Furnitura.Visible:=false;
+  IB_Furnitura_grupa.Open;
+  IB_Furnitura.open;
+  IB_Prihod_furnitura_1.Open;
   OK_Pressed:=False;
   DBE_ID.SetFocus;
   IF operation='INSERT' Then
@@ -169,5 +203,70 @@ procedure TF_prihod_furnitura_edit.FormCreate(Sender: TObject);
 begin
   F_Main.AdjustResolution(F_prihod_furnitura_edit);
 end;
+
+procedure TF_prihod_furnitura_edit.IB_Prihod_furnitura_1NewRecord(
+  DataSet: TDataSet);
+begin
+  IB_Prihod_Furnitura_1.FieldByName('id_parent').Value:=DM_Mebeli.IB_Prihod_furnitura_0.FieldByName('id').AsInteger;
+end;
+
+procedure TF_prihod_furnitura_edit.DBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+ if (gdFocused in State) then
+  begin
+    if (Column.Field.FieldName = DBL_Furnitura.DataField) then
+    begin
+      IF IB_Prihod_furnitura_1.FieldByName('ID_FURNITURA_GRUPA').IsNull Then exit;
+      IB_Furnitura.Close;
+      IB_Furnitura.ParamByname('id_parent').Value:=IB_Prihod_furnitura_1.FieldByName('ID_FURNITURA_GRUPA').AsInteger;
+      IB_Furnitura.Open;
+      IB_Furnitura.Locate('id',IB_Prihod_furnitura_1.FieldByName('ID_FURNITURA').AsInteger,[]);
+       with DBL_Furnitura do
+      begin
+        Left := Rect.Left + DBGrid1.Left + 2;
+        Top := Rect.Top + DBGrid1.Top + 2;
+        Width := Rect.Right - Rect.Left;
+        Width := Rect.Right - Rect.Left;
+        Height := Rect.Bottom - Rect.Top;
+        DropDownRows:=20;
+        Visible := True;
+        DBL_Furnitura.SetFocus;
+        DBL_Furnitura.DropDown;
+      end;
+    end;
+  end;
+end;
+
+procedure TF_prihod_furnitura_edit.DBGrid1ColExit(Sender: TObject);
+begin
+ if DBGrid1.SelectedIndex=0 then
+  DBGrid1.SelectedIndex:=1;
+ if DBGrid1.SelectedField.FieldName = DBL_Furnitura.DataField then
+    DBL_Furnitura.Visible := False
+end;
+
+procedure TF_prihod_furnitura_edit.DBL_FurnituraCloseUp(Sender: TObject);
+begin
+  IB_Prihod_furnitura_1.Edit;
+  IB_Prihod_furnitura_1.FieldByName('id_furnitura').Value:=IB_Furnitura.FieldByname('id').AsInteger;
+  DBGrid1.SetFocus;
+  DBGrid1.SelectedIndex:=2;
+end;
+
+procedure TF_prihod_furnitura_edit.IB_Prihod_furnitura_1CalcFields(
+  DataSet: TDataSet);
+var ib_tmp:TIBDataSet;
+begin
+  IF IB_Prihod_furnitura_1.FieldByName('ID_FURNITURA').IsNull Then exit;
+  ib_tmp:=TIBDataSet.Create(nil);
+  ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
+  ib_tmp.SelectSQL.Add('select name from furnitura where id=:id_furnitura');
+  ib_tmp.ParamByName('id_furnitura').Value:=IB_Prihod_furnitura_1.FieldByname('id_furnitura').AsInteger;
+  ib_tmp.open;
+  IB_Prihod_furnitura_1.FieldByName('FURNITURA_NAME').Value:=ib_tmp.FieldByName('name').AsString;
+  ib_tmp.Free;
+end;//proc
 
 end.

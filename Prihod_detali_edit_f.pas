@@ -50,6 +50,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure IB_Prihod_detali_F_1NewRecord(DataSet: TDataSet);
     procedure DBGrid1EditButtonClick(Sender: TObject);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -81,10 +82,12 @@ begin
        DM_Mebeli.IB_prihod_detali_0.FieldByName('DATE_P').Value:=Date;
        DM_Mebeli.IB_prihod_detali_0.FieldByName('ID_SKLAD').Value:=sklad_detali;
        DM_Mebeli.IB_prihod_detali_0.FieldByName('ID_VID_RABOT').Value:=1;
+       DM_Mebeli.IB_prihod_detali_0.FieldByName('IS_OSTATOK').Value:=null;
+       DM_Mebeli.IB_prihod_detali_0.FieldByName('ID_REVIZIA').Value:=null;
        DM_Mebeli.IB_prihod_detali_0.Post;
      end;//IF 'INSERT'
   DM_Mebeli.IB_prihod_detali_0.Edit;
-  
+
   ID_AKT:=DM_Mebeli.IB_prihod_detali_0.FieldByName('ID').AsInteger;
 
   IF (DM_Mebeli.IB_prihod_detali_0.FieldByName('DATE_P').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
@@ -171,7 +174,7 @@ begin
   F_Zakaz_select.ShowModal;
   DM_Mebeli.IB_Prihod_detali_0.Edit;
   IF F_Zakaz_select.ModalResult=mrOk Then
-    DM_Mebeli.IB_Prihod_detali_0.FieldByName('ID_ZAKAZ').Value:=DM_Mebeli.IB_Zakaz_0.FieldByname('ID').AsInteger;
+    DM_Mebeli.IB_Prihod_detali_0.FieldByName('ID_ZAKAZ').Value:=id_zakaz;
 end;//proc
 
 procedure TF_Prihod_detali_edit.DBGrid1Enter(Sender: TObject);
@@ -206,6 +209,14 @@ begin
 //      IB_Prihod_detali_F_1.Post;
     end;//IF =mrOk
   operation:=old_operation;
+  DBGrid1.SelectedIndex:=4;
 end;//proc
+
+procedure TF_Prihod_detali_edit.DBGrid1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  IF Key=' ' Then
+    DBGrid1EditButtonClick(Sender);
+end;
 
 end.

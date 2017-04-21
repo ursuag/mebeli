@@ -1,10 +1,10 @@
 object F_Pilomat: TF_Pilomat
-  Left = 1
-  Top = 0
+  Left = 0
+  Top = 68
   AutoScroll = False
   Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099
-  ClientHeight = 496
-  ClientWidth = 782
+  ClientHeight = 682
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
   Font.Color = clWindowText
@@ -25,7 +25,7 @@ object F_Pilomat: TF_Pilomat
     Left = 0
     Top = 0
     Width = 497
-    Height = 617
+    Height = 569
     DataSource = DM_Mebeli.DS_Pilomat_grupa
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
@@ -74,7 +74,7 @@ object F_Pilomat: TF_Pilomat
     Left = 504
     Top = 3
     Width = 673
-    Height = 289
+    Height = 246
     DataSource = DM_Mebeli.DS_Pilomat_listy
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
@@ -135,7 +135,7 @@ object F_Pilomat: TF_Pilomat
     Left = 504
     Top = 296
     Width = 673
-    Height = 321
+    Height = 273
     DataSource = DM_Mebeli.DS_Pilomat_detali
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
@@ -188,7 +188,6 @@ object F_Pilomat: TF_Pilomat
       Top = 12
       Width = 97
       Height = 33
-      Cancel = True
       Caption = #1047#1072#1082#1088#1099#1090#1100
       ModalResult = 2
       TabOrder = 0
@@ -196,7 +195,7 @@ object F_Pilomat: TF_Pilomat
   end
   object P_Select: TPanel
     Left = 1
-    Top = 617
+    Top = 624
     Width = 1176
     Height = 57
     BevelInner = bvRaised
@@ -207,8 +206,7 @@ object F_Pilomat: TF_Pilomat
       Top = 12
       Width = 97
       Height = 33
-      Cancel = True
-      Caption = #1047#1072#1082#1088#1099#1090#1100
+      Caption = #1054#1090#1084#1077#1085#1072
       ModalResult = 2
       TabOrder = 1
     end
@@ -222,6 +220,48 @@ object F_Pilomat: TF_Pilomat
       TabOrder = 0
       OnClick = B_SelectClick
     end
+  end
+  object E_Grupa_Search: TEdit
+    Left = 8
+    Top = 576
+    Width = 441
+    Height = 26
+    Hint = 
+      #1042#1074#1077#1076#1080#1090#1077' '#1092#1080#1083#1100#1090#1088' '#1080' '#1085#1072#1078#1084#1080#1090#1077' Enter. '#1044#1083#1103' '#1086#1090#1084#1077#1085#1099' '#1092#1080#1083#1100#1090#1088#1072' '#1086#1095#1080#1089#1090#1080#1090#1077' '#1087#1086#1083#1077 +
+      ' '#1080' '#1085#1072#1078#1084#1080#1090#1077' Enter'
+    TabOrder = 5
+    Text = #1054#1090#1092#1080#1083#1100#1090#1088#1086#1074#1072#1090#1100' '#1075#1088#1091#1087#1087#1091
+    OnEnter = E_Grupa_SearchEnter
+    OnExit = E_Grupa_SearchExit
+    OnKeyUp = E_Grupa_SearchKeyUp
+  end
+  object E_Detali_Search: TEdit
+    Left = 520
+    Top = 576
+    Width = 441
+    Height = 26
+    Hint = 
+      #1042#1074#1077#1076#1080#1090#1077' '#1092#1080#1083#1100#1090#1088' '#1080' '#1085#1072#1078#1084#1080#1090#1077' Enter. '#1044#1083#1103' '#1086#1090#1084#1077#1085#1099' '#1092#1080#1083#1100#1090#1088#1072' '#1086#1095#1080#1089#1090#1080#1090#1077' '#1087#1086#1083#1077 +
+      ' '#1080' '#1085#1072#1078#1084#1080#1090#1077' Enter'
+    TabOrder = 6
+    Text = #1054#1090#1092#1080#1083#1100#1090#1088#1086#1074#1072#1090#1100' '#1076#1077#1090#1072#1083#1080
+    OnEnter = E_Detali_SearchEnter
+    OnExit = E_Detali_SearchExit
+    OnKeyUp = E_Detali_SearchKeyUp
+  end
+  object E_Listy_Search: TEdit
+    Left = 520
+    Top = 256
+    Width = 441
+    Height = 26
+    Hint = 
+      #1042#1074#1077#1076#1080#1090#1077' '#1092#1080#1083#1100#1090#1088' '#1080' '#1085#1072#1078#1084#1080#1090#1077' Enter. '#1044#1083#1103' '#1086#1090#1084#1077#1085#1099' '#1092#1080#1083#1100#1090#1088#1072' '#1086#1095#1080#1089#1090#1080#1090#1077' '#1087#1086#1083#1077 +
+      ' '#1080' '#1085#1072#1078#1084#1080#1090#1077' Enter'
+    TabOrder = 7
+    Text = #1054#1090#1092#1080#1083#1100#1090#1088#1086#1074#1072#1090#1100' '#1083#1080#1089#1090#1099
+    OnEnter = E_Listy_SearchEnter
+    OnExit = E_Listy_SearchExit
+    OnKeyUp = E_Listy_SearchKeyUp
   end
   object MainMenu1: TMainMenu
     Left = 88
@@ -275,6 +315,18 @@ object F_Pilomat: TF_Pilomat
       Caption = #1047#1072#1082#1088#1099#1090#1100
       OnClick = N_ExitClick
     end
+    object N1: TMenuItem
+      Caption = #1048#1084#1087#1086#1088#1090
+      object N_Import_listy: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1083#1080#1089#1090#1099
+        OnClick = N_Import_listyClick
+      end
+      object N_Import_detali: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1076#1077#1090#1072#1083#1080
+        Enabled = False
+        OnClick = N_Import_detaliClick
+      end
+    end
   end
   object IB_Pilomat_grupa_F: TIBDataSet
     Database = DM_Mebeli.DB_Mebeli
@@ -303,6 +355,7 @@ object F_Pilomat: TF_Pilomat
       'where exists ('
       'select list_id from GET_LISTY_ESTI_OSTATOK(pg.id)'
       ')'
+      'and pg.name like :grupa_name'
       'order by pg.name')
     ModifySQL.Strings = (
       'update PILOMAT_GRUPA'
@@ -337,7 +390,9 @@ object F_Pilomat: TF_Pilomat
       '  ID = :ID')
     SelectSQL.Strings = (
       'select list_id id, list_name name, list_ostatok '
-      'from GET_LISTY_ESTI_OSTATOK(:id)'
+      
+        'from GET_LISTY_ESTI_OSTATOK(:id) where list_name like :listy_nam' +
+        'e'
       'order by list_name')
     ModifySQL.Strings = (
       'update PILOMAT_GRUPA'
@@ -380,7 +435,7 @@ object F_Pilomat: TF_Pilomat
     SelectSQL.Strings = (
       'select id, name'
       'from pilomat_detali'
-      'where id_grupa= :id'
+      'where (id_grupa= :id) and (upper(name) like upper(:detali_name))'
       'order by name')
     ModifySQL.Strings = (
       'update PILOMAT_GRUPA'
@@ -404,5 +459,9 @@ object F_Pilomat: TF_Pilomat
     DataSet = IB_Pilomat_grupa_F
     Left = 128
     Top = 168
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 368
+    Top = 96
   end
 end

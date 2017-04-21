@@ -75,7 +75,7 @@ begin
   F_Zakaz_select.ShowModal;
   DM_Mebeli.IB_Akt_vip_prod_0.Edit;
   IF F_Zakaz_select.ModalResult=mrOk Then
-    DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('ID_ZAKAZ').Value:=DM_Mebeli.IB_Zakaz_0.FieldByname('ID').AsInteger;
+    DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('ID_ZAKAZ').Value:=id_zakaz;
 end;//proc
 
 procedure TF_Akt_vip_prod_edit.FormActivate(Sender: TObject);

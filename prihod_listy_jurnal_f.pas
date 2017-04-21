@@ -9,7 +9,6 @@ uses
 
 type
   TF_Prihod_listy_jurnal = class(TForm)
-    DBGrid1: TDBGrid;
     DBGrid2: TDBGrid;
     Panel1: TPanel;
     B_Exit: TButton;
@@ -22,20 +21,13 @@ type
     F_IB_Prihod_listy_0: TIBDataSet;
     F_DS_Prihod_listy_1: TDataSource;
     F_IB_Prihod_listy_1: TIBDataSet;
-    F_IB_Prihod_listy_0ID: TIntegerField;
-    F_IB_Prihod_listy_0DATE_P: TDateField;
-    F_IB_Prihod_listy_0PRIMECHANIE: TIBStringField;
-    F_IB_Prihod_listy_0SKLAD_NAME: TIBStringField;
-    F_IB_Prihod_listy_0ID_AKT_RASPIL: TIntegerField;
-    F_IB_Prihod_listy_0CONTRAGENT_NAME: TIBStringField;
-    F_IB_Prihod_listy_0NOMER_TTN: TIBStringField;
-    F_IB_Prihod_listy_0SUMMA: TIBBCDField;
     F_IB_Prihod_listy_1ID: TIntegerField;
     F_IB_Prihod_listy_1ID_LISTY: TIntegerField;
     F_IB_Prihod_listy_1LISTY_NAME: TIBStringField;
     F_IB_Prihod_listy_1GRUPA_NAME: TIBStringField;
     F_IB_Prihod_listy_1KOL_VO: TIntegerField;
     F_IB_Prihod_listy_1SUMMA: TIBBCDField;
+    DBGrid1: TDBGrid;
     procedure FormActivate(Sender: TObject);
     procedure B_InsertClick(Sender: TObject);
     procedure B_EditClick(Sender: TObject);

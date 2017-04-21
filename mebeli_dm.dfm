@@ -1,7 +1,9 @@
 object DM_Mebeli: TDM_Mebeli
   OldCreateOrder = False
-  Height = 728
-  Width = 1062
+  Left = 23
+  Top = 112
+  Height = 724
+  Width = 1117
   object DB_Mebeli: TIBDatabase
     Connected = True
     DatabaseName = 'D:\'#1052#1086#1080' '#1076#1086#1082#1091#1084#1077#1085#1090#1099'\'#1055#1056#1054#1043#1056#1040#1052#1052#1067'\'#1052#1077#1073#1077#1083#1100' '#1089#1082#1083#1072#1076'\mebeli\MEBELI.FDB'
@@ -302,7 +304,8 @@ object DM_Mebeli: TDM_Mebeli
       'where'
       '  ID = :ID')
     SelectSQL.Strings = (
-      'select *   from PILOMAT_GRUPA'
+      'select * from PILOMAT_GRUPA'
+      'where Upper(name) like upper( :grupa_name)'
       'order by name')
     ModifySQL.Strings = (
       'update PILOMAT_GRUPA'

@@ -34,6 +34,8 @@ type
     N_Delete_main: TMenuItem;
     N2: TMenuItem;
     OpenDialog1: TOpenDialog;
+    N3: TMenuItem;
+    N5: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure N_Insert_mainClick(Sender: TObject);
@@ -42,7 +44,8 @@ type
     procedure B_EditClick(Sender: TObject);
     procedure N_Delete_mainClick(Sender: TObject);
     procedure B_DeleteClick(Sender: TObject);
-    procedure N2Click(Sender: TObject);
+    procedure N3Click(Sender: TObject);
+    procedure N5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -131,7 +134,7 @@ begin
   N_Delete_mainClick(Sender);
 end;
 
-procedure TF_Ostatok_furnitura.N2Click(Sender: TObject);
+procedure TF_Ostatok_furnitura.N3Click(Sender: TObject);
 var
         s : string;
      Excel: Variant;
@@ -156,12 +159,52 @@ begin
     begin
       s:=Excel.Cells[j, 1];
       FIB_Query.ParamByName('id_furnitura').Value:=s;
-      s:=Excel.Cells[j, 3];
+      s:=Excel.Cells[j, 2];
       FIB_Query.ParamByName('kol_vo').Value:=StrToFloat(s);
-      s:=Excel.Cells[j, 4];
+      s:=Excel.Cells[j, 3];
       FIB_Query.ParamByName('summa').Value:=s;
-      s:=Excel.Cells[j, 5];
+      s:=Excel.Cells[j, 4];
       FIB_Query.ParamByName('id_parent').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  DM_Mebeli.IBTransaction1.Commit;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Ostatok_furnitura.N5Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+begin
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update prihod_furnitura_1');
+  FIB_Query.SelectSQL.Add('set summa= :price*kol_vo where (id_furnitura= :id_furnitura) and (id_parent>12)');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('id_furnitura').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('price').Value:=StrToFloat(s);
       FIB_Query.ExecSQL;
       Application.ProcessMessages;
       Inc(j);

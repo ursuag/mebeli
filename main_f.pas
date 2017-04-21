@@ -81,6 +81,9 @@ type
     N_Ostatok_listy: TMenuItem;
     N_Ostatok_detali: TMenuItem;
     N_Ostatok_furnitura: TMenuItem;
+    DS_Zakaz_1: TDataSource;
+    F_IB_Zakaz_1: TIBDataSet;
+    L_Database: TLabel;
     procedure N_ExitClick(Sender: TObject);
     function VolumeID:dword;
     procedure FormCreate(Sender: TObject);
@@ -124,6 +127,9 @@ type
     procedure N_ReviziiClick(Sender: TObject);
     procedure N_Calculation_SebestClick(Sender: TObject);
     procedure N_Ostatok_furnituraClick(Sender: TObject);
+    procedure N_Ostatok_listyClick(Sender: TObject);
+    procedure N_Ostatok_detaliClick(Sender: TObject);
+    procedure N_PrihodClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -164,7 +170,8 @@ uses mebeli_dm, password_dlg, sotrudniki_f, sklad_f, password_f,
   Gotov_prod_categories_f, Contragenty_f, Prodaja_jurnal_f, constanty_f,
   Statyi_Rashoda_f, Signs_Management_f, Bank_Jurnal_f, Statyi_Dohoda_f,
   Cassa_Jurnal_f, Remont_jurnal_f, Lavoare_list_f, Revizii_jurnal_df,
-  gotov_prod_edit_f, Calc_sebestoimosti_f, Ostatok_furnitura_f;
+  gotov_prod_edit_f, Calc_sebestoimosti_f, Ostatok_furnitura_f,
+  Ostatok_listy_f, Ostatok_detali_f;
 
 {$R *.dfm}
 procedure TF_Main.AdjustResolution(oForm:TForm);
@@ -586,9 +593,12 @@ begin
     end;
 
   IF Pos ('trigger',E.Message)>0 Then
-    dm_mebeli.trigger_error(e.Message);
+    dm_mebeli.trigger_error(e.Message)
+  else
     IF Pos ('UNIQUE',E.Message)>0 Then
-      ShowMessage('Такая позиция уже введена в этот документ');
+      ShowMessage('Такая позиция уже введена в этот документ')
+    else
+      ShowMessage(e.Message);
 end;
 
 //Ловим сообщения о скролинге колеса мышки
@@ -617,8 +627,11 @@ end;//proc
 
 procedure reopen_tables;
 begin
+  DM_Mebeli.IB_Zakaz_0.Close;
+  F_Main.F_IB_Zakaz_1.Close;
+
   DM_Mebeli.IB_Zakaz_0.Open;
-  DM_Mebeli.IB_Zakaz_1.Open;
+  F_Main.F_IB_Zakaz_1.Open;
   DM_Mebeli.IB_Zakaz_0.Locate('id',id_zakaz,[]);
 end;//proc
 
@@ -686,6 +699,7 @@ begin
 
   db_servername:=mebeli_INI.ReadString('DATABASE', 'servername','localhost');
   db_images_path:=db_servername+':'+ExtractFilePath(db_path)+'mebeli_images.fdb';
+  L_Database.Caption:='    DB: '+UpperCase(ExtractFileName(db_path));
   db_path:=db_servername+':'+db_path;
 
   db_user:=mebeli_INI.ReadString('DATABASE', 'user','NONE');
@@ -734,13 +748,13 @@ begin
       Role_name:=Trim( UpperCase(IBQuery1.FieldByName('RDB$RELATION_NAME').AsString) );
       L_Role.Caption:='role: '+Role_name;
       L_user.Caption:='user: '+db_user;
-      L_Server.Caption:='server: '+UpperCase(db_servername);
+      L_Server.Caption:=  'server: '+UpperCase(db_servername);
 
       DB_Mebeli.Close;
       DB_Mebeli.Params.Add('sql_role_name='+Role_name);
       DB_Mebeli.Open;
       IB_Zakaz_0.Open;
-      IB_Zakaz_1.Open;
+      F_IB_Zakaz_1.Open;
       IB_Zakaz_0.Last;
       IB_Vidy_rabot.Open;
       IB_Vidy_rabot.Last;
@@ -771,13 +785,18 @@ end;//proc
 
 procedure TF_Main.N_PilomatClick(Sender: TObject);
 begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
   operation:='';
   F_Pilomat.ShowModal;
+  reopen_tables;
 end;//proc
 
 procedure TF_Main.N_FurnituraClick(Sender: TObject);
 begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  operation:='';
   F_Furnitura.ShowModal;
+  reopen_tables;
 end;//proc
 
 procedure TF_Main.N_Gotov_prodClick(Sender: TObject);
@@ -867,7 +886,7 @@ begin
   DM_Mebeli.DB_Mebeli.Open;
   F_Reports.ShowModal;
   DM_Mebeli.IB_Zakaz_0.Open;
-  DM_Mebeli.IB_Zakaz_1.Open;
+  F_IB_Zakaz_1.Open;
 end;//proc
 
 procedure TF_Main.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -885,7 +904,7 @@ end;
 procedure TF_Main.N_Zakazy_viewClick(Sender: TObject);
 begin
   DM_Mebeli.IB_Zakaz_0.Open;
-  DM_Mebeli.IB_Zakaz_1.Open;
+  F_IB_Zakaz_1.Open;
   DM_Mebeli.IB_Zakaz_0.Last;
 end;//proc
 
@@ -1005,12 +1024,37 @@ end;
 
 procedure TF_Main.N_Calculation_SebestClick(Sender: TObject);
 begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByname('id').AsInteger;
   F_Calc_sebestoimosti.ShowModal;
+  reopen_tables;
 end;
 
 procedure TF_Main.N_Ostatok_furnituraClick(Sender: TObject);
 begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByname('id').AsInteger;
   F_Ostatok_furnitura.ShowModal;
+  reopen_tables;
+end;
+
+procedure TF_Main.N_Ostatok_listyClick(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByname('id').AsInteger;
+  F_Ostatok_listy.ShowModal;
+  reopen_tables;
+end;
+
+procedure TF_Main.N_Ostatok_detaliClick(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByname('id').AsInteger;
+  F_Ostatok_detali.ShowModal;
+  reopen_tables;
+end;
+
+procedure TF_Main.N_PrihodClick(Sender: TObject);
+begin
+F_Pilomat.E_Grupa_Search.Text:='Отфильтровать группу';
+F_Pilomat.E_Listy_Search.Text:='Отфильтровать листы';
+F_Pilomat.E_Detali_Search.Text:='Отфильтровать детали';
 end;
 
 end.

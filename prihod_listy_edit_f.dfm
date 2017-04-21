@@ -1,11 +1,11 @@
 object F_Prihod_listy_edit: TF_Prihod_listy_edit
-  Left = 1
-  Top = 0
+  Left = 0
+  Top = 114
   ActiveControl = B_Exit
   AutoScroll = False
   Caption = #1053#1072#1082#1083#1072#1076#1085#1072#1103' - '#1087#1088#1080#1093#1086#1076' '#1083#1080#1089#1090#1086#1074#1099#1093' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074
-  ClientHeight = 516
-  ClientWidth = 782
+  ClientHeight = 702
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

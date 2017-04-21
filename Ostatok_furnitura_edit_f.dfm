@@ -1,5 +1,5 @@
 object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
-  Left = -4
+  Left = 0
   Top = 54
   AutoScroll = False
   Caption = #1054#1089#1090#1072#1090#1082#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074' '#1085#1072' '#1085#1072#1095#1072#1083#1086
@@ -43,13 +43,6 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
       Height = 18
       Caption = #8470' '#1076#1086#1082
     end
-    object Label2: TLabel
-      Left = 192
-      Top = 8
-      Width = 16
-      Height = 18
-      Caption = #1086#1090
-    end
     object Label3: TLabel
       Left = 396
       Top = 8
@@ -75,7 +68,7 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
       TabOrder = 0
     end
     object DBE_Date_p: TDBEdit
-      Left = 216
+      Left = 224
       Top = 4
       Width = 169
       Height = 26
@@ -124,6 +117,11 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
     OnEditButtonClick = DBGrid1EditButtonClick
     Columns = <
       item
+        Expanded = False
+        FieldName = 'ID_FURNITURA'
+        Visible = True
+      end
+      item
         ButtonStyle = cbsEllipsis
         Expanded = False
         FieldName = 'GRUPA_NAME'
@@ -151,6 +149,7 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
         Visible = True
       end
       item
+        Alignment = taCenter
         ButtonStyle = cbsNone
         Expanded = False
         FieldName = 'FURNITURA_EDIZM'

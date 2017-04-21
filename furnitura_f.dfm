@@ -1,11 +1,11 @@
 object F_Furnitura: TF_Furnitura
-  Left = 1
+  Left = 0
   Top = 0
-  Width = 1200
-  Height = 728
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1077
+  ClientHeight = 670
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -41,6 +41,7 @@ object F_Furnitura: TF_Furnitura
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
     OnDblClick = DBG_FurnituraDblClick
+    OnKeyUp = DBG_FurnituraKeyUp
     Columns = <
       item
         Expanded = False
@@ -104,7 +105,7 @@ object F_Furnitura: TF_Furnitura
       Left = 7
       Top = 11
       Width = 385
-      Height = 26
+      Height = 28
       TabStop = False
       TabOrder = 2
       Text = #1042#1077#1076#1080#1090#1077' '#1090#1077#1082#1089#1090' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072' '#1087#1086' '#1075#1088#1091#1087#1087#1077
@@ -116,8 +117,7 @@ object F_Furnitura: TF_Furnitura
       Left = 562
       Top = 11
       Width = 385
-      Height = 26
-      TabStop = False
+      Height = 28
       TabOrder = 3
       Text = #1042#1077#1076#1080#1090#1077' '#1090#1077#1082#1089#1090' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072' '#1084#1072#1090#1077#1088#1080#1072#1083#1072
       OnEnter = E_Furnitura_FilterEnter
@@ -130,6 +130,7 @@ object F_Furnitura: TF_Furnitura
     Top = 0
     Width = 497
     Height = 601
+    TabStop = False
     DataSource = DM_Mebeli.DS_Furnitura_grupa
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

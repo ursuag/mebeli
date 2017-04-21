@@ -574,6 +574,7 @@ begin
       IB_Akt_raspil_listy.Post;
     end;//IF =mrOk
   operation:=old_operation;
+  DBGR_LISTY.SelectedIndex:=3;
 end;//proc
 
 procedure TF_Akt_raspil_edit.DBGR_LISTYKeyPress(Sender: TObject;
@@ -595,6 +596,7 @@ begin
       IB_Akt_raspil_detali.Post;
     end;//IF =mrOk
   operation:=old_operation;
+  DBGR_Detali.SelectedIndex:=3;
 end;//proc
 
 procedure TF_Akt_raspil_edit.DBGR_DETALIKeyPress(Sender: TObject;
@@ -617,7 +619,7 @@ begin
   F_Zakaz_select.ShowModal;
   DM_Mebeli.IB_Akt_raspil.Edit;
   IF F_Zakaz_select.ModalResult=mrOk Then
-    DM_Mebeli.IB_Akt_raspil.FieldByName('ID_ZAKAZ').Value:=DM_Mebeli.IB_Zakaz_0.FieldByname('ID').AsInteger;
+    DM_Mebeli.IB_Akt_raspil.FieldByName('ID_ZAKAZ').Value:=id_zakaz;
 end;//proc
 
 procedure TF_Akt_raspil_edit.P_ShapkaExit(Sender: TObject);

@@ -126,6 +126,7 @@ object F_Ostatok_furnitura: TF_Ostatok_furnitura
         Visible = True
       end
       item
+        Alignment = taCenter
         Expanded = False
         FieldName = 'ED_IZM'
         Title.Alignment = taCenter
@@ -215,7 +216,14 @@ object F_Ostatok_furnitura: TF_Ostatok_furnitura
     end
     object N2: TMenuItem
       Caption = #1048#1084#1087#1086#1088#1090' '#1080#1079' '#1092#1072#1081#1083#1072
-      OnClick = N2Click
+      object N3: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1082#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1080' '#1089#1091#1084#1084#1072
+        OnClick = N3Click
+      end
+      object N5: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1094#1077#1085#1099
+        OnClick = N5Click
+      end
     end
   end
   object IB_Prihod_furnitura_1_F: TIBDataSet

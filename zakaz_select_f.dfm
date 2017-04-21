@@ -1,6 +1,6 @@
 object F_Zakaz_select: TF_Zakaz_select
-  Left = 241
-  Top = 52
+  Left = 231
+  Top = 72
   AutoSize = True
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
@@ -16,6 +16,7 @@ object F_Zakaz_select: TF_Zakaz_select
   OldCreateOrder = False
   Position = poDesktopCenter
   OnActivate = FormActivate
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 18
   object DBGrid1: TDBGrid
@@ -23,7 +24,7 @@ object F_Zakaz_select: TF_Zakaz_select
     Top = 0
     Width = 952
     Height = 217
-    DataSource = DM_Mebeli.DS_Zakaz_0
+    DataSource = DS_Zakaz_0
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -72,7 +73,7 @@ object F_Zakaz_select: TF_Zakaz_select
     Top = 224
     Width = 953
     Height = 401
-    DataSource = DM_Mebeli.DS_Zakaz_1
+    DataSource = DS_Zakaz_1
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -90,7 +91,7 @@ object F_Zakaz_select: TF_Zakaz_select
     Columns = <
       item
         Expanded = False
-        FieldName = 'ID_GOTOV_PROD'
+        FieldName = 'ARTICLE'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1044
         Visible = True
@@ -105,7 +106,7 @@ object F_Zakaz_select: TF_Zakaz_select
       end
       item
         Expanded = False
-        FieldName = 'GOTPROD_NAME'
+        FieldName = 'GOTOVPROD_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045' '#1048#1047#1044#1045#1051#1048#1071
         Width = 317
@@ -156,5 +157,98 @@ object F_Zakaz_select: TF_Zakaz_select
       TabOrder = 1
       OnClick = B_SelectClick
     end
+  end
+  object IB_Zakaz_0: TIBDataSet
+    Database = DM_Mebeli.DB_Mebeli
+    Transaction = DM_Mebeli.IBTransaction1
+    ForcedRefresh = True
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from zakaz_0'
+      'where'
+      '  ID = :OLD_ID')
+    InsertSQL.Strings = (
+      'insert into zakaz_0'
+      '  (ID, DATE_Z, ISCLOSED, PRIMECHANIE)'
+      'values'
+      '  (:ID, :DATE_Z, :ISCLOSED, :PRIMECHANIE)')
+    RefreshSQL.Strings = (
+      'Select *'
+      'from zakaz_0 '
+      'where'
+      '  ID = :ID')
+    SelectSQL.Strings = (
+      'select *  from zakaz_0'
+      'where id>0'
+      'order by date_z')
+    ModifySQL.Strings = (
+      'update zakaz_0'
+      'set'
+      '  ID = :ID,'
+      '  DATE_Z = :DATE_Z,'
+      '  ISCLOSED = :ISCLOSED,'
+      '  PRIMECHANIE = :PRIMECHANIE'
+      'where'
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    GeneratorField.Generator = 'GEN_ZAKAZ_0_ID'
+    Left = 320
+    Top = 72
+  end
+  object DS_Zakaz_0: TDataSource
+    DataSet = IB_Zakaz_0
+    Left = 416
+    Top = 72
+  end
+  object IB_Zakaz_1: TIBDataSet
+    Database = DM_Mebeli.DB_Mebeli
+    Transaction = DM_Mebeli.IBTransaction1
+    ForcedRefresh = True
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from zakaz_1'
+      'where'
+      '  ID_PARENT = :OLD_ID_PARENT and'
+      '  ID_GOTOV_PROD = :OLD_ID_GOTOV_PROD')
+    InsertSQL.Strings = (
+      'insert into zakaz_1'
+      '  (ID_PARENT, ID_GOTOV_PROD, KOL_VO, PRIORITET)'
+      'values'
+      '  (:ID_PARENT, :ID_GOTOV_PROD, :KOL_VO, :PRIORITET)')
+    RefreshSQL.Strings = (
+      'Select *'
+      'from zakaz_1 '
+      'where'
+      '  ID_PARENT = :ID_PARENT and'
+      '  ID_GOTOV_PROD = :ID_GOTOV_PROD')
+    SelectSQL.Strings = (
+      
+        'select gp0.article article , gpg.name grupa_name, gp0.name gotov' +
+        'prod_name, z1.kol_vo kol_vo, z1.prioritet prioritet'
+      'from zakaz_1 z1, gotov_prod_0 gp0, gotov_prod_grupa gpg'
+      
+        'where (z1.id_parent=:ID) and (gp0.id_grupa=gpg.id) and (z1.id_go' +
+        'tov_prod=gp0.id)'
+      'order by gpg.name, gp0.name')
+    ModifySQL.Strings = (
+      'update zakaz_1'
+      'set'
+      '  ID_PARENT = :ID_PARENT,'
+      '  ID_GOTOV_PROD = :ID_GOTOV_PROD,'
+      '  KOL_VO = :KOL_VO,'
+      '  PRIORITET = :PRIORITET'
+      'where'
+      '  ID_PARENT = :OLD_ID_PARENT and'
+      '  ID_GOTOV_PROD = :OLD_ID_GOTOV_PROD')
+    DataSource = DS_Zakaz_0
+    Left = 200
+    Top = 344
+  end
+  object DS_Zakaz_1: TDataSource
+    DataSet = IB_Zakaz_1
+    Left = 296
+    Top = 344
   end
 end

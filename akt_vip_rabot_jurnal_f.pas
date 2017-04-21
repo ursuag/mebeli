@@ -41,6 +41,8 @@ type
     IB_PodrobnoID_FURNITURA: TIntegerField;
     N2: TMenuItem;
     N_Change_Rashod_firnitura: TMenuItem;
+    IB_Akt_vip_rabot_1: TIBDataSet;
+    DS_Akt_vip_rabot_1: TDataSource;
     procedure FormActivate(Sender: TObject);
     procedure B_InsertClick(Sender: TObject);
     procedure B_EditClick(Sender: TObject);
@@ -79,12 +81,12 @@ begin
   With DM_Mebeli Do
     begin
       IB_Akt_vip_rabot_0.Close;
-      IB_Akt_vip_rabot_1.Close;
+      F_Akt_vip_rabot_jurnal.IB_Akt_vip_rabot_1.Close;
       F_Akt_vip_rabot_jurnal.IB_Rashod_furnitura_f.Close;
       F_Akt_vip_rabot_jurnal.IB_Podrobno.Close;
       IB_Akt_vip_rabot_0.ParamByName('date_start').Value:=DateToStr(period_start);
       IB_Akt_vip_rabot_0.Open;
-      IB_Akt_vip_rabot_1.Open;
+      F_Akt_vip_rabot_jurnal.IB_Akt_vip_rabot_1.Open;
       F_Akt_vip_rabot_jurnal.IB_Rashod_furnitura_f.Open;
       IF id_akt=0 Then
         IB_Akt_vip_rabot_0.Last

@@ -259,7 +259,9 @@ object F_Prihod_detali_jurnal: TF_Prihod_detali_jurnal
         ' N'#39'||pd0.id_akt_raspil) doc_osnov, (select name from contragenty' +
         '_1 where pd0.id_contragent=id) contragent'
       'from prihod_detali_0 pd0, sklad s'
-      'where (pd0.id_sklad=s.id) and (pd0.date_p>=:date_prih)'
+      
+        'where (pd0.id_sklad=s.id) and (pd0.date_p>=:date_prih) and (pd0.' +
+        'is_ostatok is null)'
       'order by pd0.date_p, pd0.id')
     Left = 784
     Top = 80

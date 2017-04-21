@@ -55,6 +55,7 @@ begin
      end;//IF 'INSERT'
   IF operation='EDIT' Then
      DM_Mebeli.IB_Zakaz_0.Edit;
+  DM_Mebeli.IB_Zakaz_1.Open;
 end;//proc
 
 procedure TF_Zakaz_edit.B_ExitClick(Sender: TObject);

@@ -1,5 +1,5 @@
 object F_Spisanie_jurnal: TF_Spisanie_jurnal
-  Left = 1
+  Left = 6
   Top = 1
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1072#1082#1090#1086#1074' '#1089#1087#1080#1089#1072#1085#1080#1103

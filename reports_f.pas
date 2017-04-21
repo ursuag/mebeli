@@ -166,7 +166,7 @@ type
         id_sotrudnik: integer;
          id_vidrabot: integer;
          id_category: integer;
-         id_zakaz: integer;
+         id_zakaz_report: integer;
             id_sklad: integer;
             id_listy: integer;
            id_detali: integer;
@@ -344,7 +344,7 @@ begin
   id_gotovprod:=-1;
   id_vidrabot:=-1;
   id_category:=-1;
-  id_zakaz:=-1;
+  id_zakaz_report:=-1;
   IF role_name='READONLY' Then
     begin
       PC_Report_select.ActivePage:=Report_Akt_vip_rab;
@@ -461,7 +461,7 @@ begin
       id_gotovprod:=-1;
       id_vidrabot:=-1;
       id_category:=-1;
-      id_zakaz:=-1;
+      id_zakaz_report:=-1;
     end;
   IF role_name='READONLY' Then
     begin
@@ -832,10 +832,10 @@ begin
     begin
       F_print_forms.IBQuery1.Close;
       F_print_forms.IBQuery1.SQL.Clear;
-      F_print_forms.IBQuery1.SQL.Add('select * from GET_ZAKAZ_RABOTA_KOLVO(:id_zakaz,:period_end) where ((zakaz_kolvo-prodaja_kolvo)<>0) and (zakaz>150) order by zakaz, gotovprod_name');
-      F_print_forms.IBQuery1.ParamByName('id_zakaz').Value:=null;
-      IF id_zakaz>-1 Then
-        F_print_forms.IBQuery1.ParamByName('id_zakaz').Value:=id_zakaz;
+      F_print_forms.IBQuery1.SQL.Add('select * from GET_ZAKAZ_RABOTA_KOLVO(:id_zakaz_report,:period_end) where ((zakaz_kolvo-prodaja_kolvo)<>0) order by zakaz, gotovprod_name');
+      F_print_forms.IBQuery1.ParamByName('id_zakaz_report').Value:=null;
+      IF id_zakaz_report>-1 Then
+        F_print_forms.IBQuery1.ParamByName('id_zakaz_report').Value:=id_zakaz_report;
       F_print_forms.IBQuery1.ParamByName('period_end').Value:=Period_End.DateTime;
       F_print_forms.IBQuery1.Open;
 
@@ -874,14 +874,14 @@ begin
       F_print_forms_2.IBQuery1.Close;
       F_print_forms_2.IBQuery1.SQL.Clear;
       F_print_forms_2.IBQuery1.SQL.Add('select * from GET_ZAKAZ_OSTALOSI_SDELATI (:period_end)');
-      IF (id_zakaz=-1) and (id_gotovprod=-1) Then
-        F_print_forms_2.IBQuery1.SQL.Add('where (prodaja_ostatok>0) and (zakaz>150) order by zakaz, gotovprod_name');
-      IF (id_zakaz=-1) and (id_gotovprod>0) Then
+      IF (id_zakaz_report=-1) and (id_gotovprod=-1) Then
+        F_print_forms_2.IBQuery1.SQL.Add('where (prodaja_ostatok>0) order by zakaz, gotovprod_name');
+      IF (id_zakaz_report=-1) and (id_gotovprod>0) Then
         F_print_forms_2.IBQuery1.SQL.Add('where (prodaja_ostatok>0) and (id_gotov_prod='+IntToStr(id_gotovprod)+') order by zakaz, gotovprod_name');
-      IF (id_zakaz>0) and (id_gotovprod=-1) Then
-        F_print_forms_2.IBQuery1.SQL.Add('where (prodaja_ostatok>0) and (zakaz='+IntToStr(id_zakaz)+') order by zakaz, gotovprod_name');
-      IF (id_zakaz>0) and (id_gotovprod>0) Then
-        F_print_forms_2.IBQuery1.SQL.Add('where (prodaja_ostatok>0) and (zakaz='+IntToStr(id_zakaz)+') and (id_gotovprod='+IntToStr(id_gotovprod)+') order by zakaz, gotovprod_name');
+      IF (id_zakaz_report>0) and (id_gotovprod=-1) Then
+        F_print_forms_2.IBQuery1.SQL.Add('where (prodaja_ostatok>0) and (zakaz='+IntToStr(id_zakaz_report)+') order by zakaz, gotovprod_name');
+      IF (id_zakaz_report>0) and (id_gotovprod>0) Then
+        F_print_forms_2.IBQuery1.SQL.Add('where (prodaja_ostatok>0) and (zakaz='+IntToStr(id_zakaz_report)+') and (id_gotovprod='+IntToStr(id_gotovprod)+') order by zakaz, gotovprod_name');
       F_print_forms_2.IBQuery1.ParamByName('period_end').Value:=Period_End.DateTime;
       F_print_forms_2.IBQuery1.Open;
 
@@ -967,15 +967,15 @@ end;
 procedure TF_Reports.SpeedButton2Click(Sender: TObject);
 begin
   E_AVR_Zakaz.Text:='';
-  id_zakaz:=-1;
+  id_zakaz_report:=-1;
 end;
 
 procedure TF_Reports.B_AVR_zakaz_selectClick(Sender: TObject);
 begin
   operation:='SELECT';
   F_Zakaz_select.ShowModal;
-  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
-  E_AVR_Zakaz.Text:=IntToStr(id_zakaz);
+  id_zakaz_report:=id_zakaz;
+  E_AVR_Zakaz.Text:=IntToStr(id_zakaz_report);
 end;//proc
 
 procedure TF_Reports.B_Select_ostatki_skladClick(Sender: TObject);

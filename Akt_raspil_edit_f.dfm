@@ -1,10 +1,10 @@
 object F_Akt_raspil_edit: TF_Akt_raspil_edit
   Left = 1
-  Top = 0
+  Top = 66
   AutoScroll = False
   Caption = #1040#1082#1090' '#1088#1072#1089#1087#1080#1083#1072
-  ClientHeight = 516
-  ClientWidth = 782
+  ClientHeight = 702
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
   Font.Color = clWindowText

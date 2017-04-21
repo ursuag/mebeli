@@ -1,6 +1,6 @@
 object F_Prihod_detali_edit: TF_Prihod_detali_edit
-  Left = 47
-  Top = 146
+  Left = -9
+  Top = 59
   BorderStyle = bsSingle
   Caption = #1055#1086#1089#1090#1091#1087#1083#1077#1085#1080#1077' '#1076#1077#1090#1072#1083#1077#1081
   ClientHeight = 690
@@ -176,6 +176,7 @@ object F_Prihod_detali_edit: TF_Prihod_detali_edit
     TitleFont.Style = [fsBold]
     OnEditButtonClick = DBGrid1EditButtonClick
     OnEnter = DBGrid1Enter
+    OnKeyPress = DBGrid1KeyPress
     Columns = <
       item
         ButtonStyle = cbsEllipsis
