@@ -44,6 +44,7 @@ type
     IB_Prihod_furnitura_1GRUPA_NAME: TStringField;
     IB_Prihod_furnitura_1FURNITURA_NAME: TStringField;
     IB_Prihod_furnitura_1FURNITURA_EDIZM: TStringField;
+    IB_Prihod_furnitura_1PRICE: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure IB_Prihod_furnitura_1NewRecord(DataSet: TDataSet);
@@ -113,6 +114,8 @@ begin
   IB_Prihod_furnitura_1.FieldByName('furnitura_edizm').Value:=ib_tmp.FieldByname('ed_izm').AsString;
   ib_tmp.Close;
   ib_tmp.Free;
+  if IB_Prihod_furnitura_1.FieldByName('KOL_VO').AsFloat>0 then
+    IB_Prihod_furnitura_1.FieldByName('PRICE').Value:=IB_Prihod_furnitura_1.FieldByName('SUMMA').AsFloat/IB_Prihod_furnitura_1.FieldByName('KOL_VO').AsFloat;
 end;//proc
 
 procedure TF_Ostatok_furnitura_edit.B_OkClick(Sender: TObject);

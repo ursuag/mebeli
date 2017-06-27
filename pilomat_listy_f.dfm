@@ -1,6 +1,6 @@
 object F_Pilomat_listy: TF_Pilomat_listy
-  Left = 106
-  Top = 241
+  Left = 64
+  Top = 356
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083' '#1083#1080#1089#1090#1086#1074#1086#1081
@@ -231,7 +231,7 @@ object F_Pilomat_listy: TF_Pilomat_listy
       LookupKeyFields = 'ID'
       LookupResultField = 'NAME'
       KeyFields = 'ID_GRUPA'
-      Size = 60
+      Size = 100
       Lookup = True
     end
     object IB_Pilomat_listyRAZMER_X: TIntegerField
@@ -248,7 +248,7 @@ object F_Pilomat_listy: TF_Pilomat_listy
       FieldName = 'NAME'
       Origin = 'PILOMAT_LISTY.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Pilomat_listyAREA: TIntegerField
       FieldName = 'AREA'
@@ -276,9 +276,9 @@ object F_Pilomat_listy: TF_Pilomat_listy
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into pilomat_grupa'
-      '  (ID, NAME, ARTICLE)'
+      '  (ID, NAME, ARTICLE, MANUFACTURER_CODE)'
       'values'
-      '  (:ID, :NAME, :ARTICLE)')
+      '  (:ID, :NAME, :ARTICLE, :MANUFACTURER_CODE)')
     RefreshSQL.Strings = (
       'Select *'
       'from pilomat_grupa '
@@ -292,7 +292,8 @@ object F_Pilomat_listy: TF_Pilomat_listy
       'set'
       '  ID = :ID,'
       '  NAME = :NAME,'
-      '  ARTICLE = :ARTICLE'
+      '  ARTICLE = :ARTICLE,'
+      '  MANUFACTURER_CODE = :MANUFACTURER_CODE'
       'where'
       '  ID = :OLD_ID')
     Left = 680

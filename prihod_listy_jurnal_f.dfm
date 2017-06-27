@@ -1,6 +1,6 @@
 object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
-  Left = 2
-  Top = 68
+  Left = 3
+  Top = 91
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1087#1088#1080#1093#1086#1076#1072' '#1083#1080#1089#1090#1086#1074#1099#1093' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074
   ClientHeight = 682
@@ -76,7 +76,23 @@ object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
         FieldName = 'SUMMA'
         Title.Alignment = taCenter
         Title.Caption = #1057#1059#1052#1052#1040
-        Width = 194
+        Width = 144
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE_UNIT'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072' '#1096#1090
+        Width = 88
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE_M2'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072' '#1084'2'
+        Width = 84
         Visible = True
       end>
   end
@@ -227,6 +243,10 @@ object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
     Transaction = DM_Mebeli.IBTransaction1
     BufferChunks = 1000
     CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from contragenty_1'
+      'where'
+      '  ID = :OLD_ID')
     SelectSQL.Strings = (
       
         'select pl0.id as id, pl0.date_p as date_p, pl0.primechanie as pr' +
@@ -241,10 +261,56 @@ object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
         'where (date_p >=:date_start) and (pl0.id_sklad=s.id) and (pl0.is' +
         '_ostatok is null)'
       'order by date_p, id')
-    ModifySQL.Strings = (
-      '')
     Left = 32
     Top = 56
+    object F_IB_Prihod_listy_0ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'PRIHOD_LISTY_0.ID'
+      Required = True
+    end
+    object F_IB_Prihod_listy_0DATE_P: TDateField
+      FieldName = 'DATE_P'
+      Origin = 'PRIHOD_LISTY_0.DATE_P'
+      Required = True
+    end
+    object F_IB_Prihod_listy_0PRIMECHANIE: TIBStringField
+      FieldName = 'PRIMECHANIE'
+      Origin = 'PRIHOD_LISTY_0.PRIMECHANIE'
+      Size = 255
+    end
+    object F_IB_Prihod_listy_0SKLAD_NAME: TIBStringField
+      FieldName = 'SKLAD_NAME'
+      Origin = 'SKLAD.NAME'
+      Required = True
+      Size = 30
+    end
+    object F_IB_Prihod_listy_0ID_AKT_RASPIL: TIntegerField
+      FieldName = 'ID_AKT_RASPIL'
+      Origin = 'PRIHOD_LISTY_0.ID_AKT_RASPIL'
+    end
+    object F_IB_Prihod_listy_0CONTRAGENT_NAME: TIBStringField
+      FieldName = 'CONTRAGENT_NAME'
+      Size = 50
+    end
+    object F_IB_Prihod_listy_0NOMER_TTN: TIBStringField
+      FieldName = 'NOMER_TTN'
+      Origin = 'PRIHOD_LISTY_0.NOMER_TTN'
+      Size = 50
+    end
+    object F_IB_Prihod_listy_0SUMMA: TIBBCDField
+      FieldName = 'SUMMA'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object F_IB_Prihod_listy_0IS_OSTATOK: TSmallintField
+      FieldName = 'IS_OSTATOK'
+      Origin = 'PRIHOD_LISTY_0.IS_OSTATOK'
+    end
+    object F_IB_Prihod_listy_0ID_REVIZIA: TIntegerField
+      FieldName = 'ID_REVIZIA'
+      Origin = 'PRIHOD_LISTY_0.ID_REVIZIA'
+    end
   end
   object F_DS_Prihod_listy_1: TDataSource
     AutoEdit = False
@@ -260,7 +326,10 @@ object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
     SelectSQL.Strings = (
       
         'select pl1.id id, pl.id id_listy, pl.name as listy_name, pg.name' +
-        ' as grupa_name, pl1.kol_vo as kol_vo, pl1.summa summa'
+        ' as grupa_name, pl1.kol_vo as kol_vo, pl1.summa summa, pl1.summa' +
+        '/pl1.kol_vo price_unit, '
+      'pl1.summa/pl1.kol_vo/(pl.area/1000000.000) price_m2'
+      ''
       'from prihod_listy_1 pl1, pilomat_grupa pg, pilomat_listy pl'
       
         'where (pl1.id_parent=:ID) and (pl1.id_listy=pl.id) and (pl.id_gr' +
@@ -302,6 +371,16 @@ object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
       DisplayFormat = '### ##0.00'
       Precision = 18
       Size = 2
+    end
+    object F_IB_Prihod_listy_1PRICE_UNIT: TIBBCDField
+      FieldName = 'PRICE_UNIT'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object F_IB_Prihod_listy_1PRICE_M2: TFloatField
+      FieldName = 'PRICE_M2'
+      DisplayFormat = '### ##0.00'
     end
   end
 end

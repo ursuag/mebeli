@@ -82,8 +82,6 @@ begin
        DM_Mebeli.IB_prihod_detali_0.FieldByName('DATE_P').Value:=Date;
        DM_Mebeli.IB_prihod_detali_0.FieldByName('ID_SKLAD').Value:=sklad_detali;
        DM_Mebeli.IB_prihod_detali_0.FieldByName('ID_VID_RABOT').Value:=1;
-       DM_Mebeli.IB_prihod_detali_0.FieldByName('IS_OSTATOK').Value:=null;
-       DM_Mebeli.IB_prihod_detali_0.FieldByName('ID_REVIZIA').Value:=null;
        DM_Mebeli.IB_prihod_detali_0.Post;
      end;//IF 'INSERT'
   DM_Mebeli.IB_prihod_detali_0.Edit;

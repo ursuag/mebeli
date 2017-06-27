@@ -114,7 +114,7 @@ object F_Ostatok_furnitura: TF_Ostatok_furnitura
         FieldName = 'FURNITURA_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045
-        Width = 323
+        Width = 267
         Visible = True
       end
       item
@@ -140,6 +140,14 @@ object F_Ostatok_furnitura: TF_Ostatok_furnitura
         Title.Alignment = taCenter
         Title.Caption = #1057#1059#1052#1052#1040
         Width = 148
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072
+        Width = 95
         Visible = True
       end>
   end
@@ -234,7 +242,8 @@ object F_Ostatok_furnitura: TF_Ostatok_furnitura
     SelectSQL.Strings = (
       
         'select fg.name grupa_name, f.name furnitura_name, prf1.id_furnit' +
-        'ura, prf1.kol_vo, f.ed_izm, prf1.summa summa'
+        'ura, prf1.kol_vo, f.ed_izm, prf1.summa summa, cast(prf1.summa/pr' +
+        'f1.kol_vo as numeric(15,2)) price'
       'from furnitura_grupa fg, furnitura f, prihod_furnitura_1 prf1'
       
         'where (fg.id=f.id_parent ) and (prf1.id_furnitura=f.id) and (prf' +
@@ -276,6 +285,12 @@ object F_Ostatok_furnitura: TF_Ostatok_furnitura
     object IB_Prihod_furnitura_1_FSUMMA: TIBBCDField
       FieldName = 'SUMMA'
       Origin = 'PRIHOD_FURNITURA_1.SUMMA'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object IB_Prihod_furnitura_1_FPRICE: TIBBCDField
+      FieldName = 'PRICE'
       DisplayFormat = '### ##0.00'
       Precision = 18
       Size = 2

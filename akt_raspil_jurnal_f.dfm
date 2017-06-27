@@ -1,10 +1,10 @@
 object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
-  Left = 27
-  Top = 99
+  Left = 0
+  Top = 84
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1072#1082#1090#1086#1074' '#1088#1072#1089#1087#1080#1083#1072
-  ClientHeight = 740
-  ClientWidth = 1200
+  ClientHeight = 688
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -121,7 +121,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
   object DBG_Listy: TDBGrid
     Left = 456
     Top = 0
-    Width = 713
+    Width = 881
     Height = 225
     TabStop = False
     DataSource = DS_Akt_raspil_listy
@@ -142,10 +142,18 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
     Columns = <
       item
         Expanded = False
+        FieldName = 'ID_LISTY'
+        Title.Alignment = taCenter
+        Title.Caption = #1050#1086#1076
+        Width = 86
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'GRUPA_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1043#1056#1059#1055#1055#1040
-        Width = 205
+        Width = 288
         Visible = True
       end
       item
@@ -153,7 +161,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
         FieldName = 'LISTY_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1051#1048#1057#1058#1067
-        Width = 386
+        Width = 379
         Visible = True
       end
       item
@@ -161,14 +169,14 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
         FieldName = 'KOL_VO'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1051'-'#1042#1054
-        Width = 74
+        Width = 83
         Visible = True
       end>
   end
   object DBGrid3: TDBGrid
     Left = 456
     Top = 234
-    Width = 713
+    Width = 881
     Height = 287
     TabStop = False
     DataSource = DS_Akt_raspil_detali
@@ -190,6 +198,8 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       item
         Expanded = False
         FieldName = 'DETALI_ID'
+        Title.Alignment = taCenter
+        Title.Caption = #1050#1086#1076
         Visible = True
       end
       item
@@ -197,7 +207,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
         FieldName = 'GRUPA_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1043#1056#1059#1055#1055#1040
-        Width = 259
+        Width = 310
         Visible = True
       end
       item
@@ -205,7 +215,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
         FieldName = 'DETALI_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1044#1045#1058#1040#1051#1048
-        Width = 281
+        Width = 363
         Visible = True
       end
       item
@@ -213,20 +223,20 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
         FieldName = 'KOL_VO'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1051'-'#1042#1054
-        Width = 77
+        Width = 70
         Visible = True
       end>
   end
   object Panel1: TPanel
     Left = 0
     Top = 620
-    Width = 1177
+    Width = 1337
     Height = 57
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 3
     object B_Exit: TButton
-      Left = 1072
+      Left = 1216
       Top = 12
       Width = 97
       Height = 33
@@ -280,7 +290,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
     Left = 456
     Top = 520
     Width = 713
-    Height = 97
+    Height = 89
     TabStop = False
     DataSource = DM_Mebeli.DS_Akt_raspil_ostatok
     Font.Charset = DEFAULT_CHARSET
@@ -333,16 +343,16 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
   object P_Podrobno: TPanel
     Left = 456
     Top = 2
-    Width = 713
+    Width = 881
     Height = 615
     BevelInner = bvLowered
     BevelOuter = bvSpace
     TabOrder = 5
     Visible = False
     object DBG_Listy_price: TDBGrid
-      Left = 8
+      Left = 3
       Top = 8
-      Width = 697
+      Width = 870
       Height = 209
       TabStop = False
       DataSource = DS_Akt_raspil_listy_Price
@@ -391,10 +401,32 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
           Title.Caption = #1057#1091#1084#1084#1072
           Width = 88
           Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRICE_UNIT'
+          Title.Alignment = taCenter
+          Title.Caption = #1062#1077#1085#1072' '#1096#1090
+          Width = 72
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRICE_M2'
+          Title.Alignment = taCenter
+          Title.Caption = #1062#1077#1085#1072' '#1084'2'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ID_LIST'
+          Title.Alignment = taCenter
+          Title.Caption = #1050#1054#1044
+          Visible = True
         end>
     end
     object B_Podrobno_close: TButton
-      Left = 608
+      Left = 776
       Top = 577
       Width = 97
       Height = 33
@@ -406,8 +438,8 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
     object DBGrid2: TDBGrid
       Left = 8
       Top = 224
-      Width = 697
-      Height = 209
+      Width = 865
+      Height = 249
       TabStop = False
       DataSource = DS_Akt_raspil_detaly_price
       Font.Charset = RUSSIAN_CHARSET
@@ -455,13 +487,27 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
           Title.Caption = #1057#1091#1084#1084#1072
           Width = 109
           Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRICE_M2'
+          Title.Alignment = taCenter
+          Title.Caption = #1062#1077#1085#1072' '#1084'2'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ID_DETALI'
+          Title.Alignment = taCenter
+          Title.Caption = #1050#1086#1076
+          Visible = True
         end>
     end
     object DBGrid5: TDBGrid
       Left = 8
-      Top = 438
-      Width = 713
-      Height = 97
+      Top = 478
+      Width = 865
+      Height = 91
       TabStop = False
       DataSource = DS_Akt_raspil_ostatok_price
       Font.Charset = DEFAULT_CHARSET
@@ -502,6 +548,20 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
           Title.Caption = #1057#1091#1084#1084#1072
           Width = 100
           Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRICE_M2'
+          Title.Alignment = taCenter
+          Title.Caption = #1062#1077#1085#1072' '#1084'2'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ID_LISTY'
+          Title.Alignment = taCenter
+          Title.Caption = #1050#1086#1076
+          Visible = True
         end>
     end
   end
@@ -531,9 +591,9 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       '  ID = :ID')
     SelectSQL.Strings = (
       
-        'select g.name as grupa_name, l.name as listy_name, arl.kol_vo fr' +
-        'om AKT_RASPIL_listy as arl, pilomat_grupa as g, pilomat_listy as' +
-        ' l'
+        'select l.id id_listy, g.name as grupa_name, l.name as listy_name' +
+        ', arl.kol_vo from AKT_RASPIL_listy as arl, pilomat_grupa as g, p' +
+        'ilomat_listy as l'
       
         'where (arl.id_pilomat_listy=l.id) and (l.id_grupa=g.id) and (arl' +
         '.id_parent=:ID)'
@@ -552,6 +612,27 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
     DataSource = DM_Mebeli.DS_Akt_raspil
     Left = 288
     Top = 48
+    object IB_Akt_raspil_listyID_LISTY: TIntegerField
+      FieldName = 'ID_LISTY'
+      Origin = 'PILOMAT_LISTY.ID'
+      Required = True
+    end
+    object IB_Akt_raspil_listyGRUPA_NAME: TIBStringField
+      FieldName = 'GRUPA_NAME'
+      Origin = 'PILOMAT_GRUPA.NAME'
+      Required = True
+      Size = 60
+    end
+    object IB_Akt_raspil_listyLISTY_NAME: TIBStringField
+      FieldName = 'LISTY_NAME'
+      Origin = 'PILOMAT_LISTY.NAME'
+      Required = True
+      Size = 50
+    end
+    object IB_Akt_raspil_listyKOL_VO: TIntegerField
+      FieldName = 'KOL_VO'
+      Origin = 'AKT_RASPIL_LISTY.KOL_VO'
+    end
   end
   object DS_Akt_raspil_listy: TDataSource
     AutoEdit = False
@@ -651,14 +732,16 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       '  ID = :ID')
     SelectSQL.Strings = (
       
-        'select g.name as grupa_name, l.name as listy_name, arl.kol_vo, a' +
-        'rl.summa'
+        'select l.id id_list, g.name as grupa_name, l.name as listy_name,' +
+        ' arl.kol_vo kol_vo, arl.summa summa, arl.summa/arl.kol_vo price_' +
+        'unit, arl.summa/arl.kol_vo/(l.area/1000000.000) price_m2'
       
         'from AKT_RASPIL_listy_price as arl, pilomat_grupa as g, pilomat_' +
         'listy as l'
       
-        'where (arl.id_pilomat_listy=l.id) and (l.id_grupa=g.id) and (arl' +
-        '.id_parent=:ID)'
+        'where (arl.id_pilomat_listy=l.id) and (l.id_grupa=g.id) and ((se' +
+        'lect id_parent from akt_raspil_listy where id=arl.id_parent)=:ID' +
+        ')'
       'order by l.name')
     ModifySQL.Strings = (
       'update AKT_RASPIL_listy'
@@ -692,9 +775,24 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
     object IB_Akt_raspil_listy_priceSUMMA: TIBBCDField
       FieldName = 'SUMMA'
       Origin = 'AKT_RASPIL_LISTY_PRICE.SUMMA'
-      DisplayFormat = '0.000'
+      DisplayFormat = '### ##0.00'
       Precision = 18
       Size = 3
+    end
+    object IB_Akt_raspil_listy_priceID_LIST: TIntegerField
+      FieldName = 'ID_LIST'
+      Origin = 'PILOMAT_LISTY.ID'
+      Required = True
+    end
+    object IB_Akt_raspil_listy_pricePRICE_UNIT: TIBBCDField
+      FieldName = 'PRICE_UNIT'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 3
+    end
+    object IB_Akt_raspil_listy_pricePRICE_M2: TFloatField
+      FieldName = 'PRICE_M2'
+      DisplayFormat = '### ##0.00'
     end
   end
   object DS_Akt_raspil_listy_Price: TDataSource
@@ -729,8 +827,9 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       '  ID = :ID')
     SelectSQL.Strings = (
       
-        'select g.name as grupa_name, d.name as detaly_name, prihd1.kol_v' +
-        'o, prihd1.summa'
+        'select d.id id_detali, g.name as grupa_name, d.name as detaly_na' +
+        'me, prihd1.kol_vo, prihd1.summa, prihd1.summa/prihd1.kol_vo/(d.a' +
+        'rea/1000000.000) price_m2'
       
         'from pilomat_grupa as g, pilomat_detali as d, prihod_detali_1 pr' +
         'ihd1, prihod_detali_0 prihd0'
@@ -748,8 +847,8 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       'where'
       '  ID = :OLD_ID')
     DataSource = DM_Mebeli.DS_Akt_raspil
-    Left = 984
-    Top = 112
+    Left = 1056
+    Top = 320
     object IB_Akt_raspil_detali_priceGRUPA_NAME: TIBStringField
       FieldName = 'GRUPA_NAME'
       Origin = 'PILOMAT_GRUPA.NAME'
@@ -770,16 +869,25 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
     object IB_Akt_raspil_detali_priceSUMMA: TIBBCDField
       FieldName = 'SUMMA'
       Origin = 'PRIHOD_DETALI_1.SUMMA'
-      DisplayFormat = '0.000'
+      DisplayFormat = '### ##0.00'
       Precision = 18
       Size = 3
+    end
+    object IB_Akt_raspil_detali_priceID_DETALI: TIntegerField
+      FieldName = 'ID_DETALI'
+      Origin = 'PILOMAT_DETALI.ID'
+      Required = True
+    end
+    object IB_Akt_raspil_detali_pricePRICE_M2: TFloatField
+      FieldName = 'PRICE_M2'
+      DisplayFormat = '### ##0.00'
     end
   end
   object DS_Akt_raspil_detaly_price: TDataSource
     AutoEdit = False
     DataSet = IB_Akt_raspil_detali_price
-    Left = 1024
-    Top = 112
+    Left = 1096
+    Top = 320
   end
   object IB_Akt_raspil_ostatok_price: TIBDataSet
     Database = DM_Mebeli.DB_Mebeli
@@ -807,8 +915,9 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       '  ID = :ID')
     SelectSQL.Strings = (
       
-        'select g.name as grupa_name, l.name as listy_name, prl1.kol_vo, ' +
-        'prl1.summa'
+        'select l.id id_listy, g.name as grupa_name, l.name as listy_name' +
+        ', prl1.kol_vo, prl1.summa, prl1.summa/prl1.kol_vo/(l.area/100000' +
+        '0.000) price_m2'
       
         'from pilomat_grupa as g, pilomat_listy as l, prihod_listy_0 prl0' +
         ', prihod_listy_1 prl1, akt_raspil_ostatok arlost'
@@ -829,8 +938,8 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       'where'
       '  ID = :OLD_ID')
     DataSource = DM_Mebeli.DS_Akt_raspil
-    Left = 984
-    Top = 152
+    Left = 952
+    Top = 496
     object IB_Akt_raspil_ostatok_priceGRUPA_NAME: TIBStringField
       FieldName = 'GRUPA_NAME'
       Origin = 'PILOMAT_GRUPA.NAME'
@@ -851,15 +960,24 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
     object IB_Akt_raspil_ostatok_priceSUMMA: TIBBCDField
       FieldName = 'SUMMA'
       Origin = 'PRIHOD_LISTY_1.SUMMA'
-      DisplayFormat = '0.000'
+      DisplayFormat = '### ##0.00'
       Precision = 18
       Size = 2
+    end
+    object IB_Akt_raspil_ostatok_priceID_LISTY: TIntegerField
+      FieldName = 'ID_LISTY'
+      Origin = 'PILOMAT_LISTY.ID'
+      Required = True
+    end
+    object IB_Akt_raspil_ostatok_pricePRICE_M2: TFloatField
+      FieldName = 'PRICE_M2'
+      DisplayFormat = '### ##0.00'
     end
   end
   object DS_Akt_raspil_ostatok_price: TDataSource
     AutoEdit = False
     DataSet = IB_Akt_raspil_ostatok_price
-    Left = 1024
-    Top = 152
+    Left = 992
+    Top = 496
   end
 end

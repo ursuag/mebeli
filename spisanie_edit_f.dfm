@@ -1,9 +1,9 @@
 object F_Spisanie_edit: TF_Spisanie_edit
   Left = 0
-  Top = 62
+  Top = 0
   AutoScroll = False
   Caption = #1040#1082#1090' '#1089#1087#1080#1089#1072#1085#1080#1103
-  ClientHeight = 702
+  ClientHeight = 690
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

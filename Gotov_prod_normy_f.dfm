@@ -1,6 +1,6 @@
 object F_Gotov_prod_normy: TF_Gotov_prod_normy
   Left = 0
-  Top = 75
+  Top = 85
   AutoScroll = False
   Caption = #1053#1086#1088#1084#1099' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
   ClientHeight = 682

@@ -8,27 +8,28 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
   Font.Color = clWindowText
-  Font.Height = -15
+  Font.Height = -16
   Font.Name = 'Arial'
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
+  Scaled = False
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 17
+  TextHeight = 18
   object DBGrid1: TDBGrid
     Left = 0
     Top = 0
-    Width = 1177
-    Height = 233
+    Width = 1169
+    Height = 281
     DataSource = DS_Prodaja_0
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -16
+    Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
@@ -75,14 +76,14 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
   end
   object DBGrid2: TDBGrid
     Left = 0
-    Top = 238
-    Width = 1177
-    Height = 371
+    Top = 284
+    Width = 1169
+    Height = 333
     DataSource = DS_Prodaja_1
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -16
+    Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
@@ -128,18 +129,18 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
       end>
   end
   object Panel1: TPanel
-    Left = 0
-    Top = 622
-    Width = 1169
-    Height = 43
+    Left = 8
+    Top = 624
+    Width = 1161
+    Height = 48
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 2
     object B_Exit: TButton
-      Left = 1083
-      Top = 9
-      Width = 74
-      Height = 25
+      Left = 1040
+      Top = 8
+      Width = 108
+      Height = 33
       Cancel = True
       Caption = #1047#1072#1082#1088#1099#1090#1100
       ModalResult = 2
@@ -147,29 +148,29 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
       OnClick = B_ExitClick
     end
     object B_Insert: TButton
-      Left = 6
-      Top = 9
-      Width = 74
-      Height = 25
+      Left = 4
+      Top = 7
+      Width = 108
+      Height = 33
       Hint = #1042#1089#1090#1072#1074#1083#1103#1077#1090' '#1101#1090#1072#1087' '#1087#1086#1089#1083#1077' '#1090#1077#1082#1091#1097#1077#1075#1086
       Caption = #1053#1086#1074#1099#1081
       TabOrder = 1
       OnClick = B_InsertClick
     end
     object B_Edit: TButton
-      Left = 110
-      Top = 9
-      Width = 74
-      Height = 25
+      Left = 127
+      Top = 7
+      Width = 108
+      Height = 33
       Caption = #1048#1079#1084#1077#1085#1080#1090#1100
       TabOrder = 2
       OnClick = B_EditClick
     end
     object B_Delete: TButton
-      Left = 197
-      Top = 9
-      Width = 74
-      Height = 25
+      Left = 258
+      Top = 7
+      Width = 108
+      Height = 33
       Caption = #1059#1076#1072#1083#1080#1090#1100
       TabOrder = 3
       OnClick = B_DeleteClick

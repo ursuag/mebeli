@@ -42,7 +42,7 @@ having sum((select coalesce(LIST_OSTATOK,0) from OSTATOK_LIST(l.id,1,:period_end
 
 union all
 
-select g.id id_grupa, g.name name_tovae, sum((select coalesce(LIST_OSTATOK,0) from OSTATOK_LIST(l.id,2,:period_end))*l.area/1000000.000) as kol_vo
+select g.id id_grupa, g.name name_tovar, sum((select coalesce(LIST_OSTATOK,0) from OSTATOK_LIST(l.id,2,:period_end))*l.area/1000000.000) as kol_vo
 from pilomat_grupa g, pilomat_listy l
 where (g.id=l.id_grupa)
 group by 1,2

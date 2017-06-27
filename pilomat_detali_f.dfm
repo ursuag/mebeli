@@ -227,7 +227,7 @@ object F_Pilomat_detali: TF_Pilomat_detali
       FieldName = 'NAME'
       Origin = '"PILOMAT_DETALI"."NAME"'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IBPilomat_detaliAREA: TIntegerField
       FieldName = 'AREA'
@@ -246,7 +246,7 @@ object F_Pilomat_detali: TF_Pilomat_detali
       LookupKeyFields = 'ID'
       LookupResultField = 'NAME'
       KeyFields = 'ID_GRUPA'
-      Size = 60
+      Size = 100
       Lookup = True
     end
   end
@@ -261,9 +261,9 @@ object F_Pilomat_detali: TF_Pilomat_detali
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into pilomat_grupa'
-      '  (ID, NAME, ARTICLE)'
+      '  (ID, NAME, ARTICLE, MANUFACTURER_CODE)'
       'values'
-      '  (:ID, :NAME, :ARTICLE)')
+      '  (:ID, :NAME, :ARTICLE, :MANUFACTURER_CODE)')
     RefreshSQL.Strings = (
       'Select *'
       'from pilomat_grupa '
@@ -277,7 +277,8 @@ object F_Pilomat_detali: TF_Pilomat_detali
       'set'
       '  ID = :ID,'
       '  NAME = :NAME,'
-      '  ARTICLE = :ARTICLE'
+      '  ARTICLE = :ARTICLE,'
+      '  MANUFACTURER_CODE = :MANUFACTURER_CODE'
       'where'
       '  ID = :OLD_ID')
     Left = 792

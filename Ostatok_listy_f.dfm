@@ -1,6 +1,6 @@
 object F_Ostatok_listy: TF_Ostatok_listy
   Left = 0
-  Top = 108
+  Top = 120
   AutoScroll = False
   Caption = #1054#1089#1090#1072#1090#1082#1080' '#1083#1080#1089#1090#1086#1074' '#1085#1072' '#1085#1072#1095#1072#1083#1086' '#1087#1077#1088#1080#1086#1076#1072
   ClientHeight = 682
@@ -125,7 +125,7 @@ object F_Ostatok_listy: TF_Ostatok_listy
         FieldName = 'LISTY_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045' '#1051#1048#1057#1058#1054#1042
-        Width = 273
+        Width = 264
         Visible = True
       end
       item
@@ -133,7 +133,7 @@ object F_Ostatok_listy: TF_Ostatok_listy
         FieldName = 'KOL_VO'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1051'-'#1042#1054
-        Width = 124
+        Width = 109
         Visible = True
       end
       item
@@ -142,6 +142,22 @@ object F_Ostatok_listy: TF_Ostatok_listy
         Title.Alignment = taCenter
         Title.Caption = #1057#1059#1052#1052#1040
         Width = 194
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072' '#1096#1090
+        Width = 112
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE_M2'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072' '#1084'2'
+        Width = 77
         Visible = True
       end>
   end
@@ -248,7 +264,9 @@ object F_Ostatok_listy: TF_Ostatok_listy
     SelectSQL.Strings = (
       
         'select pl1.id id, pl.id id_listy, pl.name as listy_name, pg.name' +
-        ' as grupa_name, pl1.kol_vo as kol_vo, pl1.summa summa'
+        ' as grupa_name, pl1.kol_vo as kol_vo, pl1.summa summa, cast(pl1.' +
+        'summa/pl1.kol_vo as numeric(15,2)) price, cast(pl1.summa/(pl1.ko' +
+        'l_vo*pl.area/1000000.000) as numeric(15,2)) price_m2'
       'from prihod_listy_1 pl1, pilomat_grupa pg, pilomat_listy pl'
       
         'where (pl1.id_parent=:ID) and (pl1.id_listy=pl.id) and (pl.id_gr' +
@@ -287,6 +305,18 @@ object F_Ostatok_listy: TF_Ostatok_listy
     object F_IB_Prihod_listy_1SUMMA: TIBBCDField
       FieldName = 'SUMMA'
       Origin = 'PRIHOD_LISTY_1.SUMMA'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object F_IB_Prihod_listy_1PRICE: TIBBCDField
+      FieldName = 'PRICE'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object F_IB_Prihod_listy_1PRICE_M2: TIBBCDField
+      FieldName = 'PRICE_M2'
       DisplayFormat = '### ##0.00'
       Precision = 18
       Size = 2

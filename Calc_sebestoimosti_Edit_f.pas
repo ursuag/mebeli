@@ -100,7 +100,7 @@ begin
   ib_tmp.open;
   IB_Calc_sebest_1.FieldByName('GRUPA_NAME').Value:=ib_tmp.FieldByName('grupa_name').AsString;
   IB_Calc_sebest_1.FieldByName('GOTOVPROD_NAME').Value:=ib_tmp.FieldByName('gotovprod_name').AsString;
-  IB_Calc_sebest_1.FieldByName('ARTICLE').Value:=ib_tmp.FieldByName('article').AsString;
+  IB_Calc_sebest_1.FieldByName('ARTICLE').Value:=ib_tmp.FieldByName('article').AsInteger;
   ib_tmp.close;
   ib_tmp.Free;
 end;//proc

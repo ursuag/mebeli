@@ -4,7 +4,7 @@ object F_pilomat_grupa: TF_pilomat_grupa
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1043#1088#1091#1087#1087#1099' '#1087#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074
-  ClientHeight = 374
+  ClientHeight = 434
   ClientWidth = 664
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -33,14 +33,21 @@ object F_pilomat_grupa: TF_pilomat_grupa
     Height = 18
     Caption = #1040#1088#1090#1080#1082#1091#1083
   end
+  object Label3: TLabel
+    Left = 8
+    Top = 88
+    Width = 116
+    Height = 18
+    Caption = #1050#1086#1076' '#1087#1086#1089#1090#1072#1074#1097#1080#1082#1072
+  end
   object DBGrid1: TDBGrid
     Left = 0
-    Top = 89
+    Top = 145
     Width = 665
     Height = 209
     DataSource = DM_Mebeli.DS_Pilomat_grupa_vidrabot
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    TabOrder = 1
+    TabOrder = 4
     TitleFont.Charset = RUSSIAN_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -16
@@ -71,17 +78,17 @@ object F_pilomat_grupa: TF_pilomat_grupa
     BevelOuter = bvRaised
     DataField = 'NAME'
     DataSource = DM_Mebeli.DS_Pilomat_grupa
-    TabOrder = 0
+    TabOrder = 2
     OnExit = DBE_Grupa_nameExit
   end
   object Panel1: TPanel
-    Left = 0
-    Top = 313
+    Left = -8
+    Top = 377
     Width = 662
     Height = 57
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    TabOrder = 2
+    TabOrder = 5
     object B_Exit: TButton
       Left = 552
       Top = 12
@@ -102,7 +109,7 @@ object F_pilomat_grupa: TF_pilomat_grupa
       OnClick = B_OkClick
     end
   end
-  object DBEdit1: TDBEdit
+  object DBE_ID: TDBEdit
     Left = 44
     Top = 4
     Width = 93
@@ -112,18 +119,29 @@ object F_pilomat_grupa: TF_pilomat_grupa
     DataField = 'ID'
     DataSource = DM_Mebeli.DS_Pilomat_grupa
     ReadOnly = True
-    TabOrder = 3
+    TabOrder = 0
     OnExit = DBE_Grupa_nameExit
   end
   object DBE_Article: TDBEdit
     Left = 212
     Top = 4
-    Width = 125
+    Width = 165
     Height = 26
     BevelOuter = bvRaised
     DataField = 'ARTICLE'
     DataSource = DM_Mebeli.DS_Pilomat_grupa
-    TabOrder = 4
+    TabOrder = 1
+    OnExit = DBE_Grupa_nameExit
+  end
+  object DB_MANUFACTURER_CODE: TDBEdit
+    Left = 135
+    Top = 86
+    Width = 522
+    Height = 26
+    BevelOuter = bvRaised
+    DataField = 'MANUFACTURER_CODE'
+    DataSource = DM_Mebeli.DS_Pilomat_grupa
+    TabOrder = 3
     OnExit = DBE_Grupa_nameExit
   end
 end

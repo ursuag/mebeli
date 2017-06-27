@@ -21,7 +21,6 @@ type
     DSFurnitura: TDataSource;
     IBFurnitura: TIBDataSet;
     IBFurnituraID: TIntegerField;
-    IBFurnituraNAME: TIBStringField;
     IBFurnituraED_IZM: TIBStringField;
     IBFurnituraID_PARENT: TIntegerField;
     IBFurnituraGRUPA_NAME: TStringField;
@@ -37,7 +36,6 @@ type
     DBEdit1: TDBEdit;
     Label4: TLabel;
     IBFurnituraMANUFACTURER_NAME: TIBStringField;
-    IBFurnituraMANUFACTURER_CODE: TIBStringField;
     Label5: TLabel;
     DBEdit2: TDBEdit;
     Label6: TLabel;
@@ -45,6 +43,8 @@ type
     Label7: TLabel;
     DBE_Article: TDBEdit;
     IBFurnituraARTICLE: TIntegerField;
+    IBFurnituraNAME: TIBStringField;
+    IBFurnituraMANUFACTURER_CODE: TIBStringField;
     procedure IBFurnituraNewRecord(DataSet: TDataSet);
     procedure FormActivate(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);

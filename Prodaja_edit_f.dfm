@@ -1,64 +1,67 @@
 object F_Prodaja_edit: TF_Prodaja_edit
   Left = 0
   Top = 82
-  Width = 1200
-  Height = 740
+  AutoScroll = False
   Caption = #1054#1090#1075#1088#1091#1079#1082#1072' ('#1087#1088#1086#1076#1072#1078#1072') '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
+  ClientHeight = 702
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
   Font.Color = clWindowText
   Font.Height = -16
-  Font.Name = 'Arial Narrow'
+  Font.Name = 'Arial'
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  PrintScale = poNone
+  Scaled = False
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 20
+  TextHeight = 18
   object P_Shapka: TPanel
     Left = 0
     Top = 0
-    Width = 1017
-    Height = 73
+    Width = 1177
+    Height = 67
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 0
     object Label1: TLabel
-      Left = 8
-      Top = 8
-      Width = 43
-      Height = 20
+      Left = 6
+      Top = 6
+      Width = 53
+      Height = 18
       Caption = #8470' '#1072#1082#1090#1072
     end
     object Label2: TLabel
-      Left = 136
-      Top = 8
-      Width = 13
-      Height = 20
+      Left = 140
+      Top = 6
+      Width = 16
+      Height = 18
       Caption = #1086#1090
     end
     object Label3: TLabel
-      Left = 293
-      Top = 8
-      Width = 68
-      Height = 20
+      Left = 283
+      Top = 6
+      Width = 81
+      Height = 18
       Caption = #1050#1086#1085#1090#1088#1072#1075#1077#1085#1090
     end
     object Label6: TLabel
-      Left = 10
-      Top = 40
-      Width = 52
-      Height = 20
-      Caption = #1055#1088#1080#1084#1077#1095'.'
+      Left = 7
+      Top = 39
+      Width = 89
+      Height = 18
+      Caption = #1055#1088#1080#1084#1077#1095#1072#1085#1080#1077
     end
     object DBE_NOMER: TDBEdit
-      Left = 64
-      Top = 4
-      Width = 65
-      Height = 28
+      Left = 66
+      Top = 3
+      Width = 63
+      Height = 26
       TabStop = False
       DataField = 'ID'
       DataSource = DS_Prodaja_0_edit
@@ -66,28 +69,28 @@ object F_Prodaja_edit: TF_Prodaja_edit
       TabOrder = 0
     end
     object DBE_Date_pro: TDBEdit
-      Left = 160
-      Top = 4
-      Width = 129
-      Height = 28
+      Left = 173
+      Top = 3
+      Width = 93
+      Height = 26
       DataField = 'DATE_PRO'
       DataSource = DS_Prodaja_0_edit
       TabOrder = 1
     end
     object DBLookupComboBox1: TDBLookupComboBox
-      Left = 370
-      Top = 4
-      Width = 361
-      Height = 28
+      Left = 374
+      Top = 3
+      Width = 427
+      Height = 26
       DataField = 'KONTRAGENT_NAME'
       DataSource = DS_Prodaja_0_edit
       TabOrder = 2
     end
     object DBEdit1: TDBEdit
-      Left = 65
+      Left = 100
       Top = 36
-      Width = 944
-      Height = 28
+      Width = 701
+      Height = 26
       DataField = 'PRIMECHANIE'
       DataSource = DS_Prodaja_0_edit
       TabOrder = 3
@@ -95,14 +98,14 @@ object F_Prodaja_edit: TF_Prodaja_edit
   end
   object DBGrid1: TDBGrid
     Left = 1
-    Top = 80
-    Width = 1016
-    Height = 537
+    Top = 72
+    Width = 1176
+    Height = 561
     DataSource = DS_Prodaja_1_edit
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -12
+    Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
     TabOrder = 1
@@ -119,7 +122,17 @@ object F_Prodaja_edit: TF_Prodaja_edit
         Expanded = False
         FieldName = 'ID_ZAKAZ'
         ReadOnly = True
+        Title.Alignment = taCenter
         Title.Caption = #1047#1040#1050#1040#1047
+        Width = 98
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ARTICLE'
+        Title.Alignment = taCenter
+        Title.Caption = #1040#1088#1090'.'
+        Width = 117
         Visible = True
       end
       item
@@ -129,7 +142,7 @@ object F_Prodaja_edit: TF_Prodaja_edit
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = #1043#1056#1059#1055#1055#1040
-        Width = 304
+        Width = 301
         Visible = True
       end
       item
@@ -140,7 +153,7 @@ object F_Prodaja_edit: TF_Prodaja_edit
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045' '#1048#1047#1044#1045#1051#1048#1071
-        Width = 303
+        Width = 287
         Visible = True
       end
       item
@@ -149,32 +162,48 @@ object F_Prodaja_edit: TF_Prodaja_edit
         FieldName = 'KOL_VO'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1051'-'#1042#1054
-        Width = 220
+        Width = 117
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072
+        Width = 97
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUMMA'
+        ReadOnly = True
+        Title.Alignment = taCenter
+        Title.Caption = #1057#1091#1084#1084#1072
         Visible = True
       end>
   end
   object Panel1: TPanel
     Left = 1
-    Top = 652
-    Width = 1016
-    Height = 45
+    Top = 647
+    Width = 1176
+    Height = 50
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 2
     object B_Exit: TButton
-      Left = 912
-      Top = 6
-      Width = 97
-      Height = 33
+      Left = 1056
+      Top = 7
+      Width = 103
+      Height = 37
       Caption = '&'#1054#1090#1084#1077#1085#1072
       TabOrder = 1
       OnClick = B_ExitClick
     end
     object B_Ok: TButton
-      Left = 800
+      Left = 936
       Top = 6
-      Width = 97
-      Height = 33
+      Width = 103
+      Height = 37
       Caption = '&'#1047#1072#1087#1080#1089#1072#1090#1100
       TabOrder = 0
       OnClick = B_OkClick
@@ -258,7 +287,9 @@ object F_Prodaja_edit: TF_Prodaja_edit
   object IB_Prodaja_1_edit: TIBDataSet
     Database = DM_Mebeli.DB_Mebeli
     Transaction = DM_Mebeli.IBTransaction1
+    AutoCalcFields = False
     BeforePost = IB_Prodaja_1_editBeforePost
+    OnCalcFields = IB_Prodaja_1_editCalcFields
     OnNewRecord = IB_Prodaja_1_editNewRecord
     OnPostError = IB_Prodaja_1_editPostError
     BufferChunks = 1000
@@ -269,9 +300,13 @@ object F_Prodaja_edit: TF_Prodaja_edit
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into prodaja_gotovprod_1'
-      '  (ID, ID_PARENT, ID_GOTOV_PROD, KOL_VO, ID_ZAKAZ)'
+      
+        '  (ID, ID_PARENT, ID_GOTOV_PROD, KOL_VO, ID_ZAKAZ, PRICE, SEBEST' +
+        'OIMOSTI)'
       'values'
-      '  (:ID, :ID_PARENT, :ID_GOTOV_PROD, :KOL_VO, :ID_ZAKAZ)')
+      
+        '  (:ID, :ID_PARENT, :ID_GOTOV_PROD, :KOL_VO, :ID_ZAKAZ, :PRICE, ' +
+        ':SEBESTOIMOSTI)')
     RefreshSQL.Strings = (
       'Select *'
       'from prodaja_gotovprod_1 '
@@ -287,7 +322,9 @@ object F_Prodaja_edit: TF_Prodaja_edit
       '  ID_PARENT = :ID_PARENT,'
       '  ID_GOTOV_PROD = :ID_GOTOV_PROD,'
       '  KOL_VO = :KOL_VO,'
-      '  ID_ZAKAZ = :ID_ZAKAZ'
+      '  ID_ZAKAZ = :ID_ZAKAZ,'
+      '  PRICE = :PRICE,'
+      '  SEBESTOIMOSTI = :SEBESTOIMOSTI'
       'where'
       '  ID = :OLD_ID')
     GeneratorField.Field = 'ID'
@@ -320,25 +357,42 @@ object F_Prodaja_edit: TF_Prodaja_edit
       Origin = 'PRODAJA_GOTOVPROD_1.ID_ZAKAZ'
       Required = True
     end
+    object IB_Prodaja_1_editPRICE: TIBBCDField
+      FieldName = 'PRICE'
+      Origin = 'PRODAJA_GOTOVPROD_1.PRICE'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object IB_Prodaja_1_editSEBESTOIMOSTI: TIBBCDField
+      FieldName = 'SEBESTOIMOSTI'
+      Origin = 'PRODAJA_GOTOVPROD_1.SEBESTOIMOSTI'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object IB_Prodaja_1_editSUMMA: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'SUMMA'
+      DisplayFormat = '### ##0.00'
+      Calculated = True
+    end
     object IB_Prodaja_1_editGRUPA_NAME: TStringField
-      FieldKind = fkLookup
+      FieldKind = fkCalculated
       FieldName = 'GRUPA_NAME'
-      LookupDataSet = DM_Mebeli.IB_Gotov_prod_0
-      LookupKeyFields = 'ID'
-      LookupResultField = 'GRUPA_NAME'
-      KeyFields = 'ID_GOTOV_PROD'
-      Size = 60
-      Lookup = True
+      Size = 200
+      Calculated = True
     end
     object IB_Prodaja_1_editGOTOVPROD_NAME: TStringField
-      FieldKind = fkLookup
+      FieldKind = fkCalculated
       FieldName = 'GOTOVPROD_NAME'
-      LookupDataSet = DM_Mebeli.IB_Gotov_prod_0
-      LookupKeyFields = 'ID'
-      LookupResultField = 'NAME'
-      KeyFields = 'ID_GOTOV_PROD'
-      Size = 50
-      Lookup = True
+      Size = 200
+      Calculated = True
+    end
+    object IB_Prodaja_1_editARTICLE: TIntegerField
+      FieldKind = fkCalculated
+      FieldName = 'ARTICLE'
+      Calculated = True
     end
   end
   object DS_Prodaja_1_edit: TDataSource

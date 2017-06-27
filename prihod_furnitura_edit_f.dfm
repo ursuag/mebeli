@@ -361,12 +361,6 @@ object F_prihod_furnitura_edit: TF_prihod_furnitura_edit
       Origin = 'FURNITURA.ID'
       Required = True
     end
-    object IB_FurnituraNAME: TIBStringField
-      FieldName = 'NAME'
-      Origin = 'FURNITURA.NAME'
-      Required = True
-      Size = 50
-    end
     object IB_FurnituraED_IZM: TIBStringField
       FieldName = 'ED_IZM'
       Origin = 'FURNITURA.ED_IZM'
@@ -383,13 +377,20 @@ object F_prihod_furnitura_edit: TF_prihod_furnitura_edit
       Origin = 'FURNITURA.MANUFACTURER_NAME'
       Size = 100
     end
-    object IB_FurnituraMANUFACTURER_CODE: TIBStringField
-      FieldName = 'MANUFACTURER_CODE'
-      Origin = 'FURNITURA.MANUFACTURER_CODE'
-    end
     object IB_FurnituraARTICLE: TIntegerField
       FieldName = 'ARTICLE'
       Origin = 'FURNITURA.ARTICLE'
+    end
+    object IB_FurnituraNAME: TIBStringField
+      FieldName = 'NAME'
+      Origin = 'FURNITURA.NAME'
+      Required = True
+      Size = 100
+    end
+    object IB_FurnituraMANUFACTURER_CODE: TIBStringField
+      FieldName = 'MANUFACTURER_CODE'
+      Origin = 'FURNITURA.MANUFACTURER_CODE'
+      Size = 100
     end
   end
   object DS_Furnitura: TDataSource
@@ -500,6 +501,11 @@ object F_prihod_furnitura_edit: TF_prihod_furnitura_edit
       FieldKind = fkCalculated
       FieldName = 'FURNITURA_NAME'
       Size = 200
+      Calculated = True
+    end
+    object IB_Prihod_furnitura_1PRICE: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'PRICE'
       Calculated = True
     end
   end

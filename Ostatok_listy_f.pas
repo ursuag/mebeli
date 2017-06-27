@@ -29,6 +29,8 @@ type
     F_IB_Prihod_listy_1SUMMA: TIBBCDField;
     N1: TMenuItem;
     OpenDialog1: TOpenDialog;
+    F_IB_Prihod_listy_1PRICE: TIBBCDField;
+    F_IB_Prihod_listy_1PRICE_M2: TIBBCDField;
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure B_InsertClick(Sender: TObject);

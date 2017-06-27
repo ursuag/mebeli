@@ -1,6 +1,6 @@
 object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
   Left = 0
-  Top = 41
+  Top = 69
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1087#1088#1080#1093#1086#1076#1072' '#1082#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1093
   ClientHeight = 681
@@ -148,7 +148,7 @@ object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
         FieldName = 'KOL_VO'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1051'-'#1042#1054
-        Width = 117
+        Width = 96
         Visible = True
       end
       item
@@ -156,7 +156,7 @@ object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
         FieldName = 'ED_IZM'
         Title.Alignment = taCenter
         Title.Caption = #1045#1076'.'#1080#1079#1084'.'
-        Width = 113
+        Width = 73
         Visible = True
       end
       item
@@ -164,7 +164,15 @@ object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
         FieldName = 'SUMMA'
         Title.Alignment = taCenter
         Title.Caption = #1057#1059#1052#1052#1040
-        Width = 148
+        Width = 118
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072
+        Width = 82
         Visible = True
       end>
   end
@@ -232,7 +240,8 @@ object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
     SelectSQL.Strings = (
       
         'select fg.name grupa_name, f.name furnitura_name, prf1.id_furnit' +
-        'ura, prf1.kol_vo, f.ed_izm, prf1.summa summa'
+        'ura, prf1.kol_vo, f.ed_izm, prf1.summa summa, prf1.summa/prf1.ko' +
+        'l_vo price'
       'from furnitura_grupa fg, furnitura f, prihod_furnitura_1 prf1'
       
         'where (fg.id=f.id_parent ) and (prf1.id_furnitura=f.id) and (prf' +
@@ -278,6 +287,10 @@ object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
       Precision = 18
       Size = 2
     end
+    object IB_Prihod_furnitura_1_FPRICE: TFloatField
+      FieldName = 'PRICE'
+      DisplayFormat = '### ##0.00'
+    end
   end
   object DS_Prihod_furnitura_1_F: TDataSource
     AutoEdit = False
@@ -313,7 +326,7 @@ object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
       'on prf0.id=prf1.id_parent'
       ''
       'where prf0.date_p>=:date_start'
-      'order by prf0.date_p')
+      'order by prf0.date_p, prf0.id')
     DataSource = DM_Mebeli.DS_Prihod_furnitura_0
     Left = 312
     Top = 112

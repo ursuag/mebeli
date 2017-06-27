@@ -48,6 +48,17 @@ type
     IB_Akt_raspil_detali_priceSUMMA: TIBBCDField;
     IB_Akt_raspil_listy_priceSUMMA: TIBBCDField;
     IB_Akt_raspil_ostatok_priceSUMMA: TIBBCDField;
+    IB_Akt_raspil_listy_priceID_LIST: TIntegerField;
+    IB_Akt_raspil_detali_priceID_DETALI: TIntegerField;
+    IB_Akt_raspil_listy_pricePRICE_UNIT: TIBBCDField;
+    IB_Akt_raspil_listyID_LISTY: TIntegerField;
+    IB_Akt_raspil_listyGRUPA_NAME: TIBStringField;
+    IB_Akt_raspil_listyLISTY_NAME: TIBStringField;
+    IB_Akt_raspil_listyKOL_VO: TIntegerField;
+    IB_Akt_raspil_ostatok_priceID_LISTY: TIntegerField;
+    IB_Akt_raspil_listy_pricePRICE_M2: TFloatField;
+    IB_Akt_raspil_detali_pricePRICE_M2: TFloatField;
+    IB_Akt_raspil_ostatok_pricePRICE_M2: TFloatField;
     procedure B_InsertClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

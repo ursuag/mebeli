@@ -1,8 +1,9 @@
 object F_Prihod_detali_jurnal: TF_Prihod_detali_jurnal
-  Left = 120
+  Left = 0
   Top = 0
-  Width = 1200
-  Height = 728
+  Width = 1193
+  Height = 724
+  AutoSize = True
   Caption = #1046#1091#1088#1085#1072#1083' '#1087#1088#1080#1093#1086#1076#1072' '#1076#1077#1090#1072#1083#1077#1081
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -12,6 +13,7 @@ object F_Prihod_detali_jurnal: TF_Prihod_detali_jurnal
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  Scaled = False
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnCreate = FormCreate
@@ -138,6 +140,14 @@ object F_Prihod_detali_jurnal: TF_Prihod_detali_jurnal
         Title.Caption = #1057#1091#1084#1084#1072
         Width = 140
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE_UNIT'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072
+        Width = 68
+        Visible = True
       end>
   end
   object Panel1: TPanel
@@ -215,8 +225,10 @@ object F_Prihod_detali_jurnal: TF_Prihod_detali_jurnal
       '  ID = :ID')
     SelectSQL.Strings = (
       
-        'select pd1.id, pd1.kol_vo, pd1.summa, pg.name detali_grupa, deta' +
-        'li.name detali_name, pd1.ID_PILOMAT_DETALI'
+        'select pd1.id id, pd1.kol_vo kol_vo, pd1.summa summa, pg.name de' +
+        'tali_grupa, detali.name detali_name, pd1.id_pilomat_detali id_pi' +
+        'lomat_detali, cast(pd1.summa/pd1.kol_vo/(detali.area/1000000.000' +
+        ') as numeric (15,3)) price_unit'
       
         'from prihod_detali_1 pd1, pilomat_detali detali, pilomat_grupa p' +
         'g'
@@ -233,6 +245,46 @@ object F_Prihod_detali_jurnal: TF_Prihod_detali_jurnal
     DataSource = DS_Prihod_detali_0_F
     Left = 760
     Top = 384
+    object IB_Prihod_detali_1_FID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'PRIHOD_DETALI_1.ID'
+      Required = True
+    end
+    object IB_Prihod_detali_1_FKOL_VO: TIntegerField
+      FieldName = 'KOL_VO'
+      Origin = 'PRIHOD_DETALI_1.KOL_VO'
+      Required = True
+    end
+    object IB_Prihod_detali_1_FSUMMA: TIBBCDField
+      FieldName = 'SUMMA'
+      Origin = 'PRIHOD_DETALI_1.SUMMA'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 3
+    end
+    object IB_Prihod_detali_1_FDETALI_GRUPA: TIBStringField
+      FieldName = 'DETALI_GRUPA'
+      Origin = 'PILOMAT_GRUPA.NAME'
+      Required = True
+      Size = 60
+    end
+    object IB_Prihod_detali_1_FDETALI_NAME: TIBStringField
+      FieldName = 'DETALI_NAME'
+      Origin = 'PILOMAT_DETALI.NAME'
+      Required = True
+      Size = 50
+    end
+    object IB_Prihod_detali_1_FID_PILOMAT_DETALI: TIntegerField
+      FieldName = 'ID_PILOMAT_DETALI'
+      Origin = 'PRIHOD_DETALI_1.ID_PILOMAT_DETALI'
+      Required = True
+    end
+    object IB_Prihod_detali_1_FPRICE_UNIT: TIBBCDField
+      FieldName = 'PRICE_UNIT'
+      DisplayFormat = '### ##0.00'
+      Precision = 18
+      Size = 3
+    end
   end
   object DS_Prihod_detali_1_F: TDataSource
     AutoEdit = False

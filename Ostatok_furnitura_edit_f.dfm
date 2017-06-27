@@ -117,17 +117,12 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
     OnEditButtonClick = DBGrid1EditButtonClick
     Columns = <
       item
-        Expanded = False
-        FieldName = 'ID_FURNITURA'
-        Visible = True
-      end
-      item
         ButtonStyle = cbsEllipsis
         Expanded = False
         FieldName = 'GRUPA_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1043#1056#1059#1055#1055#1040
-        Width = 313
+        Width = 272
         Visible = True
       end
       item
@@ -137,7 +132,7 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
         FieldName = 'FURNITURA_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045
-        Width = 391
+        Width = 344
         Visible = True
       end
       item
@@ -156,7 +151,7 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
         ReadOnly = True
         Title.Alignment = taCenter
         Title.Caption = #1045#1044'.'#1048#1047#1052'.'
-        Width = 115
+        Width = 70
         Visible = True
       end
       item
@@ -165,6 +160,14 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
         Title.Alignment = taCenter
         Title.Caption = #1057#1059#1052#1052#1040
         Width = 128
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1045#1053#1040
+        Width = 98
         Visible = True
       end>
   end
@@ -384,6 +387,12 @@ object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
       FieldKind = fkCalculated
       FieldName = 'FURNITURA_EDIZM'
       Size = 50
+      Calculated = True
+    end
+    object IB_Prihod_furnitura_1PRICE: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'PRICE'
+      DisplayFormat = '#.00'
       Calculated = True
     end
   end

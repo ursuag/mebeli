@@ -202,7 +202,7 @@ begin
           DM_Mebeli.IB_Akt_vip_rabot_0.Post;
        IF (DM_Mebeli.IB_Akt_vip_rabot_1.State=dsEdit) OR (DM_Mebeli.IB_Akt_vip_rabot_1.State=dsInsert) Then
           DM_Mebeli.IB_Akt_vip_rabot_1.Post;
-       Generate_detali_po_aktu;
+//       Generate_detali_po_aktu;
        DM_Mebeli.IBTransaction1.Commit;
      end;//IF
   OK_Pressed:=True;

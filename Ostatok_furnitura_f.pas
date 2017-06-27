@@ -36,6 +36,7 @@ type
     OpenDialog1: TOpenDialog;
     N3: TMenuItem;
     N5: TMenuItem;
+    IB_Prihod_furnitura_1_FPRICE: TIBBCDField;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure N_Insert_mainClick(Sender: TObject);

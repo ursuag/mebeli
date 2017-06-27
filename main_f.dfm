@@ -1,10 +1,10 @@
 object F_Main: TF_Main
   Left = 0
-  Top = 115
+  Top = 0
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = #1052#1077#1073#1077#1083#1100#1085#1099#1081' '#1094#1077#1093
-  ClientHeight = 682
+  ClientHeight = 670
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -6501,11 +6501,6 @@ object F_Main: TF_Main
     Top = 136
     object N_Spravochnik: TMenuItem
       Caption = #1057#1087#1088#1072#1074#1086#1095#1085#1080#1082#1080
-      object N_Sotrudnik: TMenuItem
-        Caption = #1057#1086#1090#1088#1091#1076#1085#1080#1082#1080
-        ImageIndex = 0
-        OnClick = N_SotrudnikClick
-      end
       object N_Sklad: TMenuItem
         Caption = #1057#1082#1083#1072#1076#1099
         OnClick = N_SkladClick
@@ -6513,6 +6508,14 @@ object F_Main: TF_Main
       object N_Vid_rabot: TMenuItem
         Caption = #1042#1080#1076#1099' '#1088#1072#1073#1086#1090
         OnClick = N_Vid_rabotClick
+      end
+      object N_Sotrudnik: TMenuItem
+        Caption = #1057#1086#1090#1088#1091#1076#1085#1080#1082#1080
+        ImageIndex = 0
+        OnClick = N_SotrudnikClick
+      end
+      object N24: TMenuItem
+        Caption = '-'
       end
       object N_Pilomat: TMenuItem
         Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099
@@ -6713,6 +6716,60 @@ object F_Main: TF_Main
     object N_Exit: TMenuItem
       Caption = #1042#1099#1093#1086#1076
       OnClick = N_ExitClick
+    end
+    object N14: TMenuItem
+      Caption = #1048#1084#1087#1086#1088#1090
+      OnClick = N14Click
+      object IDDETALI1: TMenuItem
+        Caption = #1047#1072#1084#1077#1085#1072' ID_DETALI'
+        object N_Akt_raspil_detali: TMenuItem
+          Caption = #1047#1072#1084#1077#1085#1072' ID_DETALI '#1074' '#1040#1082#1090#1072#1093' '#1088#1072#1089#1087#1080#1083#1072
+          OnClick = N_Akt_raspil_detaliClick
+        end
+        object N19: TMenuItem
+          Caption = #1042' '#1072#1082#1090#1072#1093' '#1074#1099#1087#1091#1089#1082#1072' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
+          OnClick = N19Click
+        end
+        object N20: TMenuItem
+          Caption = #1042' '#1040#1082#1090' '#1074#1099#1087#1086#1083#1085' '#1088#1072#1073#1086#1090
+          OnClick = N20Click
+        end
+        object N_Spsanie_detali_zamena: TMenuItem
+          Caption = #1057#1087#1080#1089#1072#1085#1080#1077' '#1076#1077#1090#1072#1083#1077#1081
+          OnClick = N_Spsanie_detali_zamenaClick
+        end
+      end
+      object IDGOTOVPROD1: TMenuItem
+        Caption = #1047#1072#1084#1077#1085#1072' ID_GOTOVPROD'
+        object N15: TMenuItem
+          Caption = #1040#1082#1090' '#1074#1099#1087#1086#1083#1085#1077#1085#1085#1099#1093' '#1088#1072#1073#1086#1090
+          OnClick = N15Click
+        end
+        object N16: TMenuItem
+          Caption = #1040#1082#1090' '#1074#1099#1087#1091#1089#1082#1072' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
+          OnClick = N16Click
+        end
+        object N18: TMenuItem
+          Caption = #1047#1072#1082#1072#1079#1099
+          OnClick = N18Click
+        end
+        object N21: TMenuItem
+          Caption = #1056#1072#1089#1093#1086#1076' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
+          OnClick = N21Click
+        end
+        object N22: TMenuItem
+          Caption = #1056#1072#1089#1093#1086#1076' '#1076#1077#1090#1072#1083#1077#1081
+          OnClick = N22Click
+        end
+        object N23: TMenuItem
+          Caption = #1055#1088#1086#1076#1072#1078#1072
+          OnClick = N23Click
+        end
+      end
+      object N17: TMenuItem
+        Caption = #1040#1088#1090#1080#1082#1091#1083' '#1052#1072#1090#1077#1088#1080#1072#1083#1086#1074
+        OnClick = N17Click
+      end
     end
   end
   object IBQuery1: TIBQuery
@@ -6917,8 +6974,8 @@ object F_Main: TF_Main
       '  ID_GOTOV_PROD = :ID_GOTOV_PROD')
     SelectSQL.Strings = (
       
-        'select gp0.article article , gpg.name grupa_name, gp0.name gotov' +
-        'prod_name, z1.kol_vo kol_vo, z1.prioritet prioritet'
+        'select gp0.id article , gpg.name grupa_name, gp0.name gotovprod_' +
+        'name, z1.kol_vo kol_vo, z1.prioritet prioritet'
       'from zakaz_1 z1, gotov_prod_0 gp0, gotov_prod_grupa gpg'
       
         'where (z1.id_parent=:ID) and (gp0.id_grupa=gpg.id) and (z1.id_go' +
@@ -6937,5 +6994,11 @@ object F_Main: TF_Main
     DataSource = DM_Mebeli.DS_Zakaz_0
     Left = 56
     Top = 464
+  end
+  object Timer1: TTimer
+    Interval = 300000
+    OnTimer = Timer1Timer
+    Left = 848
+    Top = 24
   end
 end

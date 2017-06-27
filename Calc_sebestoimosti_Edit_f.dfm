@@ -1,9 +1,9 @@
 object F_Calc_sebestoimosti_Edit: TF_Calc_sebestoimosti_Edit
-  Left = 23
-  Top = 97
+  Left = 17
+  Top = 38
   AutoScroll = False
   Caption = #1050#1072#1083#1100#1082#1091#1083#1103#1094#1080#1103' '#1089#1077#1073#1077#1089#1090#1086#1080#1084#1086#1089#1090#1080' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
-  ClientHeight = 690
+  ClientHeight = 686
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET

@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, Grids, DBGrids, Menus, DB;
+  Dialogs, StdCtrls, ExtCtrls, Grids, DBGrids, Menus, DB, IBCustomDataSet,
+  DBCtrls, ComObj;
 
 type
   TF_Furnitura = class(TForm)
@@ -26,6 +27,9 @@ type
     B_Select: TButton;
     E_Grupa_Filter: TEdit;
     E_Furnitura_Filter: TEdit;
+    N1: TMenuItem;
+    N_Import_new: TMenuItem;
+    N_Import_names: TMenuItem;
     procedure FormActivate(Sender: TObject);
     procedure N_CloseClick(Sender: TObject);
     procedure N_Insert_grupaClick(Sender: TObject);
@@ -50,6 +54,7 @@ type
       Shift: TShiftState);
     procedure DBG_FurnituraKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure N_Import_namesClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -244,6 +249,58 @@ procedure TF_Furnitura.DBG_FurnituraKeyUp(Sender: TObject; var Key: Word;
 begin
   if key=13 then
     DBG_FurnituraDblClick(sender);
+end;
+
+procedure TF_Furnitura.N_Import_namesClick(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update furnitura set name=:furnitura_name, manufacturer_code=:manufacturer_code where article=:article');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  if not OpenDialog1.Execute then
+    begin
+      FIB_Query.Close;
+      FIB_Query.Free;
+      OpenDialog1.Free;
+      exit;
+    end;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('article').Value:=StrToInt(s);
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('furnitura_name').Value:=s;
+      s:=Excel.Cells[j, 3];
+      FIB_Query.ParamByName('manufacturer_code').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  FIB_Query.Close;
+  FIB_Query.Free;
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
 end;
 
 end.

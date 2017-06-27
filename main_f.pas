@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, Menus, Math, StdCtrls, DB, IBCustomDataSet, IBQuery,
   ExtCtrls, IniFiles, EXLReportExcelTLB, EXLReportBand, EXLReport, DBCtrls,
-  Consts, ImgList, DateUtils;
+  Consts, ImgList, DateUtils, ComObj;
 
 type
   TF_Main = class(TForm)
@@ -84,6 +84,22 @@ type
     DS_Zakaz_1: TDataSource;
     F_IB_Zakaz_1: TIBDataSet;
     L_Database: TLabel;
+    N14: TMenuItem;
+    N_Akt_raspil_detali: TMenuItem;
+    IDGOTOVPROD1: TMenuItem;
+    N15: TMenuItem;
+    N16: TMenuItem;
+    N17: TMenuItem;
+    N18: TMenuItem;
+    IDDETALI1: TMenuItem;
+    N19: TMenuItem;
+    N_Spsanie_detali_zamena: TMenuItem;
+    N20: TMenuItem;
+    Timer1: TTimer;
+    N21: TMenuItem;
+    N22: TMenuItem;
+    N23: TMenuItem;
+    N24: TMenuItem;
     procedure N_ExitClick(Sender: TObject);
     function VolumeID:dword;
     procedure FormCreate(Sender: TObject);
@@ -130,6 +146,19 @@ type
     procedure N_Ostatok_listyClick(Sender: TObject);
     procedure N_Ostatok_detaliClick(Sender: TObject);
     procedure N_PrihodClick(Sender: TObject);
+    procedure N14Click(Sender: TObject);
+    procedure N_Akt_raspil_detaliClick(Sender: TObject);
+    procedure N15Click(Sender: TObject);
+    procedure N17Click(Sender: TObject);
+    procedure N18Click(Sender: TObject);
+    procedure N16Click(Sender: TObject);
+    procedure N19Click(Sender: TObject);
+    procedure N_Spsanie_detali_zamenaClick(Sender: TObject);
+    procedure N20Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure N21Click(Sender: TObject);
+    procedure N22Click(Sender: TObject);
+    procedure N23Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -180,9 +209,9 @@ procedure TF_Main.AdjustResolution(oForm:TForm);
     width: integer;
    height: integer;
 begin
-  width:=1200;
+  width:=oForm.width;
   height:=740;
-  if Screen.Width>1440 then width:=1300;
+  if Screen.Width>1440 then width:=1360;
   if Screen.Width > width then
    begin
       iPercentage:=Round(((Screen.Width-width)/width)*100)+100;
@@ -734,14 +763,7 @@ begin
          end;//except
        end;//Try
 
-      DB_Images.Close;
-      DB_Images.Params.Clear;
-      DB_Images.DatabaseName:=db_images_path;
-      DB_Images.Params.Add('user_name='+db_user);
-      DB_Images.Params.Add('password='+db_user_pass);
-      DB_Images.Params.Add('lc_ctype=WIN1251');
-      DB_Images.Open;
-      
+
       IBQuery1.SQl.Clear;
       IBQuery1.SQl.Add('select * from RDB$USER_PRIVILEGES where rdb$user='''+db_user+''' and rdb$object_type=13');
       IBQuery1.Open;
@@ -749,6 +771,15 @@ begin
       L_Role.Caption:='role: '+Role_name;
       L_user.Caption:='user: '+db_user;
       L_Server.Caption:=  'server: '+UpperCase(db_servername);
+
+      DB_Images.Close;
+      DB_Images.Params.Clear;
+      DB_Images.DatabaseName:=db_images_path;
+      DB_Images.Params.Add('user_name='+db_user);
+      DB_Images.Params.Add('password='+db_user_pass);
+      DB_Images.Params.Add('lc_ctype=WIN1251');
+      DB_Images.Params.Add('sql_role_name='+Role_name);
+      DB_Images.Open;
 
       DB_Mebeli.Close;
       DB_Mebeli.Params.Add('sql_role_name='+Role_name);
@@ -1055,6 +1086,513 @@ begin
 F_Pilomat.E_Grupa_Search.Text:='Отфильтровать группу';
 F_Pilomat.E_Listy_Search.Text:='Отфильтровать листы';
 F_Pilomat.E_Detali_Search.Text:='Отфильтровать детали';
+end;
+
+procedure TF_Main.N14Click(Sender: TObject);
+begin
+  if Role_name<>'ADMIN' then
+    F_Main.N14.Enabled:=false;
+end;
+
+procedure TF_Main.N_Akt_raspil_detaliClick(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update akt_raspil_detali_0 set id_detali_new=:new_id_detali where id_pilomat_detali= :old_id_detali');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('old_id_detali').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('new_id_detali').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N15Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update AKT_VIP_RABOT_1_0 set ID_GOTOVPROD_NEW=:ID_GOTOV_PROD where ID_GOTOV_PROD=:OLD_ID_GOTOV_PROD');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('OLD_ID_GOTOV_PROD').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('ID_GOTOV_PROD').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N17Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update furnitura set article=:article where id= :id_furnitura');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('article').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('id_furnitura').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N18Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update zakaz_1_0 set ID_GOTOVPROD_NEW=:ID_GOTOV_PROD where ID_GOTOV_PROD=:OLD_ID_GOTOV_PROD');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('OLD_ID_GOTOV_PROD').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('ID_GOTOV_PROD').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N16Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update AKT_VIP_PROD_1_0 set ID_GOTOVPROD_NEW=:ID_GOTOV_PROD where ID_GOTOV_PROD=:OLD_ID_GOTOV_PROD');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('OLD_ID_GOTOV_PROD').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('ID_GOTOV_PROD').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N19Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update RASHOD_DETALI_0 set id_detali_new=:new_id_detali where id_pilomat_detali= :old_id_detali');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('old_id_detali').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('new_id_detali').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N_Spsanie_detali_zamenaClick(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update SPISANIE_DETALI_0 set id_detali_new=:new_id_detali where id_pilomat_detali=:old_id_detali');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('old_id_detali').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('new_id_detali').Value:=s;
+      ShowMessage('Old='+FIB_Query.ParamByName('old_id_detali').AsString+', new='+FIB_Query.ParamByName('new_id_detali').AsString);
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N20Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update AKT_VIP_RABOT_DETALI_0 set id_pilomat_detali=:new_id_detali where id_pilomat_detali= :old_id_detali');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('old_id_detali').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('new_id_detali').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.Timer1Timer(Sender: TObject);
+var  FIB_Query: TIBDataSet;
+begin
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+  FIB_Query.SelectSQL.Add('select first 1 ID_GOTOVPROD from SUMMA_FOR_SEBEST');
+  Try
+    FIB_Query.Open;
+  finally
+    begin
+      FIB_Query.Close;
+      FIB_Query.Free;
+    end;
+  end;
+end;
+
+procedure TF_Main.N21Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update rashod_furnitura_0 set ID_GOTOVPROD_NEW=:ID_GOTOV_PROD where ID_GOTOV_PROD=:OLD_ID_GOTOV_PROD');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('OLD_ID_GOTOV_PROD').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('ID_GOTOV_PROD').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N22Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update rashod_detali_0 set ID_GOTOVPROD_NEW=:ID_GOTOV_PROD where ID_GOTOV_PROD=:OLD_ID_GOTOV_PROD');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('OLD_ID_GOTOV_PROD').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('ID_GOTOV_PROD').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+end;
+
+procedure TF_Main.N23Click(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+ OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update prodaja_gotovprod_1_0 set ID_GOTOVPROD_NEW=:ID_GOTOV_PROD where ID_GOTOV_PROD=:OLD_ID_GOTOV_PROD');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+  if not OpenDialog1.Execute then exit;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('OLD_ID_GOTOV_PROD').Value:=s;
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('ID_GOTOV_PROD').Value:=s;
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
+  FIB_Query.Free;
+  OpenDialog1.free;
+
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
 end;
 
 end.

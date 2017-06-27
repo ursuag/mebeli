@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Grids, DBGrids, Menus, DateUtils, DB,
-  IBCustomDataSet;
+  IBCustomDataSet, IBQuery;
 
 type
   TF_Prihod_listy_jurnal = class(TForm)
@@ -28,6 +28,18 @@ type
     F_IB_Prihod_listy_1KOL_VO: TIntegerField;
     F_IB_Prihod_listy_1SUMMA: TIBBCDField;
     DBGrid1: TDBGrid;
+    F_IB_Prihod_listy_1PRICE_UNIT: TIBBCDField;
+    F_IB_Prihod_listy_1PRICE_M2: TFloatField;
+    F_IB_Prihod_listy_0ID: TIntegerField;
+    F_IB_Prihod_listy_0DATE_P: TDateField;
+    F_IB_Prihod_listy_0PRIMECHANIE: TIBStringField;
+    F_IB_Prihod_listy_0SKLAD_NAME: TIBStringField;
+    F_IB_Prihod_listy_0ID_AKT_RASPIL: TIntegerField;
+    F_IB_Prihod_listy_0CONTRAGENT_NAME: TIBStringField;
+    F_IB_Prihod_listy_0NOMER_TTN: TIBStringField;
+    F_IB_Prihod_listy_0SUMMA: TIBBCDField;
+    F_IB_Prihod_listy_0IS_OSTATOK: TSmallintField;
+    F_IB_Prihod_listy_0ID_REVIZIA: TIntegerField;
     procedure FormActivate(Sender: TObject);
     procedure B_InsertClick(Sender: TObject);
     procedure B_EditClick(Sender: TObject);
@@ -102,11 +114,16 @@ begin
 end;
 
 procedure TF_Prihod_listy_jurnal.B_DeleteClick(Sender: TObject);
+var sql_prihod: TIBQuery;
 begin
   IF MessageDlg('Вы уверены, что хотите удалить?',mtWarning,[mbOk,mbNo],0)=mrOk Then
      begin
-       F_IB_Prihod_listy_0.Delete;
+       sql_prihod:=TIBQuery.Create(nil);
+       sql_prihod.Database:=F_Main.IBQuery1.Database;
+       sql_prihod.SQL.Add('delete from prihod_listy_0 where id='+F_IB_Prihod_listy_0.FieldByname('id').AsString);
+       sql_prihod.ExecSQL;
        DM_Mebeli.IBTransaction1.Commit;
+       sql_prihod.Free;
        Reopen_tables;
      end;//IF
 end;//proc

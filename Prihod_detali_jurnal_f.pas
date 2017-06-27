@@ -19,6 +19,13 @@ type
     DS_Prihod_detali_1_F: TDataSource;
     DS_Prihod_detali_0_F: TDataSource;
     IB_Prihod_detali_0_F: TIBDataSet;
+    IB_Prihod_detali_1_FID: TIntegerField;
+    IB_Prihod_detali_1_FKOL_VO: TIntegerField;
+    IB_Prihod_detali_1_FSUMMA: TIBBCDField;
+    IB_Prihod_detali_1_FDETALI_GRUPA: TIBStringField;
+    IB_Prihod_detali_1_FDETALI_NAME: TIBStringField;
+    IB_Prihod_detali_1_FID_PILOMAT_DETALI: TIntegerField;
+    IB_Prihod_detali_1_FPRICE_UNIT: TIBBCDField;
     procedure FormActivate(Sender: TObject);
     procedure B_EditClick(Sender: TObject);
     procedure B_InsertClick(Sender: TObject);

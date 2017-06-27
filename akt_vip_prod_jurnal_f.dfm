@@ -1,15 +1,15 @@
 object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
-  Left = 8
+  Left = 6
   Top = 0
   AutoScroll = False
   Caption = #1040#1082#1090#1099' '#1074#1099#1087#1091#1089#1082#1072' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
   ClientHeight = 670
   ClientWidth = 1178
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+  Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
-  Font.Height = -13
-  Font.Name = 'MS Sans Serif'
+  Font.Height = -15
+  Font.Name = 'Arial'
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
@@ -19,7 +19,56 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
   OnActivate = FormActivate
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 16
+  TextHeight = 17
+  object DBG_Group_area: TDBGrid
+    Left = 8
+    Top = 408
+    Width = 529
+    Height = 209
+    TabStop = False
+    DataSource = DS_Group_area
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    ParentFont = False
+    PopupMenu = PopupMenu_detali
+    ReadOnly = True
+    TabOrder = 5
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    Visible = False
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'GRUPA_NAME'
+        Title.Alignment = taCenter
+        Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045' '#1043#1056#1059#1055#1055#1067
+        Width = 357
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'AREA'
+        Title.Alignment = taCenter
+        Title.Caption = 'S, '#1084'2'
+        Width = 67
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ARTICLE'
+        Title.Alignment = taCenter
+        Title.Caption = #1040#1088#1090
+        Width = 76
+        Visible = True
+      end>
+  end
   object P_Podrobno: TPanel
     Left = 1
     Top = 405
@@ -113,22 +162,6 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
           Title.Alignment = taCenter
           Title.Caption = #1057#1059#1052#1052#1040
           Width = 116
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'ID_PRIHOD_DETALI'
-          Title.Alignment = taCenter
-          Title.Caption = #1055#1056#1048#1061#1054#1044
-          Width = 94
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'ID_PEREMESCH_DETALI'
-          Title.Alignment = taCenter
-          Title.Caption = #1055#1045#1056#1045#1052#1045#1065
-          Width = 96
           Visible = True
         end>
     end
@@ -331,7 +364,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
         FieldName = 'DETALI_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045' '#1044#1045#1058#1040#1051#1048
-        Width = 353
+        Width = 313
         Visible = True
       end
       item
@@ -346,33 +379,40 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
         FieldName = 'AREA'
         Title.Alignment = taCenter
         Title.Caption = 'S, '#1084'2'
-        Width = 87
+        Width = 71
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ID_PILOMAT_DETALI'
+        Title.Alignment = taCenter
+        Title.Caption = #1050#1086#1076
+        Width = 54
         Visible = True
       end>
   end
   object DBG_Furnitura: TDBGrid
-    Left = 592
+    Left = 544
     Top = 408
-    Width = 577
+    Width = 625
     Height = 209
     TabStop = False
     DataSource = DS_Rashod_furnitura_F
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
     PopupMenu = PopupMenu_Furnitura
     ReadOnly = True
     TabOrder = 4
-    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Charset = RUSSIAN_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -13
-    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Name = 'Arial'
     TitleFont.Style = [fsBold]
-    OnExit = DBG_FurnituraExit
     Columns = <
       item
         Expanded = False
@@ -412,46 +452,12 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
         Title.Caption = #1045#1076'.'#1080#1079#1084'.'
         Width = 62
         Visible = True
-      end>
-  end
-  object DBG_Group_area: TDBGrid
-    Left = 8
-    Top = 408
-    Width = 545
-    Height = 209
-    TabStop = False
-    DataSource = DS_Group_area
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    ParentFont = False
-    PopupMenu = PopupMenu_detali
-    ReadOnly = True
-    TabOrder = 5
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -13
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
-    Visible = False
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'grupa_name'
-        Title.Alignment = taCenter
-        Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045' '#1043#1056#1059#1055#1055#1067
-        Width = 400
-        Visible = True
       end
       item
         Expanded = False
-        FieldName = 'AREA'
+        FieldName = 'ID_FURNITURA'
         Title.Alignment = taCenter
-        Title.Caption = 'S, '#1084'2'
-        Width = 87
+        Title.Caption = #1050#1054#1044
         Visible = True
       end>
   end
@@ -519,15 +525,17 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
     BufferChunks = 1000
     CachedUpdates = False
     SelectSQL.Strings = (
-      'select pg.name as grupa_name, sum(rd.area)/1000000.0000 as area'
+      
+        'select pg.article article, pg.name as grupa_name, sum(rd.area)/1' +
+        '000000.0000 as area'
       
         'from pilomat_grupa as pg, rashod_detali as rd, pilomat_detali as' +
         ' pd'
       
         'where (pg.id=pd.id_grupa) and (rd.id_pilomat_detali=pd.id) and (' +
         'rd.id_akt_vip_prod=:NOMER)'
-      'group by 1'
-      'order by 1')
+      'group by 1, 2'
+      'order by 2')
     DataSource = DM_Mebeli.DS_Akt_vip_prod_0
     Left = 688
     Top = 128
@@ -615,13 +623,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
       
         'select '#39#1076#1077#1090#1072#1083#1080#39' as tip_tovara, pd.id id_tovar, pg.name as grupa_' +
         'name, pd.name as tovar_name, rashdp.kol_vo as kol_vo, '#39#1096#1090#39' as ed' +
-        '_izm, rashdp.summa,'
-      
-        '(select id_parent from prihod_detali_1 where id=rashdp.id_prihod' +
-        '_detali) id_prihod_detali,'
-      
-        '(select id_parent from peremeschenie_detali where id=rashdp.id_p' +
-        'eremesch_detali) id_peremesch_detali'
+        '_izm, rashdp.summa'
       
         'from RASHOD_DETALI rashd, RASHOD_DETALI_PRICE rashdp, pilomat_gr' +
         'upa pg, pilomat_detali pd'
@@ -634,15 +636,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
       
         'select '#39#1082#1086#1084#1087#1083#39' as tip_tovara, f.id id_tovar, fg.name as grupa_na' +
         'me, f.name as tovar_name, rashfp.kol_vo as kol_vo, f.ed_izm as e' +
-        'd_izm, rashfp.summa,'
-      
-        '(select id from prihod_furnitura_0 where id=(select id_parent fr' +
-        'om prihod_furnitura_1 where id=rashfp.id_prihod_furnitura)) id_p' +
-        'rihod_furnitura,'
-      
-        '(select id from peremeschenie_0 where id=(select id_parent from ' +
-        'peremeschenie_furnitura where id=rashfp.id_peremesch_furnitura))' +
-        ' id_peremesch_furnitura'
+        'd_izm, rashfp.summa'
       
         'from RASHOD_FURNITURA rashf, RASHOD_FURNITURA_PRICE rashfp, furn' +
         'itura_grupa fg, furnitura f'

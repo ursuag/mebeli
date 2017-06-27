@@ -101,7 +101,6 @@ object F_Prihod_detali_edit: TF_Prihod_detali_edit
       Height = 26
       DataField = 'ID'
       DataSource = DM_Mebeli.DS_Prihod_detali_0
-      ReadOnly = True
       TabOrder = 0
     end
     object DBE_Date_p: TDBEdit

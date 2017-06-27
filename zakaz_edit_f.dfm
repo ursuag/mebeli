@@ -1,9 +1,9 @@
 object F_Zakaz_edit: TF_Zakaz_edit
   Left = 0
-  Top = 84
+  Top = 0
   AutoScroll = False
   Caption = #1047#1072#1082#1072#1079
-  ClientHeight = 702
+  ClientHeight = 690
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -78,7 +78,6 @@ object F_Zakaz_edit: TF_Zakaz_edit
     Height = 26
     DataField = 'ID'
     DataSource = DM_Mebeli.DS_Zakaz_0
-    ReadOnly = True
     TabOrder = 1
   end
   object DBE_Date_z: TDBEdit
@@ -88,7 +87,6 @@ object F_Zakaz_edit: TF_Zakaz_edit
     Height = 26
     DataField = 'DATE_Z'
     DataSource = DM_Mebeli.DS_Zakaz_0
-    ReadOnly = True
     TabOrder = 2
   end
   object DBGrid1: TDBGrid

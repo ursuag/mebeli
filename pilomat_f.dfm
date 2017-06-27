@@ -1,9 +1,9 @@
 object F_Pilomat: TF_Pilomat
   Left = 0
-  Top = 68
+  Top = 0
   AutoScroll = False
   Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099
-  ClientHeight = 682
+  ClientHeight = 670
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -323,8 +323,14 @@ object F_Pilomat: TF_Pilomat
       end
       object N_Import_detali: TMenuItem
         Caption = #1048#1084#1087#1086#1088#1090' '#1076#1077#1090#1072#1083#1080
-        Enabled = False
         OnClick = N_Import_detaliClick
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object N_Import_grupa_name: TMenuItem
+        Caption = #1053#1072#1079#1074#1072#1085#1080#1103' '#1075#1088#1091#1087#1087#1072' '#1080#1079' 1'#1057
+        OnClick = N_Import_grupa_nameClick
       end
     end
   end

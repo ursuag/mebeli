@@ -294,7 +294,6 @@ type
     IB_Pilomat_listyID_GRUPA: TIntegerField;
     IB_Pilomat_listyRAZMER_X: TIntegerField;
     IB_Pilomat_listyRAZMER_Y: TIntegerField;
-    IB_Pilomat_listyNAME: TIBStringField;
     IB_Pilomat_listyAREA: TIntegerField;
     IB_Pilomat_detaliID: TIntegerField;
     IB_Pilomat_detaliRAZMER_X: TIntegerField;
@@ -325,13 +324,10 @@ type
     IB_Contragenty_1ID_PARENT: TIntegerField;
     IB_Contragenty_1NAME: TIBStringField;
     IB_FurnituraID: TIntegerField;
-    IB_FurnituraNAME: TIBStringField;
     IB_FurnituraED_IZM: TIBStringField;
     IB_FurnituraID_PARENT: TIntegerField;
     IB_GOTOV_PROD_grupa_name: TIBDataSet;
     IB_Gotov_prod_0GRUPA_NAME: TStringField;
-    IB_ZAKAZ_GOTOVPROD_OSTATOK: TIBDataSet;
-    DS_ZAKAZ_GOTOVPROD_OSTATOK: TDataSource;
     IB_Akt_vip_prod_1ID: TIntegerField;
     IB_Akt_vip_prod_1GRUPA_NAME: TStringField;
     IB_Akt_raspil_ostatokKOL_VO: TIntegerField;
@@ -364,7 +360,6 @@ type
     IB_Prihod_furnitura_0ID_CONTRAGENT: TIntegerField;
     IB_Prihod_listy_0contragent_name: TStringField;
     IB_Prihod_furnitura_0CONTRAGENT_NAME: TStringField;
-    IB_Pilomat_grupaNAME: TIBStringField;
     DS_Statyi_Rashoda: TDataSource;
     IB_Statyi_Rashoda: TIBDataSet;
     IB_Spisanie_0ID_STATYA_RASHODA: TIntegerField;
@@ -374,7 +369,6 @@ type
     DS_Statyi_Dohoda: TDataSource;
     IB_Prihod_listy_0STATYA_DOHODA: TStringField;
     IB_Zakaz_1GRUPA_NAME: TStringField;
-    IB_Pilomat_detaliNAME: TIBStringField;
     IB_Gotov_prod_0VES: TIBBCDField;
     IB_Akt_raspilOTHOD_SUMMA: TIBBCDField;
     IB_Akt_raspilOTHOD_M2: TIBBCDField;
@@ -386,7 +380,6 @@ type
     IB_Rashod_furnituraKOLVO_NORMA: TIBBCDField;
     IB_Prihod_detali_1SUMMA: TIBBCDField;
     IB_FurnituraMANUFACTURER_NAME: TIBStringField;
-    IB_FurnituraMANUFACTURER_CODE: TIBStringField;
     IB_FurnituraARTICLE: TIntegerField;
     IB_Pilomat_grupaARTICLE: TIntegerField;
     IB_Gotov_prod_0ID_LINKED_GOTOVPROD: TIntegerField;
@@ -397,6 +390,17 @@ type
     IB_Prihod_listy_1GRUPA_NAME: TStringField;
     DB_Images: TIBDatabase;
     Transaction_Images: TIBTransaction;
+    IB_Spisanie_detaliID: TIntegerField;
+    IB_Spisanie_furnituraID: TIntegerField;
+    IB_Spisanie_listyID: TIntegerField;
+    IB_Spisanie_listySUMMA: TIBBCDField;
+    IB_Spisanie_listyID_PRIHOD_LISTY: TIntegerField;
+    IB_FurnituraNAME: TIBStringField;
+    IB_FurnituraMANUFACTURER_CODE: TIBStringField;
+    IB_Pilomat_grupaNAME: TIBStringField;
+    IB_Pilomat_grupaMANUFACTURER_CODE: TIBStringField;
+    IB_Pilomat_listyNAME: TIBStringField;
+    IB_Pilomat_detaliNAME: TIBStringField;
     procedure IB_Pilomat_grupa_vidrabotNewRecord(DataSet: TDataSet);
     procedure IB_Pilomat_listyBeforePost(DataSet: TDataSet);
     procedure IB_Pilomat_detaliBeforePost(DataSet: TDataSet);
@@ -437,7 +441,6 @@ type
     procedure IB_Akt_raspilDeleteError(DataSet: TDataSet;
       E: EDatabaseError; var Action: TDataAction);
     procedure IB_Peremeschenie_furnituraBeforePost(DataSet: TDataSet);
-    procedure IB_Peremeschenie_detaliBeforePost(DataSet: TDataSet);
     procedure IB_Spisanie_listyBeforePost(DataSet: TDataSet);
     procedure IB_Peremeschenie_listyBeforePost(DataSet: TDataSet);
     procedure IB_OSTATOK_DETALI_VIDRABOTCalcFields(DataSet: TDataSet);
@@ -731,22 +734,6 @@ begin
       ShowMessage('На складе не хватает комплектующих. В наличии только '+FloatToStr(kolvo_furnitura));
       Abort;
     end;
-end;//proc
-
-procedure TDM_Mebeli.IB_Peremeschenie_detaliBeforePost(DataSet: TDataSet);
-var
-  kolvo_detali: integer;
-begin
-  kolvo_detali:=F_Main.Kolvo_detali_na_etape_sklade(IB_Peremeschenie_detali.FieldByName('ID_VID_RABOT').AsInteger, IB_Peremeschenie_detali.FieldByName('id_pilomat_detali').AsInteger, IB_Peremeschenie_0.FieldByName('id_sklad_otkuda').AsInteger, IB_Peremeschenie_0.FieldByName('date_per').AsString);
-  IF IB_Peremeschenie_detali.FieldByName('kol_vo').AsFloat> kolvo_detali Then
-    begin
-      IB_Pilomat_detali.Open;
-      IB_Pilomat_detali.Locate('ID',IB_Peremeschenie_detali.FieldByName('id_pilomat_detali').AsInteger,[]);
-      ShowMessage('На складе не хватает ['+IB_Pilomat_detali.FieldValues['NAME']+']. Нужно '+IntToStr(IB_Peremeschenie_detali.FieldByName('kol_vo').AsInteger)+', в наличии только '+IntToStr(kolvo_detali));
-      IF kolvo_detali<0 Then
-        abort;
-      IB_Peremeschenie_detali.FieldByName('kol_vo').Value:= kolvo_detali;
-    end;//IF
 end;//proc
 
 procedure TDM_Mebeli.IB_Spisanie_listyBeforePost(DataSet: TDataSet);

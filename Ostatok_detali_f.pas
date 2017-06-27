@@ -24,6 +24,14 @@ type
     MainMenu1: TMainMenu;
     N_Period_of_view: TMenuItem;
     N1: TMenuItem;
+    IB_Prihod_detali_1_FID: TIntegerField;
+    IB_Prihod_detali_1_FKOL_VO: TIntegerField;
+    IB_Prihod_detali_1_FSUMMA: TIBBCDField;
+    IB_Prihod_detali_1_FDETALI_GRUPA: TIBStringField;
+    IB_Prihod_detali_1_FDETALI_NAME: TIBStringField;
+    IB_Prihod_detali_1_FID_PILOMAT_DETALI: TIntegerField;
+    IB_Prihod_detali_1_FPRICE: TIBBCDField;
+    IB_Prihod_detali_1_FPRICE_M2: TIBBCDField;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

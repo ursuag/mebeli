@@ -1,8 +1,8 @@
 object DM_Mebeli: TDM_Mebeli
   OldCreateOrder = False
   Left = 23
-  Top = 112
-  Height = 724
+  Top = 7
+  Height = 787
   Width = 1117
   object DB_Mebeli: TIBDatabase
     Connected = True
@@ -292,14 +292,15 @@ object DM_Mebeli: TDM_Mebeli
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into PILOMAT_GRUPA'
-      '  (ID, NAME, ARTICLE)'
+      '  (ID, NAME, ARTICLE, MANUFACTURER_CODE)'
       'values'
-      '  (:ID, :NAME, :ARTICLE)')
+      '  (:ID, :NAME, :ARTICLE, :MANUFACTURER_CODE)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
       '  NAME,'
-      '  ARTICLE'
+      '  ARTICLE,'
+      '  MANUFACTURER_CODE'
       'from PILOMAT_GRUPA '
       'where'
       '  ID = :ID')
@@ -312,7 +313,8 @@ object DM_Mebeli: TDM_Mebeli
       'set'
       '  ID = :ID,'
       '  NAME = :NAME,'
-      '  ARTICLE = :ARTICLE'
+      '  ARTICLE = :ARTICLE,'
+      '  MANUFACTURER_CODE = :MANUFACTURER_CODE'
       'where'
       '  ID = :OLD_ID')
     GeneratorField.Field = 'ID'
@@ -324,15 +326,20 @@ object DM_Mebeli: TDM_Mebeli
       Origin = 'PILOMAT_GRUPA.ID'
       Required = True
     end
+    object IB_Pilomat_grupaARTICLE: TIntegerField
+      FieldName = 'ARTICLE'
+      Origin = 'PILOMAT_GRUPA.ARTICLE'
+    end
     object IB_Pilomat_grupaNAME: TIBStringField
       FieldName = 'NAME'
       Origin = 'PILOMAT_GRUPA.NAME'
       Required = True
-      Size = 60
+      Size = 100
     end
-    object IB_Pilomat_grupaARTICLE: TIntegerField
-      FieldName = 'ARTICLE'
-      Origin = 'PILOMAT_GRUPA.ARTICLE'
+    object IB_Pilomat_grupaMANUFACTURER_CODE: TIBStringField
+      FieldName = 'MANUFACTURER_CODE'
+      Origin = 'PILOMAT_GRUPA.MANUFACTURER_CODE'
+      Size = 100
     end
   end
   object IB_Pilomat_grupa_vidrabot: TIBDataSet
@@ -469,7 +476,7 @@ object DM_Mebeli: TDM_Mebeli
       FieldName = 'NAME'
       Origin = 'PILOMAT_DETALI.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
   end
   object IB_Gotov_prod_0: TIBDataSet
@@ -671,7 +678,7 @@ object DM_Mebeli: TDM_Mebeli
     SelectSQL.Strings = (
       'select *  from zakaz_0'
       'where id>0'
-      'order by date_z')
+      'order by date_z, id')
     ModifySQL.Strings = (
       'update zakaz_0'
       'set'
@@ -1015,13 +1022,13 @@ object DM_Mebeli: TDM_Mebeli
       LookupKeyFields = 'ID'
       LookupResultField = 'NAME'
       KeyFields = 'ID_PILOMAT_LISTY'
-      Size = 50
+      Size = 100
       Lookup = True
     end
     object IB_Akt_raspil_listyGRUPA_NAME: TStringField
       FieldKind = fkCalculated
       FieldName = 'GRUPA_NAME'
-      Size = 50
+      Size = 100
       Calculated = True
     end
   end
@@ -1089,7 +1096,7 @@ object DM_Mebeli: TDM_Mebeli
       LookupKeyFields = 'ID'
       LookupResultField = 'NAME'
       KeyFields = 'ID_PILOMAT_DETALI'
-      Size = 60
+      Size = 100
       Lookup = True
     end
     object IB_Akt_raspil_detaliGRUPA_NAME: TStringField
@@ -1099,7 +1106,7 @@ object DM_Mebeli: TDM_Mebeli
       LookupKeyFields = 'ID'
       LookupResultField = 'GRUPA_NAME'
       KeyFields = 'ID_PILOMAT_DETALI'
-      Size = 60
+      Size = 100
       Lookup = True
     end
     object IB_Akt_raspil_detaliSKLAD_NAME: TStringField
@@ -1509,7 +1516,7 @@ object DM_Mebeli: TDM_Mebeli
       LookupKeyFields = 'ID'
       LookupResultField = 'NAME'
       KeyFields = 'ID_PILOMAT_DETALI'
-      Size = 60
+      Size = 100
       Lookup = True
     end
     object IB_Prihod_detali_1ID: TIntegerField
@@ -1941,12 +1948,14 @@ object DM_Mebeli: TDM_Mebeli
     object IB_Akt_raspilOTHOD_SUMMA: TIBBCDField
       FieldName = 'OTHOD_SUMMA'
       Origin = 'AKT_RASPIL.OTHOD_SUMMA'
+      DisplayFormat = '### ##0.00'
       Precision = 18
       Size = 3
     end
     object IB_Akt_raspilOTHOD_M2: TIBBCDField
       FieldName = 'OTHOD_M2'
       Origin = 'AKT_RASPIL.OTHOD_M2'
+      DisplayFormat = '##0.000'
       Precision = 18
       Size = 4
     end
@@ -2337,7 +2346,7 @@ object DM_Mebeli: TDM_Mebeli
     object IB_Rashod_furnituraFURNITURA_NAME: TIBStringField
       FieldName = 'FURNITURA_NAME'
       Origin = '"FURNITURA"."NAME"'
-      Size = 50
+      Size = 100
     end
     object IB_Rashod_furnituraID: TIntegerField
       FieldName = 'ID'
@@ -2679,15 +2688,23 @@ object DM_Mebeli: TDM_Mebeli
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into FURNITURA'
-      '  (ID, NAME, ED_IZM, ID_PARENT)'
+      
+        '  (ID, NAME, ED_IZM, ID_PARENT, MANUFACTURER_NAME, MANUFACTURER_' +
+        'CODE, ARTICLE)'
       'values'
-      '  (:ID, :NAME, :ED_IZM, :ID_PARENT)')
+      
+        '  (:ID, :NAME, :ED_IZM, :ID_PARENT, :MANUFACTURER_NAME, :MANUFAC' +
+        'TURER_CODE, '
+      '   :ARTICLE)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
       '  NAME,'
       '  ED_IZM,'
-      '  ID_PARENT'
+      '  ID_PARENT,'
+      '  MANUFACTURER_NAME,'
+      '  MANUFACTURER_CODE,'
+      '  ARTICLE'
       'from FURNITURA '
       'where'
       '  ID = :ID')
@@ -2701,7 +2718,10 @@ object DM_Mebeli: TDM_Mebeli
       '  ID = :ID,'
       '  NAME = :NAME,'
       '  ED_IZM = :ED_IZM,'
-      '  ID_PARENT = :ID_PARENT'
+      '  ID_PARENT = :ID_PARENT,'
+      '  MANUFACTURER_NAME = :MANUFACTURER_NAME,'
+      '  MANUFACTURER_CODE = :MANUFACTURER_CODE,'
+      '  ARTICLE = :ARTICLE'
       'where'
       '  ID = :OLD_ID')
     DataSource = DS_Furnitura_grupa
@@ -2711,12 +2731,6 @@ object DM_Mebeli: TDM_Mebeli
       FieldName = 'ID'
       Origin = 'FURNITURA.ID'
       Required = True
-    end
-    object IB_FurnituraNAME: TIBStringField
-      FieldName = 'NAME'
-      Origin = 'FURNITURA.NAME'
-      Required = True
-      Size = 50
     end
     object IB_FurnituraED_IZM: TIBStringField
       FieldName = 'ED_IZM'
@@ -2734,13 +2748,20 @@ object DM_Mebeli: TDM_Mebeli
       Origin = 'FURNITURA.MANUFACTURER_NAME'
       Size = 100
     end
-    object IB_FurnituraMANUFACTURER_CODE: TIBStringField
-      FieldName = 'MANUFACTURER_CODE'
-      Origin = 'FURNITURA.MANUFACTURER_CODE'
-    end
     object IB_FurnituraARTICLE: TIntegerField
       FieldName = 'ARTICLE'
       Origin = 'FURNITURA.ARTICLE'
+    end
+    object IB_FurnituraNAME: TIBStringField
+      FieldName = 'NAME'
+      Origin = 'FURNITURA.NAME'
+      Required = True
+      Size = 100
+    end
+    object IB_FurnituraMANUFACTURER_CODE: TIBStringField
+      FieldName = 'MANUFACTURER_CODE'
+      Origin = 'FURNITURA.MANUFACTURER_CODE'
+      Size = 100
     end
   end
   object DS_Vidy_rabot_stoimosti: TDataSource
@@ -2840,7 +2861,6 @@ object DM_Mebeli: TDM_Mebeli
     Database = DB_Mebeli
     Transaction = IBTransaction1
     ForcedRefresh = True
-    BeforePost = IB_Peremeschenie_detaliBeforePost
     OnNewRecord = IB_Peremeschenie_detaliNewRecord
     OnPostError = IB_Peremeschenie_detaliPostError
     BufferChunks = 1000
@@ -2999,7 +3019,7 @@ object DM_Mebeli: TDM_Mebeli
       LookupKeyFields = 'ID'
       LookupResultField = 'NAME'
       KeyFields = 'ID_FURNITURA'
-      Size = 60
+      Size = 100
       Lookup = True
     end
     object IB_Peremeschenie_furnituraEDIZM_NAME: TStringField
@@ -3221,28 +3241,27 @@ object DM_Mebeli: TDM_Mebeli
     DeleteSQL.Strings = (
       'delete from SPISANIE_DETALI'
       'where'
-      '  ID_PARENT = :OLD_ID_PARENT and'
-      '  ID_PILOMAT_DETALI = :OLD_ID_PILOMAT_DETALI and'
-      '  ID_VID_RABOT = :OLD_ID_VID_RABOT')
+      '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into SPISANIE_DETALI'
-      '  (ID_PARENT, ID_PILOMAT_DETALI, ID_VID_RABOT, KOL_VO, OPLATA)'
+      
+        '  (ID_PARENT, ID_PILOMAT_DETALI, KOL_VO, ID_VID_RABOT, OPLATA, I' +
+        'D)'
       'values'
       
-        '  (:ID_PARENT, :ID_PILOMAT_DETALI, :ID_VID_RABOT, :KOL_VO, :OPLA' +
-        'TA)')
+        '  (:ID_PARENT, :ID_PILOMAT_DETALI, :KOL_VO, :ID_VID_RABOT, :OPLA' +
+        'TA, :ID)')
     RefreshSQL.Strings = (
       'Select '
       '  ID_PARENT,'
       '  ID_PILOMAT_DETALI,'
       '  KOL_VO,'
       '  ID_VID_RABOT,'
-      '  OPLATA'
+      '  OPLATA,'
+      '  ID'
       'from SPISANIE_DETALI '
       'where'
-      '  ID_PARENT = :ID_PARENT and'
-      '  ID_PILOMAT_DETALI = :ID_PILOMAT_DETALI and'
-      '  ID_VID_RABOT = :ID_VID_RABOT')
+      '  ID = :ID')
     SelectSQL.Strings = (
       'select * from SPISANIE_DETALI'
       'where id_parent=:ID')
@@ -3251,13 +3270,14 @@ object DM_Mebeli: TDM_Mebeli
       'set'
       '  ID_PARENT = :ID_PARENT,'
       '  ID_PILOMAT_DETALI = :ID_PILOMAT_DETALI,'
-      '  ID_VID_RABOT = :ID_VID_RABOT,'
       '  KOL_VO = :KOL_VO,'
-      '  OPLATA = :OPLATA'
+      '  ID_VID_RABOT = :ID_VID_RABOT,'
+      '  OPLATA = :OPLATA,'
+      '  ID = :ID'
       'where'
-      '  ID_PARENT = :OLD_ID_PARENT and'
-      '  ID_PILOMAT_DETALI = :OLD_ID_PILOMAT_DETALI and'
-      '  ID_VID_RABOT = :OLD_ID_VID_RABOT')
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    GeneratorField.Generator = 'GEN_SPISANIE_DETALI_ID'
     DataSource = DS_Spisanie_0
     Left = 936
     Top = 192
@@ -3307,7 +3327,7 @@ object DM_Mebeli: TDM_Mebeli
       LookupKeyFields = 'ID_PILOMAT_DETALI'
       LookupResultField = 'DETALI_NAME'
       KeyFields = 'ID_PILOMAT_DETALI'
-      Size = 60
+      Size = 100
       Lookup = True
     end
     object IB_Spisanie_detaliGRUPA_NAME: TStringField
@@ -3317,8 +3337,13 @@ object DM_Mebeli: TDM_Mebeli
       LookupKeyFields = 'ID_PILOMAT_DETALI'
       LookupResultField = 'GRUPA_NAME'
       KeyFields = 'ID_PILOMAT_DETALI'
-      Size = 60
+      Size = 100
       Lookup = True
+    end
+    object IB_Spisanie_detaliID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'SPISANIE_DETALI.ID'
+      Required = True
     end
   end
   object DS_Spisanie_detali: TDataSource
@@ -3337,34 +3362,35 @@ object DM_Mebeli: TDM_Mebeli
     DeleteSQL.Strings = (
       'delete from SPISANIE_FURNITURA'
       'where'
-      '  ID_FURNITURA = :OLD_ID_FURNITURA and'
-      '  ID_PARENT = :OLD_ID_PARENT')
+      '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into SPISANIE_FURNITURA'
-      '  (ID_FURNITURA, ID_PARENT, KOL_VO)'
+      '  (ID_PARENT, ID_FURNITURA, KOL_VO, ID)'
       'values'
-      '  (:ID_FURNITURA, :ID_PARENT, :KOL_VO)')
+      '  (:ID_PARENT, :ID_FURNITURA, :KOL_VO, :ID)')
     RefreshSQL.Strings = (
       'Select '
       '  ID_PARENT,'
       '  ID_FURNITURA,'
-      '  KOL_VO'
+      '  KOL_VO,'
+      '  ID'
       'from SPISANIE_FURNITURA '
       'where'
-      '  ID_FURNITURA = :ID_FURNITURA and'
-      '  ID_PARENT = :ID_PARENT')
+      '  ID = :ID')
     SelectSQL.Strings = (
       'select * from SPISANIE_FURNITURA'
       'where id_parent=:ID')
     ModifySQL.Strings = (
       'update SPISANIE_FURNITURA'
       'set'
-      '  ID_FURNITURA = :ID_FURNITURA,'
       '  ID_PARENT = :ID_PARENT,'
-      '  KOL_VO = :KOL_VO'
+      '  ID_FURNITURA = :ID_FURNITURA,'
+      '  KOL_VO = :KOL_VO,'
+      '  ID = :ID'
       'where'
-      '  ID_FURNITURA = :OLD_ID_FURNITURA and'
-      '  ID_PARENT = :OLD_ID_PARENT')
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    GeneratorField.Generator = 'GEN_SPISANIE_FURNITURA_ID'
     DataSource = DS_Spisanie_0
     Left = 936
     Top = 240
@@ -3407,6 +3433,11 @@ object DM_Mebeli: TDM_Mebeli
       Size = 10
       Lookup = True
     end
+    object IB_Spisanie_furnituraID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'SPISANIE_FURNITURA.ID'
+      Required = True
+    end
   end
   object DS_Spisanie_furnitura: TDataSource
     DataSet = IB_Spisanie_furnitura
@@ -3425,34 +3456,43 @@ object DM_Mebeli: TDM_Mebeli
     DeleteSQL.Strings = (
       'delete from SPISANIE_LISTY'
       'where'
-      '  ID_PARENT = :OLD_ID_PARENT and'
-      '  ID_PILOMAT_LISTY = :OLD_ID_PILOMAT_LISTY')
+      '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into SPISANIE_LISTY'
-      '  (ID_PARENT, ID_PILOMAT_LISTY, KOL_VO)'
+      
+        '  (ID, ID_PARENT, ID_PILOMAT_LISTY, KOL_VO, SUMMA, ID_PRIHOD_LIS' +
+        'TY)'
       'values'
-      '  (:ID_PARENT, :ID_PILOMAT_LISTY, :KOL_VO)')
+      
+        '  (:ID, :ID_PARENT, :ID_PILOMAT_LISTY, :KOL_VO, :SUMMA, :ID_PRIH' +
+        'OD_LISTY)')
     RefreshSQL.Strings = (
       'Select '
+      '  ID,'
       '  ID_PARENT,'
       '  ID_PILOMAT_LISTY,'
-      '  KOL_VO'
+      '  KOL_VO,'
+      '  SUMMA,'
+      '  ID_PRIHOD_LISTY'
       'from SPISANIE_LISTY '
       'where'
-      '  ID_PARENT = :ID_PARENT and'
-      '  ID_PILOMAT_LISTY = :ID_PILOMAT_LISTY')
+      '  ID = :ID')
     SelectSQL.Strings = (
       'select * from SPISANIE_LISTY'
       'where id_parent=:ID')
     ModifySQL.Strings = (
       'update SPISANIE_LISTY'
       'set'
+      '  ID = :ID,'
       '  ID_PARENT = :ID_PARENT,'
       '  ID_PILOMAT_LISTY = :ID_PILOMAT_LISTY,'
-      '  KOL_VO = :KOL_VO'
+      '  KOL_VO = :KOL_VO,'
+      '  SUMMA = :SUMMA,'
+      '  ID_PRIHOD_LISTY = :ID_PRIHOD_LISTY'
       'where'
-      '  ID_PARENT = :OLD_ID_PARENT and'
-      '  ID_PILOMAT_LISTY = :OLD_ID_PILOMAT_LISTY')
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    GeneratorField.Generator = 'GEN_SPISANIE_LISTY_ID'
     DataSource = DS_Spisanie_0
     Left = 936
     Top = 288
@@ -3481,6 +3521,21 @@ object DM_Mebeli: TDM_Mebeli
       Size = 100
       Transliterate = False
       Lookup = True
+    end
+    object IB_Spisanie_listyID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'SPISANIE_LISTY.ID'
+      Required = True
+    end
+    object IB_Spisanie_listySUMMA: TIBBCDField
+      FieldName = 'SUMMA'
+      Origin = 'SPISANIE_LISTY.SUMMA'
+      Precision = 18
+      Size = 2
+    end
+    object IB_Spisanie_listyID_PRIHOD_LISTY: TIntegerField
+      FieldName = 'ID_PRIHOD_LISTY'
+      Origin = 'SPISANIE_LISTY.ID_PRIHOD_LISTY'
     end
   end
   object DS_Spisanie_listy: TDataSource
@@ -3911,11 +3966,6 @@ object DM_Mebeli: TDM_Mebeli
       FieldName = 'RAZMER_Y'
       Origin = 'PILOMAT_LISTY.RAZMER_Y'
     end
-    object IB_Pilomat_listyNAME: TIBStringField
-      FieldName = 'NAME'
-      Origin = 'PILOMAT_LISTY.NAME'
-      Size = 50
-    end
     object IB_Pilomat_listyAREA: TIntegerField
       FieldName = 'AREA'
       Origin = 'PILOMAT_LISTY.AREA'
@@ -3923,6 +3973,12 @@ object DM_Mebeli: TDM_Mebeli
     object IB_Pilomat_listyISLIST: TSmallintField
       FieldName = 'ISLIST'
       Origin = 'PILOMAT_LISTY.ISLIST'
+    end
+    object IB_Pilomat_listyNAME: TIBStringField
+      FieldName = 'NAME'
+      Origin = 'PILOMAT_LISTY.NAME'
+      Required = True
+      Size = 100
     end
   end
   object IB_GOTOV_PROD_CATEGORIES: TIBDataSet
@@ -4085,30 +4141,6 @@ object DM_Mebeli: TDM_Mebeli
     GeneratorField.Generator = 'GEN_GOTOV_PROD_GRUPA_ID'
     Left = 440
     Top = 360
-  end
-  object IB_ZAKAZ_GOTOVPROD_OSTATOK: TIBDataSet
-    Database = DB_Mebeli
-    Transaction = IBTransaction1
-    ForcedRefresh = True
-    BufferChunks = 1000
-    CachedUpdates = False
-    RefreshSQL.Strings = (
-      'Select *'
-      'from GET_ZAKAZ_GOTOVPROD_OSTATOK (null,null)'
-      'where'
-      '  ID_ZAKAZ = :ID_ZAKAZ')
-    SelectSQL.Strings = (
-      'select * from GET_ZAKAZ_GOTOVPROD_OSTATOK(null,null)')
-    GeneratorField.Field = 'ID'
-    GeneratorField.Generator = 'GEN_GOTOV_PROD_GRUPA_ID'
-    Left = 960
-    Top = 560
-  end
-  object DS_ZAKAZ_GOTOVPROD_OSTATOK: TDataSource
-    AutoEdit = False
-    DataSet = IB_ZAKAZ_GOTOVPROD_OSTATOK
-    Left = 1008
-    Top = 560
   end
   object IB_GOTOV_PROD_VIDRABOT: TIBDataSet
     Database = DB_Mebeli

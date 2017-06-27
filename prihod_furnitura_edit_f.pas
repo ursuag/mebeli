@@ -44,14 +44,15 @@ type
     IB_Prihod_furnitura_1GRUPA_NAME: TStringField;
     IB_Prihod_furnitura_1FURNITURA_EDIZM: TStringField;
     IB_FurnituraID: TIntegerField;
-    IB_FurnituraNAME: TIBStringField;
     IB_FurnituraED_IZM: TIBStringField;
     IB_FurnituraID_PARENT: TIntegerField;
     IB_FurnituraMANUFACTURER_NAME: TIBStringField;
-    IB_FurnituraMANUFACTURER_CODE: TIBStringField;
     IB_FurnituraARTICLE: TIntegerField;
     DBL_Furnitura: TDBLookupComboBox;
     IB_Prihod_furnitura_1FURNITURA_NAME: TStringField;
+    IB_Prihod_furnitura_1PRICE: TFloatField;
+    IB_FurnituraNAME: TIBStringField;
+    IB_FurnituraMANUFACTURER_CODE: TIBStringField;
     procedure FormActivate(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);
     procedure B_OkClick(Sender: TObject);
@@ -267,6 +268,8 @@ begin
   ib_tmp.open;
   IB_Prihod_furnitura_1.FieldByName('FURNITURA_NAME').Value:=ib_tmp.FieldByName('name').AsString;
   ib_tmp.Free;
+  if IB_Prihod_furnitura_1.FieldByName('KOL_VO').AsFloat>0 then
+    IB_Prihod_furnitura_1.FieldByName('PRICE').Value:=IB_Prihod_furnitura_1.FieldByName('SUMMA').AsFloat/IB_Prihod_furnitura_1.FieldByName('KOL_VO').AsFloat;
 end;//proc
 
 end.

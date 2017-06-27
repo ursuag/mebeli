@@ -71,6 +71,13 @@ object F_Furnitura: TF_Furnitura
         Title.Caption = #1045#1076'.'#1080#1079#1084'.'
         Width = 86
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ID'
+        Title.Alignment = taCenter
+        Title.Caption = #1042#1085'.'#1082#1086#1076
+        Visible = True
       end>
   end
   object Panel1: TPanel
@@ -154,6 +161,13 @@ object F_Furnitura: TF_Furnitura
         Title.Caption = #1043#1056#1059#1055#1055#1040
         Width = 405
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ID'
+        Title.Alignment = taCenter
+        Title.Caption = #1050#1086#1076
+        Visible = True
       end>
   end
   object MainMenu1: TMainMenu
@@ -190,6 +204,17 @@ object F_Furnitura: TF_Furnitura
       object N_Delete_furnitura: TMenuItem
         Caption = #1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1077
         OnClick = N_Delete_furnituraClick
+      end
+    end
+    object N1: TMenuItem
+      Caption = #1048#1084#1087#1086#1088#1090
+      Enabled = False
+      object N_Import_new: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1085#1086#1074#1099#1093' '#1087#1086#1079#1080#1094#1080#1081
+      end
+      object N_Import_names: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1085#1072#1079#1074#1072#1085#1080#1081
+        OnClick = N_Import_namesClick
       end
     end
     object N_Close: TMenuItem

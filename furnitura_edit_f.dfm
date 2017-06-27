@@ -290,12 +290,6 @@ object F_Furnitura_edit: TF_Furnitura_edit
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-    object IBFurnituraNAME: TIBStringField
-      FieldName = 'NAME'
-      Origin = '"FURNITURA"."NAME"'
-      Required = True
-      Size = 50
-    end
     object IBFurnituraED_IZM: TIBStringField
       FieldName = 'ED_IZM'
       Origin = '"FURNITURA"."ED_IZM"'
@@ -322,13 +316,20 @@ object F_Furnitura_edit: TF_Furnitura_edit
       Origin = 'FURNITURA.MANUFACTURER_NAME'
       Size = 100
     end
-    object IBFurnituraMANUFACTURER_CODE: TIBStringField
-      FieldName = 'MANUFACTURER_CODE'
-      Origin = 'FURNITURA.MANUFACTURER_CODE'
-    end
     object IBFurnituraARTICLE: TIntegerField
       FieldName = 'ARTICLE'
       Origin = 'FURNITURA.ARTICLE'
+    end
+    object IBFurnituraNAME: TIBStringField
+      FieldName = 'NAME'
+      Origin = 'FURNITURA.NAME'
+      Required = True
+      Size = 100
+    end
+    object IBFurnituraMANUFACTURER_CODE: TIBStringField
+      FieldName = 'MANUFACTURER_CODE'
+      Origin = 'FURNITURA.MANUFACTURER_CODE'
+      Size = 100
     end
   end
   object IBFurnitura_vidrabot: TIBDataSet

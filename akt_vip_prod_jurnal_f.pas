@@ -65,7 +65,6 @@ type
     procedure N_PodrobnoClick(Sender: TObject);
     procedure B_Podrobno_CloseClick(Sender: TObject);
     procedure N_Change_Rashod_firnituraClick(Sender: TObject);
-    procedure DBG_FurnituraExit(Sender: TObject);
     procedure N_Search_IDClick(Sender: TObject);
   private
     { Private declarations }
@@ -192,9 +191,20 @@ begin
   sql_update_kolvo.ParamByName('id_gotov_prod').Value:=IB_Rashod_furnitura_F.FieldByName('id_gotov_prod').AsInteger;
   sql_update_kolvo.ParamByName('new_kolvo').Value:=new_kolvo;
   sql_update_kolvo.ExecSQL;
-  IB_Rashod_furnitura_F.Close;
-  IB_Rashod_furnitura_F.Open;
+
+//  IB_Rashod_furnitura_F.Close;
+//  IB_Rashod_furnitura_F.Open;
+
   sql_update_kolvo.Free;
+
+  id_akt:=DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('NOMER').AsInteger;
+  IF DM_Mebeli.IBTransaction1.Active Then
+  begin
+    DM_Mebeli.IBTransaction1.Commit;
+    Reopen_tables;
+  end;//IF DM_Mebeli.IBTransaction1.Active Then
+
+
 end;//proc
 
 procedure TF_Akt_vip_prod_jurnal.N_Period_of_viewClick(Sender: TObject);
@@ -244,17 +254,6 @@ procedure TF_Akt_vip_prod_jurnal.N_Change_Rashod_firnituraClick(
   Sender: TObject);
 begin
   M_Edit_furnituraClick(Sender); 
-end;
-
-procedure TF_Akt_vip_prod_jurnal.DBG_FurnituraExit(Sender: TObject);
-begin
-  id_akt:=DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('NOMER').AsInteger;
-  IF DM_Mebeli.IBTransaction1.Active Then
-  begin
-    DM_Mebeli.IBTransaction1.Commit;
-    Reopen_tables;
-  end;//IF DM_Mebeli.IBTransaction1.Active Then
-
 end;
 
 procedure TF_Akt_vip_prod_jurnal.N_Search_IDClick(Sender: TObject);

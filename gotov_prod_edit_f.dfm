@@ -479,14 +479,16 @@ object F_Gotov_prod_edit: TF_Gotov_prod_edit
       Origin = 'FURNITURA.ID'
     end
     object IB_Gotov_prod_2FURNITURA_GRUPA: TIBStringField
+      DisplayWidth = 50
       FieldName = 'FURNITURA_GRUPA'
       Origin = 'FURNITURA_GRUPA.NAME'
       Size = 50
     end
     object IB_Gotov_prod_2FURNITURA_NAME: TIBStringField
+      DisplayWidth = 100
       FieldName = 'FURNITURA_NAME'
       Origin = 'FURNITURA.NAME'
-      Size = 50
+      Size = 100
     end
     object IB_Gotov_prod_2KOL_VO: TIBBCDField
       FieldName = 'KOL_VO'

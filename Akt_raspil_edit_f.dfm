@@ -1,9 +1,9 @@
 object F_Akt_raspil_edit: TF_Akt_raspil_edit
-  Left = 1
-  Top = 66
+  Left = 0
+  Top = 0
   AutoScroll = False
   Caption = #1040#1082#1090' '#1088#1072#1089#1087#1080#1083#1072
-  ClientHeight = 702
+  ClientHeight = 690
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -99,6 +99,7 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
     TitleFont.Height = -13
     TitleFont.Name = 'Arial'
     TitleFont.Style = []
+    OnDrawColumnCell = DBGR_DETALIDrawColumnCell
     OnEditButtonClick = DBGR_DETALIEditButtonClick
     OnEnter = DBGR_DETALIEnter
     OnExit = DBGR_DETALIExit
@@ -475,6 +476,34 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
         Visible = True
       end>
   end
+  object DBL_Detali: TDBLookupComboBox
+    Left = 880
+    Top = 228
+    Width = 209
+    Height = 24
+    DataField = 'NAME'
+    DropDownRows = 20
+    DropDownWidth = 400
+    KeyField = 'ID'
+    ListField = 'NAME'
+    ListSource = DM_Mebeli.DS_Pilomat_detali
+    TabOrder = 5
+    OnCloseUp = DBL_DetaliCloseUp
+  end
+  object DBL_Detali_Grupa: TDBLookupComboBox
+    Left = 880
+    Top = 196
+    Width = 209
+    Height = 24
+    DataField = 'FURNITURA_NAME'
+    DropDownRows = 20
+    DropDownWidth = 400
+    KeyField = 'ID'
+    ListField = 'NAME'
+    ListSource = DM_Mebeli.DS_Pilomat_grupa
+    TabOrder = 6
+    OnCloseUp = DBL_Detali_GrupaCloseUp
+  end
   object IB_Akt_raspil_detali: TIBDataSet
     Database = DM_Mebeli.DB_Mebeli
     Transaction = DM_Mebeli.IBTransaction1
@@ -550,24 +579,17 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Origin = 'AKT_RASPIL_DETALI.ID'
     end
     object IB_Akt_raspil_detaliGRUPA_NAME: TStringField
-      FieldKind = fkLookup
+      FieldKind = fkCalculated
       FieldName = 'GRUPA_NAME'
-      LookupDataSet = IB_Pilomat_Detali_F
-      LookupKeyFields = 'ID_PILOMAT_DETALI'
-      LookupResultField = 'GRUPA_NAME'
       KeyFields = 'ID_PILOMAT_DETALI'
       Size = 100
-      Lookup = True
+      Calculated = True
     end
     object IB_Akt_raspil_detaliDETALY_NAME: TStringField
-      FieldKind = fkLookup
+      FieldKind = fkCalculated
       FieldName = 'DETALI_NAME'
-      LookupDataSet = IB_Pilomat_Detali_F
-      LookupKeyFields = 'ID_PILOMAT_DETALI'
-      LookupResultField = 'DETALY_NAME'
-      KeyFields = 'ID_PILOMAT_DETALI'
       Size = 100
-      Lookup = True
+      Calculated = True
     end
     object IB_Akt_raspil_detaliIS_REMONT: TSmallintField
       FieldName = 'IS_REMONT'
@@ -577,6 +599,11 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       FieldKind = fkCalculated
       FieldName = 'REMONT_NAME'
       Size = 3
+      Calculated = True
+    end
+    object IB_Akt_raspil_detaliID_GRUPA: TIntegerField
+      FieldKind = fkCalculated
+      FieldName = 'ID_GRUPA'
       Calculated = True
     end
   end
@@ -589,10 +616,8 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
     Database = DM_Mebeli.DB_Mebeli
     Transaction = DM_Mebeli.IBTransaction1
     ForcedRefresh = True
-    AutoCalcFields = False
-    BeforePost = IB_Akt_raspil_listyBeforePost
+    OnCalcFields = IB_Akt_raspil_listyCalcFields
     OnNewRecord = IB_Akt_raspil_listyNewRecord
-    OnPostError = IB_Akt_raspil_listyPostError
     BufferChunks = 1000
     CachedUpdates = False
     DeleteSQL.Strings = (
@@ -646,24 +671,16 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Required = True
     end
     object IB_Akt_raspil_listyGRUPA_NAME: TStringField
-      FieldKind = fkLookup
+      FieldKind = fkCalculated
       FieldName = 'GRUPA_NAME'
-      LookupDataSet = IB_Pilomat_Listy_F
-      LookupKeyFields = 'ID_PILOMAT_LISTY'
-      LookupResultField = 'GRUPA_NAME'
-      KeyFields = 'ID_PILOMAT_LISTY'
-      Size = 100
-      Lookup = True
+      Size = 200
+      Calculated = True
     end
     object IB_Akt_raspil_listyLISTY_NAME: TStringField
-      FieldKind = fkLookup
+      FieldKind = fkCalculated
       FieldName = 'LISTY_NAME'
-      LookupDataSet = IB_Pilomat_Listy_F
-      LookupKeyFields = 'ID_PILOMAT_LISTY'
-      LookupResultField = 'LISTY_NAME'
-      KeyFields = 'ID_PILOMAT_LISTY'
-      Size = 100
-      Lookup = True
+      Size = 200
+      Calculated = True
     end
   end
   object DS_Akt_raspil_listy: TDataSource
@@ -736,10 +753,10 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       '  ID = :ID')
     SelectSQL.Strings = (
       
-        'select pg.name grupa_name, pd.id  ID_PILOMAT_DETALI, pd.name det' +
-        'aly_name'
+        'select pg.id id_grupa, pg.name grupa_name, pd.id  ID_PILOMAT_DET' +
+        'ALI, pd.name detaly_name'
       'from pilomat_grupa pg, pilomat_detali pd'
-      'where pd.id_grupa=pg.id')
+      'where (pd.id_grupa=pg.id) and (pd.id= :id_detali)')
     ModifySQL.Strings = (
       'update AKT_RASPIL_listy'
       'set'

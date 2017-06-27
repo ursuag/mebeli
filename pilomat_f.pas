@@ -44,6 +44,8 @@ type
     N_Import_listy: TMenuItem;
     N_Import_detali: TMenuItem;
     OpenDialog1: TOpenDialog;
+    N2: TMenuItem;
+    N_Import_grupa_name: TMenuItem;
     procedure N_Insert_grupaClick(Sender: TObject);
     procedure N_edit_grupaClick(Sender: TObject);
     procedure N_Insert_listyClick(Sender: TObject);
@@ -82,6 +84,7 @@ type
       Shift: TShiftState);
     procedure N_Import_listyClick(Sender: TObject);
     procedure N_Import_detaliClick(Sender: TObject);
+    procedure N_Import_grupa_nameClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -545,10 +548,10 @@ end;
 
 procedure TF_Pilomat.N_Import_listyClick(Sender: TObject);
 var
-        s,s1 : string;
+         s: string;
      Excel: Variant;
          j: Integer;
-r FIB_Query: TIBDataSet;
+ FIB_Query: TIBDataSet;
  FIB_listy: TIBDataSet;
 begin
   FIB_Query:=TIBDataSet.Create(nil);
@@ -559,14 +562,10 @@ begin
 
   FIB_Query.SelectSQL.Clear;
   FIB_Query.SelectSQL.Add('insert into pilomat_listy (id, id_grupa, razmer_x, razmer_y, name, islist)');
-  FIB_Query.SelectSQL.Add('values (:id, :id_grupa, :razmer_x, :razmer_y, :name, 0)');
+  FIB_Query.SelectSQL.Add('values (:id, :id_grupa, :razmer_x, :razmer_y, :name, :islist)');
 
   FIB_Listy.SelectSQL.Clear;
   FIB_Listy.SelectSQL.Add('select id from pilomat_listy where id= :id_listy');
-
-  F_Main.IBQuery1.Close;
-  F_Main.IBQuery1.SQL.Clear;
-  F_Main.IBQuery1.SQL.Add('select id from pilomat_grupa where name= :grupa_name');
 
   if DM_Mebeli.IBTransaction1.Active then
     DM_Mebeli.IBTransaction1.Rollback;
@@ -589,25 +588,15 @@ begin
       FIB_Query.ParamByName('razmer_x').Value:=StrToInt(s);
       s:=Excel.Cells[j, 5];
       FIB_Query.ParamByName('razmer_y').Value:=StrToInt(s);
+      s:=Excel.Cells[j, 6];
+      FIB_Query.ParamByName('islist').Value:=StrToInt(s);
 
 
       FIB_Listy.ParamByname('id_listy').Value:=FIB_Query.ParamByName('id').AsInteger;
       FIB_Listy.Open;
-      if not FIB_Listy.FieldByname('id').IsNull then
-        begin
-          s1:=Excel.Cells[j,1];
-          s:=s1+'_';
-          s1:=Excel.Cells[j,2];
-          s:=s+'_'+s1;
-          s1:=Excel.Cells[j,3];
-          s:=s+'_'+s1;
-//          Memo1.Lines.Add(s);
-        end
-      else
-        begin
-          FIB_Query.ExecSQL;
-        end;
-
+      if FIB_Listy.FieldByname('id').IsNull then
+         FIB_Query.ExecSQL;
+  
       FIB_Listy.Close;
       Application.ProcessMessages;
       Inc(j);
@@ -626,7 +615,6 @@ var
         s,s1 : string;
      Excel: Variant;
          j: Integer;
-         id_grupa: integer;
  FIB_Query: TIBDataSet;
  FIB_listy: TIBDataSet;
 begin
@@ -661,19 +649,13 @@ begin
       s:=Excel.Cells[j, 1];
       FIB_Query.ParamByName('id').Value:=s;
       s:=Excel.Cells[j, 2];
-      F_Main.IBQuery1.ParamByName('grupa_name').Value:=s;
-      F_Main.IBQuery1.Open;
-      if F_Main.IBQuery1.FieldByname('id').IsNull then
-        id_grupa:=0
-      else
-        id_grupa:=F_Main.IBQuery1.FieldByname('id').AsInteger;
+      FIB_Query.ParamByName('id_grupa').Value:=s;
       s:=Excel.Cells[j, 3];
-      FIB_Query.ParamByName('name').Value:=s;
-      s:=Excel.Cells[j, 4];
       FIB_Query.ParamByName('razmer_x').Value:=StrToInt(s);
-      s:=Excel.Cells[j, 5];
+      s:=Excel.Cells[j, 4];
       FIB_Query.ParamByName('razmer_y').Value:=StrToInt(s);
-      FIB_Query.ParamByName('id_grupa').Value:=id_grupa;
+      s:=Excel.Cells[j, 5];
+      FIB_Query.ParamByName('name').Value:=s;
 
       FIB_Listy.ParamByname('id_detali').Value:=FIB_Query.ParamByName('id').AsInteger;
       FIB_Listy.Open;
@@ -703,6 +685,59 @@ begin
   Excel.Quit;
   Excel:=Unassigned;
   reopen_tables;
+end;
+
+procedure TF_Pilomat.N_Import_grupa_nameClick(Sender: TObject);
+var
+        s : string;
+     Excel: Variant;
+         j: Integer;
+ FIB_Query: TIBDataSet;
+OpenDialog1: TOpenDialog;
+begin
+  OpenDialog1:=TOpenDialog.Create(nil);
+  OpenDialog1.Filter:='Excel files  |*.XLS;*.XLSX';
+
+  FIB_Query:=TIBDataSet.Create(nil);
+  FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
+
+  FIB_Query.SelectSQL.Clear;
+  FIB_Query.SelectSQL.Add('update pilomat_grupa set name=:grupa_name, manufacturer_code=:manufacturer_code where article=:article');
+
+  if DM_Mebeli.IBTransaction1.Active then
+    DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.IBTransaction1.StartTransaction;
+  Excel:=CreateOleObject('Excel.Application');
+  if not OpenDialog1.Execute then
+    begin
+      FIB_Query.Close;
+      FIB_Query.Free;
+      OpenDialog1.Free;
+      exit;
+    end;
+  Excel.Application.WorkBooks.Open(OpenDialog1.FileName,0,true);
+  j:=2;
+  while Excel.Cells[j, 1].Text<>'' do
+    begin
+      s:=Excel.Cells[j, 1];
+      FIB_Query.ParamByName('article').Value:=StrToInt(s);
+      s:=Excel.Cells[j, 2];
+      FIB_Query.ParamByName('grupa_name').Value:=s;
+      s:=Excel.Cells[j, 3];
+      FIB_Query.ParamByName('manufacturer_code').Value:=s;
+
+      FIB_Query.ExecSQL;
+      Application.ProcessMessages;
+      Inc(j);
+    end;
+
+  DM_Mebeli.IBTransaction1.Commit;
+  FIB_Query.Close;
+  FIB_Query.Free;
+  Excel.Quit;
+  Excel:=Unassigned;
+  reopen_tables;
+  ShowMessage('Imported '+IntToStr(j)+' rows');
 end;
 
 end.

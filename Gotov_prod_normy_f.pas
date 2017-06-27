@@ -455,6 +455,8 @@ end;
 
 procedure TF_Gotov_prod_normy.B_Linked_clearClick(Sender: TObject);
 begin
+  if IB_Gotov_prod_0_E.state<>dsEdit then
+    IB_Gotov_prod_0_E.Edit;
   IB_Gotov_prod_0_E.FieldByName('id_linked_gotovprod').Value:=null;
 end;
 

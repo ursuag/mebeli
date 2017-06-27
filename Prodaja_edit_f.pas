@@ -36,8 +36,12 @@ type
     IB_Prodaja_1_editID_GOTOV_PROD: TIntegerField;
     IB_Prodaja_1_editKOL_VO: TIntegerField;
     IB_Prodaja_1_editID_ZAKAZ: TIntegerField;
+    IB_Prodaja_1_editPRICE: TIBBCDField;
+    IB_Prodaja_1_editSEBESTOIMOSTI: TIBBCDField;
+    IB_Prodaja_1_editSUMMA: TFloatField;
     IB_Prodaja_1_editGRUPA_NAME: TStringField;
     IB_Prodaja_1_editGOTOVPROD_NAME: TStringField;
+    IB_Prodaja_1_editARTICLE: TIntegerField;
     procedure FormActivate(Sender: TObject);
     procedure DBGrid1EditButtonClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -49,6 +53,7 @@ type
     procedure B_ExitClick(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
+    procedure IB_Prodaja_1_editCalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -90,11 +95,11 @@ procedure TF_Prodaja_edit.DBGrid1EditButtonClick(Sender: TObject);
 begin
   IF F_Zakaz_Gotovprod_Ostatok.ShowModal<>mrOk Then exit;
   IB_Prodaja_1_edit.Edit;
-  IB_Prodaja_1_edit.FieldByName('id_zakaz').Value:=DM_Mebeli.IB_Zakaz_Gotovprod_Ostatok.FieldByName('id_zakaz').AsInteger;
-  IB_Prodaja_1_edit.FieldByName('id_gotov_prod').Value:=DM_Mebeli.IB_Zakaz_Gotovprod_Ostatok.FieldByName('id_gotovprod').AsInteger;
-  IB_Prodaja_1_edit.FieldByName('kol_vo').Value:=DM_Mebeli.IB_Zakaz_Gotovprod_Ostatok.FieldByName('ostatok').AsInteger;
+  IB_Prodaja_1_edit.FieldByName('id_zakaz').Value:=F_Zakaz_Gotovprod_Ostatok.IB_Zakaz_Gotovprod_Ostatok.FieldByName('id_zakaz').AsInteger;
+  IB_Prodaja_1_edit.FieldByName('id_gotov_prod').Value:=F_Zakaz_Gotovprod_Ostatok.IB_Zakaz_Gotovprod_Ostatok.FieldByName('id_gotovprod').AsInteger;
+  IB_Prodaja_1_edit.FieldByName('kol_vo').Value:=F_Zakaz_Gotovprod_Ostatok.IB_Zakaz_Gotovprod_Ostatok.FieldByName('ostatok').AsInteger;
   IB_Prodaja_1_edit.Post;
-    DM_Mebeli.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
+  F_Zakaz_Gotovprod_Ostatok.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
 end;//proc
 
 procedure TF_Prodaja_edit.FormClose(Sender: TObject;
@@ -105,7 +110,7 @@ begin
     begin
       IB_Prodaja_0_edit.Close;
       IB_Prodaja_1_edit.Close;
-      DM_Mebeli.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
+      F_Zakaz_Gotovprod_Ostatok.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
       exit;
     end;
   res:=MessageDlg('Сохранить изменения?',mtConfirmation,[mbYes,mbNo,mbCancel],0);
@@ -131,7 +136,7 @@ begin
     end;//IF res=mrYes
     IB_Prodaja_0_edit.Close;
     IB_Prodaja_1_edit.Close;
-    DM_Mebeli.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
+    F_Zakaz_Gotovprod_Ostatok.IB_ZAKAZ_GOTOVPROD_OSTATOK.Close;
 end;//proc
 
 procedure TF_Prodaja_edit.IB_Prodaja_1_editNewRecord(DataSet: TDataSet);
@@ -150,7 +155,7 @@ procedure TF_Prodaja_edit.IB_Prodaja_1_editPostError(DataSet: TDataSet;
 var errmsg: string;
 begin
   IF AnsiContainsText(E.Message,'UNIQUE')=True Then
-    errmsg:='Из одного заказа нельзя выбрать одну и туже продукцию!'
+    errmsg:='Нельзя выбрать две одинаковые позиции из одного заказа!'
   ELSE
     begin
       errmsg:=Copy(E.Message,Pos('~',E.Message)+1,Length(E.Message)-Pos('~',E.Message));
@@ -197,5 +202,26 @@ procedure TF_Prodaja_edit.FormCreate(Sender: TObject);
 begin
   F_Main.AdjustResolution(F_Prodaja_edit);
 end;
+
+procedure TF_Prodaja_edit.IB_Prodaja_1_editCalcFields(DataSet: TDataSet);
+
+var ib_tmp:TIBDataSet;
+begin
+  IF IB_Prodaja_1_edit.FieldByName('ID_GOTOV_PROD').IsNull Then exit;
+  ib_tmp:=TIBDataSet.Create(nil);
+  ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
+  ib_tmp.SelectSQL.Add('select gpg.name as grupa_name, gp0.name gotovprod_name, gp0.article article from gotov_prod_grupa as gpg, gotov_prod_0 as gp0 where (gpg.id=gp0.id_grupa) and (gp0.id=:id_gotovprod)');
+  ib_tmp.ParamByname('id_gotovprod').Value:=IB_Prodaja_1_edit.FieldByName('ID_GOTOV_PROD').AsInteger;
+  ib_tmp.open;
+  IB_Prodaja_1_edit.FieldByName('GRUPA_NAME').Value:=ib_tmp.FieldByName('grupa_name').AsString;
+  IB_Prodaja_1_edit.FieldByName('GOTOVPROD_NAME').Value:=ib_tmp.FieldByName('gotovprod_name').AsString;
+  IB_Prodaja_1_edit.FieldByName('ARTICLE').Value:=ib_tmp.FieldByName('article').AsInteger;
+  ib_tmp.close;
+  ib_tmp.Free;
+
+  if (not IB_Prodaja_1_edit.FieldByname('kol_vo').IsNull) and (not IB_Prodaja_1_edit.FieldByname('price').IsNull) then
+    IB_Prodaja_1_edit.FieldByname('summa').Value:=IB_Prodaja_1_edit.FieldByname('kol_vo').AsInteger*IB_Prodaja_1_edit.FieldByname('price').AsFloat;
+
+end;//proc
 
 end.

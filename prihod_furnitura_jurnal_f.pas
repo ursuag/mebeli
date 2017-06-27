@@ -28,6 +28,7 @@ type
     DS_Prihod_furnitura_1_F: TDataSource;
     IB_Prihod_furnitura_0_F: TIBDataSet;
     DS_Prihod_furnitura_0_F: TDataSource;
+    IB_Prihod_furnitura_1_FPRICE: TFloatField;
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure B_InsertClick(Sender: TObject);
@@ -90,6 +91,8 @@ end;//proc
 
 procedure TF_Prihod_furnitura_jurnal.B_EditClick(Sender: TObject);
 begin
+  if IB_prihod_furnitura_0_F.FieldByName('id').IsNull then
+    exit;
   operation:='EDIT';
   id_akt:=IB_prihod_furnitura_0_F.FieldByName('id').AsInteger;
   DM_Mebeli.IB_Prihod_furnitura_0.ParamByName('id').Value:=id_akt;

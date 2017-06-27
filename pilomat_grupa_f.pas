@@ -13,10 +13,12 @@ type
     Panel1: TPanel;
     B_Exit: TButton;
     B_Ok: TButton;
-    DBEdit1: TDBEdit;
+    DBE_ID: TDBEdit;
     Label1: TLabel;
     Label2: TLabel;
     DBE_Article: TDBEdit;
+    DB_MANUFACTURER_CODE: TDBEdit;
+    Label3: TLabel;
     procedure B_ExitClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure B_OkClick(Sender: TObject);

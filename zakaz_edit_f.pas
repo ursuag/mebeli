@@ -51,7 +51,7 @@ begin
        DM_Mebeli.IB_Zakaz_0.Insert;
        DM_Mebeli.IB_Zakaz_0.FieldByName('DATE_Z').Value:=Date;
        DM_Mebeli.IB_Zakaz_0.Post;
-       DBE_Date_z.ReadOnly:=True;
+//       DBE_Date_z.ReadOnly:=True;
      end;//IF 'INSERT'
   IF operation='EDIT' Then
      DM_Mebeli.IB_Zakaz_0.Edit;
