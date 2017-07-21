@@ -1,6 +1,6 @@
 object F_Cassa_Jurnal: TF_Cassa_Jurnal
   Left = 0
-  Top = 61
+  Top = 71
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1086#1087#1077#1088#1072#1094#1080#1081' '#1087#1086' '#1082#1072#1089#1089#1077
   ClientHeight = 682

@@ -19,7 +19,7 @@ type
     DBG_Furnitura: TDBGrid;
     Button1: TButton;
     IB_Rashod_detali: TIBDataSet;
-    DS_Akt_vip_prod_1: TDataSource;
+    DS_Rashod_detali: TDataSource;
     IB_Rashod_detaliID_PILOMAT_DETALI: TIntegerField;
     IB_Rashod_detaliDETALI_NAME: TIBStringField;
     IB_Rashod_detaliKOL_VO: TIntegerField;

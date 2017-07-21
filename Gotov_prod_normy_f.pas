@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Mask, DBCtrls, DB, IBCustomDataSet, Grids, DBGrids,
-  ExtCtrls, Menus, Buttons, Jpeg, DBTables, ExtDlgs;
+  ExtCtrls, Menus, Buttons, Jpeg, DBTables, ExtDlgs, IB;
 
 type
   TF_Gotov_prod_normy = class(TForm)
@@ -182,7 +182,16 @@ begin
   IB_Gotov_prod_0_E.Open;
 
   if operation='EDIT' then
-    IB_Gotov_prod_0_E.Edit;
+    try
+      IB_Gotov_prod_0_E.Edit;
+    except
+      on E: EDatabaseError do
+        if Pos('Cannot modify a read-only dataset',E.Message)>1 then
+          begin
+            B_Save.Enabled:=false;
+            MainMenu1.Items[0].Enabled:=false;
+          end
+    end;
 
   if operation='INSERT' then
     begin

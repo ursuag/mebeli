@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Grids, DBGrids, DBCtrls, Mask, ExtCtrls, DB,
-  IBCustomDataSet, StrUtils;
+  IBCustomDataSet, StrUtils, Menus;
 
 type
   TF_Prodaja_edit = class(TForm)
@@ -16,9 +16,9 @@ type
     Label6: TLabel;
     DBE_NOMER: TDBEdit;
     DBE_Date_pro: TDBEdit;
-    DBLookupComboBox1: TDBLookupComboBox;
-    DBEdit1: TDBEdit;
-    DBGrid1: TDBGrid;
+    DBL_Contragent: TDBLookupComboBox;
+    DBE_Description: TDBEdit;
+    DBG_Gotovprod: TDBGrid;
     Panel1: TPanel;
     B_Exit: TButton;
     B_Ok: TButton;
@@ -42,8 +42,13 @@ type
     IB_Prodaja_1_editGRUPA_NAME: TStringField;
     IB_Prodaja_1_editGOTOVPROD_NAME: TStringField;
     IB_Prodaja_1_editARTICLE: TIntegerField;
+    MainMenu1: TMainMenu;
+    N1: TMenuItem;
+    N_Sign: TMenuItem;
+    L_Signed: TLabel;
+    N_UnSign: TMenuItem;
     procedure FormActivate(Sender: TObject);
-    procedure DBGrid1EditButtonClick(Sender: TObject);
+    procedure DBG_GotovprodEditButtonClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure IB_Prodaja_1_editNewRecord(DataSet: TDataSet);
     procedure IB_Prodaja_1_editBeforePost(DataSet: TDataSet);
@@ -51,9 +56,11 @@ type
       E: EDatabaseError; var Action: TDataAction);
     procedure B_OkClick(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);
-    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure DBG_GotovprodKeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
     procedure IB_Prodaja_1_editCalcFields(DataSet: TDataSet);
+    procedure N_SignClick(Sender: TObject);
+    procedure N_UnSignClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,6 +70,8 @@ type
 var
   F_Prodaja_edit: TF_Prodaja_edit;
       OK_Pressed: boolean;
+       is_signed: boolean;
+     is_ReadOnly: boolean;
 implementation
 
 uses main_f, mebeli_dm, Prodaja_jurnal_f, Zakaz_Gotovprod_Ostatok_f;
@@ -70,29 +79,84 @@ uses main_f, mebeli_dm, Prodaja_jurnal_f, Zakaz_Gotovprod_Ostatok_f;
 {$R *.dfm}
 
 procedure TF_Prodaja_edit.FormActivate(Sender: TObject);
+var
+  ib_tmp:TIBDataSet;
 begin
+  L_Signed.Visible:=false;
+  is_signed:=false;
+  if role_name='DEPOZITAR' then
+    begin
+      is_ReadOnly:=true;
+      DBG_Gotovprod.Columns[5].Visible:=false;
+      DBG_Gotovprod.Columns[6].Visible:=false;
+    end
+  else
+    is_ReadOnly:=false;
+
   IF operation='EDIT' Then
     begin
       IB_Prodaja_0_edit.ParamByName('id_prodaja').Value:=F_Prodaja_jurnal.IB_Prodaja_0.FieldByName('nomer_akt').AsInteger;
       IB_Prodaja_0_edit.Open;
       IB_Prodaja_1_edit.Open;
       IB_Prodaja_0_edit.Edit;
+
+      ib_tmp:=TIBDataSet.Create(nil);
+      ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
+      ib_tmp.SelectSQL.Add('select (is_signed+is_partially_signed) signed from CHECK_IS_SIGNED(:table_name,:id_doc)');
+      ib_tmp.ParamByName('table_name').AsString:='PRODAJA_GOTOVPROD_0';
+      ib_tmp.ParamByName('id_doc').AsInteger:=IB_Prodaja_0_edit.FieldByName('id').AsInteger;
+      ib_tmp.Open;
+      if ib_tmp.FieldByName('signed').AsInteger>0 then
+        begin
+          L_Signed.Visible:=true;
+          is_signed:=true;
+        end;
+      ib_tmp.close;
+      ib_tmp.Free;
     end;
-  IF operation='INSERT' Then
+  IF (operation='INSERT') Then
     begin
       IB_Prodaja_0_edit.Open;
       IB_Prodaja_1_edit.Open;
       IB_Prodaja_0_edit.Insert;
       IB_Prodaja_0_edit.FieldByName('date_pro').Value:=Date;
     end;
+
+  if is_ReadOnly then
+    begin
+      DBE_Date_pro.Enabled:=false;
+      DBL_Contragent.Enabled:=false;
+      DBE_Description.Enabled:=false;
+      DBG_Gotovprod.ReadOnly:=true;
+      B_Ok.Enabled:=false;
+    end;
+  if is_Signed then
+    begin
+      DBE_Date_pro.Enabled:=false;
+      DBL_Contragent.Enabled:=false;
+      DBE_Description.Enabled:=false;
+      DBG_Gotovprod.ReadOnly:=false;
+      B_Ok.Enabled:=true;
+    end;
+
+  if (not is_ReadOnly) and (not is_Signed) then
+    begin
+      DBE_Date_pro.Enabled:=true;
+      DBL_Contragent.Enabled:=true;
+      DBE_Description.Enabled:=true;
+      DBG_Gotovprod.ReadOnly:=false;
+      B_Ok.Enabled:=true;
+    end;
+
   DM_Mebeli.IB_Contragenty_1.Open;
   OK_Pressed:=False;
   IF (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    DBE_Date_pro.ReadOnly:=true;  
+    DBE_Date_pro.ReadOnly:=true;
 end;//
 
-procedure TF_Prodaja_edit.DBGrid1EditButtonClick(Sender: TObject);
+procedure TF_Prodaja_edit.DBG_GotovprodEditButtonClick(Sender: TObject);
 begin
+  if is_signed or is_ReadOnly then exit;
   IF F_Zakaz_Gotovprod_Ostatok.ShowModal<>mrOk Then exit;
   IB_Prodaja_1_edit.Edit;
   IB_Prodaja_1_edit.FieldByName('id_zakaz').Value:=F_Zakaz_Gotovprod_Ostatok.IB_Zakaz_Gotovprod_Ostatok.FieldByName('id_zakaz').AsInteger;
@@ -106,6 +170,11 @@ procedure TF_Prodaja_edit.FormClose(Sender: TObject;
   var Action: TCloseAction);
 var res:TModalResult;
 begin
+  if is_ReadOnly then
+    if DM_Mebeli.IBTransaction1.Active then DM_Mebeli.IBTransaction1.RollBack;
+
+  if not DM_Mebeli.IBTransaction1.Active then exit;
+
   IF OK_Pressed Then
     begin
       IB_Prodaja_0_edit.Close;
@@ -192,10 +261,13 @@ begin
   Close;
 end;//proc
 
-procedure TF_Prodaja_edit.DBGrid1KeyPress(Sender: TObject; var Key: Char);
+procedure TF_Prodaja_edit.DBG_GotovprodKeyPress(Sender: TObject; var Key: Char);
 begin
   IF Key=Chr(32) Then
-    DBGrid1EditButtonClick(Sender);
+    begin
+      if is_signed or is_ReadOnly then exit;
+      DBG_GotovprodEditButtonClick(Sender);
+    end;
 end;//proc
 
 procedure TF_Prodaja_edit.FormCreate(Sender: TObject);
@@ -204,24 +276,64 @@ begin
 end;
 
 procedure TF_Prodaja_edit.IB_Prodaja_1_editCalcFields(DataSet: TDataSet);
-
-var ib_tmp:TIBDataSet;
+var
+         article: integer;
+  gotovprod_name: string;
+      grupa_name: string;
 begin
   IF IB_Prodaja_1_edit.FieldByName('ID_GOTOV_PROD').IsNull Then exit;
-  ib_tmp:=TIBDataSet.Create(nil);
-  ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
-  ib_tmp.SelectSQL.Add('select gpg.name as grupa_name, gp0.name gotovprod_name, gp0.article article from gotov_prod_grupa as gpg, gotov_prod_0 as gp0 where (gpg.id=gp0.id_grupa) and (gp0.id=:id_gotovprod)');
-  ib_tmp.ParamByname('id_gotovprod').Value:=IB_Prodaja_1_edit.FieldByName('ID_GOTOV_PROD').AsInteger;
-  ib_tmp.open;
-  IB_Prodaja_1_edit.FieldByName('GRUPA_NAME').Value:=ib_tmp.FieldByName('grupa_name').AsString;
-  IB_Prodaja_1_edit.FieldByName('GOTOVPROD_NAME').Value:=ib_tmp.FieldByName('gotovprod_name').AsString;
-  IB_Prodaja_1_edit.FieldByName('ARTICLE').Value:=ib_tmp.FieldByName('article').AsInteger;
-  ib_tmp.close;
-  ib_tmp.Free;
+  DM_MEBELI.get_gotovprod_name(IB_Prodaja_1_edit.FieldByName('ID_GOTOV_PROD').AsInteger, article, gotovprod_name, grupa_name);
+  IB_Prodaja_1_edit.FieldByName('GRUPA_NAME').Value:=grupa_name;
+  IB_Prodaja_1_edit.FieldByName('GOTOVPROD_NAME').Value:=gotovprod_name;
+  IB_Prodaja_1_edit.FieldByName('ARTICLE').Value:=article;
 
   if (not IB_Prodaja_1_edit.FieldByname('kol_vo').IsNull) and (not IB_Prodaja_1_edit.FieldByname('price').IsNull) then
     IB_Prodaja_1_edit.FieldByname('summa').Value:=IB_Prodaja_1_edit.FieldByname('kol_vo').AsInteger*IB_Prodaja_1_edit.FieldByname('price').AsFloat;
 
 end;//proc
+
+procedure TF_Prodaja_edit.N_SignClick(Sender: TObject);
+var ib_sign: TIBDataSet;
+begin
+  ib_sign:=TIBDataSet.Create(nil);
+  ib_sign.Database:=DM_Mebeli.DB_Mebeli;
+  ib_sign.SelectSQL.Add('insert into tables_signatures (table_id, user_id, table_name_id)');
+  ib_sign.SelectSQL.Add('values(:table_id, (select id from users_db where sys_username=current_user), (select id from tables_db where table_name=:table_name))');
+  ib_sign.ParamByName('table_id').value:=IB_Prodaja_0_edit.FieldByName('id').AsInteger;
+  ib_sign.ParamByName('table_name').value:='PRODAJA_GOTOVPROD_0';
+  ib_sign.ExecSQL;
+
+  ib_sign.SelectSQL.Clear;
+  ib_sign.SelectSQL.Add('update prodaja_gotovprod_1 set kol_vo=kol_vo*1 where id_parent='+IB_Prodaja_0_edit.FieldByName('id').AsString);
+  ib_sign.ExecSQL;
+  ib_sign.Free;
+  DM_Mebeli.IBTransaction1.Commit;
+  F_Prodaja_edit.Close;
+end;
+
+procedure TF_Prodaja_edit.N_UnSignClick(Sender: TObject);
+var ib_sign: TIBDataSet;
+begin
+  ib_sign:=TIBDataSet.Create(nil);
+  ib_sign.Database:=DM_Mebeli.DB_Mebeli;
+  ib_sign.SelectSQL.Add('delete from tables_signatures where (table_id= :table_id) and ');
+  ib_sign.SelectSQL.Add('(table_name_id=(select id from tables_db where table_name=:table_name))');
+  ib_sign.ParamByName('table_id').value:=IB_Prodaja_0_edit.FieldByName('id').AsInteger;
+  ib_sign.ParamByName('table_name').value:='PRODAJA_GOTOVPROD_0';
+  ib_sign.ExecSQL;
+
+  ib_sign.SelectSQL.Clear;
+  ib_sign.SelectSQL.Add('delete from prodaja_gotovprod_1_sebest where id in (');
+  ib_sign.SelectSQL.Add('select pr1s.id');
+  ib_sign.SelectSQL.Add('from prodaja_gotovprod_1_sebest pr1s, prodaja_gotovprod_1 pr1, prodaja_gotovprod_0 pr0');
+  ib_sign.SelectSQL.Add('where (pr1s.id_parent=pr1.id) and (pr1.id_parent=pr0.id) and (pr0.id=:id_doc))');
+  ib_sign.ParamByName('id_doc').value:=IB_Prodaja_0_edit.FieldByName('id').AsInteger;
+  ib_sign.ExecSQL;
+
+  ib_sign.Close;
+  ib_sign.Free;
+  DM_Mebeli.IBTransaction1.Commit;
+  F_Prodaja_edit.Close;
+end;
 
 end.

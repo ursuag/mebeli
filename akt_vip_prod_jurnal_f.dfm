@@ -1,10 +1,10 @@
 object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
-  Left = 6
+  Left = 0
   Top = 0
   AutoScroll = False
   Caption = #1040#1082#1090#1099' '#1074#1099#1087#1091#1089#1082#1072' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
-  ClientHeight = 670
-  ClientWidth = 1178
+  ClientHeight = 693
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -339,10 +339,10 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
   object DBG_Detali: TDBGrid
     Left = 0
     Top = 408
-    Width = 593
+    Width = 545
     Height = 209
     TabStop = False
-    DataSource = DS_Akt_vip_prod_1
+    DataSource = DS_Rashod_detali
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -487,7 +487,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
       FieldName = 'DETALI_NAME'
       Origin = '"PILOMAT_DETALI"."NAME"'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Rashod_detaliKOL_VO: TIntegerField
       FieldName = 'KOL_VO'
@@ -502,7 +502,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
       Size = 4
     end
   end
-  object DS_Akt_vip_prod_1: TDataSource
+  object DS_Rashod_detali: TDataSource
     DataSet = IB_Rashod_detali
     Left = 432
     Top = 176

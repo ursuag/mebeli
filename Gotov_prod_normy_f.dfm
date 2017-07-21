@@ -1,6 +1,6 @@
 object F_Gotov_prod_normy: TF_Gotov_prod_normy
   Left = 0
-  Top = 85
+  Top = 97
   AutoScroll = False
   Caption = #1053#1086#1088#1084#1099' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
   ClientHeight = 682
@@ -502,12 +502,12 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     object IB_Gotov_prod_1DETALI_GRUPA: TIBStringField
       FieldName = 'DETALI_GRUPA'
       Origin = 'PILOMAT_GRUPA.NAME'
-      Size = 60
+      Size = 100
     end
     object IB_Gotov_prod_1DETALI_NAME: TIBStringField
       FieldName = 'DETALI_NAME'
       Origin = 'PILOMAT_DETALI.NAME'
-      Size = 50
+      Size = 100
     end
     object IB_Gotov_prod_1KOL_VO: TIntegerField
       FieldName = 'KOL_VO'
@@ -586,7 +586,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     object IB_Gotov_prod_2FURNITURA_NAME: TIBStringField
       FieldName = 'FURNITURA_NAME'
       Origin = 'FURNITURA.NAME'
-      Size = 50
+      Size = 100
     end
     object IB_Gotov_prod_2KOL_VO: TIBBCDField
       FieldName = 'KOL_VO'

@@ -10,7 +10,7 @@ uses
 type
   TF_Prodaja_jurnal = class(TForm)
     DBGrid1: TDBGrid;
-    DBGrid2: TDBGrid;
+    DBG_Gotovprod: TDBGrid;
     Panel1: TPanel;
     B_Exit: TButton;
     B_Insert: TButton;
@@ -23,6 +23,13 @@ type
     MainMenu1: TMainMenu;
     N_Period_of_view: TMenuItem;
     N1: TMenuItem;
+    IB_Prodaja_1_sebest: TIBDataSet;
+    DS_Prodaja_1_sebest: TDataSource;
+    DBG_Sebest: TDBGrid;
+    N_Podrobno: TMenuItem;
+    N2: TMenuItem;
+    N_Sign: TMenuItem;
+    N_Unsign: TMenuItem;
     procedure FormActivate(Sender: TObject);
     procedure N_Period_of_viewClick(Sender: TObject);
     procedure B_EditClick(Sender: TObject);
@@ -31,6 +38,9 @@ type
     procedure N1Click(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure N_PodrobnoClick(Sender: TObject);
+    procedure N_SignClick(Sender: TObject);
+    procedure N_UnsignClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -49,16 +59,23 @@ uses main_f, mebeli_dm, Prodaja_edit_f, print_forms;
 
 procedure reopen_tables;
 begin
+  F_Prodaja_jurnal.IB_Prodaja_0.Close;
+  F_Prodaja_jurnal.IB_Prodaja_1.Close;
+  F_Prodaja_jurnal.IB_Prodaja_1_sebest.Close;
+
   F_Prodaja_jurnal.IB_Prodaja_0.Open;
   F_Prodaja_jurnal.IB_Prodaja_1.Open;
+  F_Prodaja_jurnal.IB_Prodaja_1_sebest.Open;
   IF id_akt_prodaja=0 Then
     F_Prodaja_jurnal.IB_Prodaja_0.Last
   ELSE
-    F_Prodaja_jurnal.IB_Prodaja_0.Locate('nomer_akt',id_akt_prodaja,[]);
+    F_Prodaja_jurnal.IB_Prodaja_0.Locate('id',id_akt_prodaja,[]);
 end;//proc
 
 procedure TF_Prodaja_jurnal.FormActivate(Sender: TObject);
 begin
+  if role_name='DEPOZITAR' then
+    DBG_Gotovprod.Columns[4].Visible:=false;
   IB_Prodaja_0.Close;
   period_start:=IncDay(Date,-60);
   IB_Prodaja_0.ParamByName('date_start').Value:=DateToStr(period_start);
@@ -78,6 +95,7 @@ end;//proc
 procedure TF_Prodaja_jurnal.B_EditClick(Sender: TObject);
 begin
   IF IB_Prodaja_0.FieldByName('nomer_akt').IsNull Then exit;
+  id_akt_prodaja:=IB_Prodaja_0.FieldByName('NOMER_AKT').AsInteger;
   operation:='EDIT';
   F_Prodaja_edit.ShowModal;
   reopen_tables;
@@ -106,7 +124,7 @@ end;
 procedure TF_Prodaja_jurnal.N1Click(Sender: TObject);
 begin
   F_Print_Forms.IBQuery1.SQL.Clear;
-  F_Print_Forms.IBQuery1.SQL.Add('select prgp0.id as nomer, prgp0.DATE_PRO as date_akt, c.name as contragent_name, gpg.name as grupa_name, gp0.name as tovar_name, '+Chr(39)+'רע.'+Chr(39)+' as ed_izm, prgp1.KOL_VO as kol_vo');
+  F_Print_Forms.IBQuery1.SQL.Add('select prgp0.id as nomer, prgp0.DATE_PRO as date_akt, c.name as contragent_name, gpg.name as grupa_name, gp0.article||'+Chr(39)+'_'+Chr(39)+'||gp0.name as tovar_name, '+Chr(39)+'רע.'+Chr(39)+' as ed_izm, prgp1.KOL_VO as kol_vo');
   F_Print_Forms.IBQuery1.SQL.Add('from PRODAJA_GOTOVPROD_0 as prgp0, PRODAJA_GOTOVPROD_1 as prgp1, gotov_prod_grupa as gpg, gotov_prod_0 as gp0, contragenty_1 as c');
   F_Print_Forms.IBQuery1.SQL.Add('where (prgp0.id=:idakt) and (prgp0.id=prgp1.id_parent) and (prgp1.ID_GOTOV_PROD=gp0.id) and (gp0.id_grupa=gpg.id) and (c.id=prgp0.id_contragent)');
   F_Print_Forms.IBQuery1.SQL.Add('order by 3,4');
@@ -124,6 +142,67 @@ end;
 procedure TF_Prodaja_jurnal.FormCreate(Sender: TObject);
 begin
   F_Main.AdjustResolution(F_Prodaja_jurnal);
+end;
+
+procedure TF_Prodaja_jurnal.N_PodrobnoClick(Sender: TObject);
+begin
+  if role_name='DEPOZITAR' then exit;
+  if DBG_Sebest.Visible=false then
+    begin
+      DBG_Sebest.Visible:=true;
+      DBG_Gotovprod.Height:=189;
+    end
+  else
+    begin
+      DBG_Sebest.Visible:=false;
+      DBG_Gotovprod.Height:=333;
+    end
+end;
+
+procedure TF_Prodaja_jurnal.N_SignClick(Sender: TObject);
+var ib_sign: TIBDataSet;
+begin
+  id_akt_prodaja:=IB_Prodaja_0.FieldByName('id').AsInteger;
+  ib_sign:=TIBDataSet.Create(nil);
+  ib_sign.Database:=DM_Mebeli.DB_Mebeli;
+  ib_sign.SelectSQL.Add('insert into tables_signatures (table_id, user_id, table_name_id)');
+  ib_sign.SelectSQL.Add('values(:table_id, (select id from users_db where sys_username=current_user), (select id from tables_db where table_name=:table_name))');
+  ib_sign.ParamByName('table_id').value:=IB_Prodaja_0.FieldByName('id').AsInteger;
+  ib_sign.ParamByName('table_name').value:='PRODAJA_GOTOVPROD_0';
+  ib_sign.ExecSQL;
+
+  ib_sign.SelectSQL.Clear;
+  ib_sign.SelectSQL.Add('update prodaja_gotovprod_1 set kol_vo=kol_vo*1 where id_parent='+IB_Prodaja_0.FieldByName('id').AsString);
+  ib_sign.ExecSQL;
+  ib_sign.Free;
+  DM_Mebeli.IBTransaction1.Commit;
+  reopen_tables;
+end;
+
+procedure TF_Prodaja_jurnal.N_UnsignClick(Sender: TObject);
+var ib_sign: TIBDataSet;
+begin
+  id_akt_prodaja:=IB_Prodaja_0.FieldByName('id').AsInteger;
+  ib_sign:=TIBDataSet.Create(nil);
+  ib_sign.Database:=DM_Mebeli.DB_Mebeli;
+  ib_sign.SelectSQL.Add('delete from tables_signatures where (table_id= :table_id) and ');
+  ib_sign.SelectSQL.Add('(table_name_id=(select id from tables_db where table_name=:table_name))');
+  ib_sign.ParamByName('table_id').value:=IB_Prodaja_0.FieldByName('id').AsInteger;
+  ib_sign.ParamByName('table_name').value:='PRODAJA_GOTOVPROD_0';
+  ib_sign.ExecSQL;
+
+  ib_sign.SelectSQL.Clear;
+  ib_sign.SelectSQL.Add('delete from prodaja_gotovprod_1_sebest where id in (');
+  ib_sign.SelectSQL.Add('select pr1s.id');
+  ib_sign.SelectSQL.Add('from prodaja_gotovprod_1_sebest pr1s, prodaja_gotovprod_1 pr1, prodaja_gotovprod_0 pr0');
+  ib_sign.SelectSQL.Add('where (pr1s.id_parent=pr1.id) and (pr1.id_parent=pr0.id) and (pr0.id=:id_doc))');
+  ib_sign.ParamByName('id_doc').value:=IB_Prodaja_0.FieldByName('id').AsInteger;
+  ib_sign.ExecSQL;
+
+  ib_sign.Close;
+  ib_sign.Free;
+  DM_Mebeli.IBTransaction1.Commit;
+  reopen_tables;
 end;
 
 end.

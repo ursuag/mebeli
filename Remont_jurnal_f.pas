@@ -26,6 +26,9 @@ type
     N_Edit: TMenuItem;
     N1: TMenuItem;
     N_Delete: TMenuItem;
+    DBGrid2: TDBGrid;
+    IB_Remont_rashod: TIBDataSet;
+    DS_Remont_rashod: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure N_Insert_PopUpClick(Sender: TObject);
@@ -52,8 +55,10 @@ uses mebeli_dm, main_f, Remont_edit_f;
 procedure reopen_tables;
 begin
   F_Remont_Jurnal.IB_Remont_Jurnal.Close;
+  F_Remont_Jurnal.IB_Remont_rashod.close;
   F_Remont_Jurnal.IB_Remont_Jurnal.ParamByName('date_start').Value:=DateToStr(period_start);
   F_Remont_Jurnal.IB_Remont_Jurnal.Open;
+  F_Remont_Jurnal.IB_Remont_rashod.Open;
   if not F_Remont_Jurnal.IB_Remont_Jurnal.Locate('id_doc',F_Remont_jurnal.id_akt,[]) then
     F_Remont_Jurnal.IB_Remont_Jurnal.Last;
 end;

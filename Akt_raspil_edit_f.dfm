@@ -160,6 +160,14 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
         Title.Font.Style = [fsBold]
         Width = 60
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ID_PILOMAT_DETALI'
+        ReadOnly = True
+        Title.Alignment = taCenter
+        Title.Caption = #1050#1086#1076
+        Visible = True
       end>
   end
   object P_Buttons: TPanel
@@ -345,7 +353,6 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       DataSource = DM_Mebeli.DS_Akt_raspil
       ReadOnly = True
       TabOrder = 1
-      OnExit = DBE_Date_RExit
     end
     object DBEdit3: TDBEdit
       Left = 234

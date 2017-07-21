@@ -36,7 +36,6 @@ type
     procedure B_ExitClick(Sender: TObject);
     procedure DBGrid1Enter(Sender: TObject);
     procedure DBLookupComboBox2DropDown(Sender: TObject);
-    procedure DBE_Date_aExit(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
@@ -149,12 +148,6 @@ begin
      end;//IF operation='EDIT'
   ID_Akt:=DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('NOMER').AsInteger;
   DM_Mebeli.IB_Akt_vip_rabot_1.Open;
-  IF (DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      B_Exit.Enabled:=false;
-      ShowMessage('Дата документа меньше даты запрета редактирования');
-    end;//IF DataZapretaRedakt
-
 end;//proc
 
 
@@ -164,10 +157,10 @@ begin
   IF F_Zakaz_select.ShowModal=mrOk Then
     begin
       DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('id_zakaz').Value:=id_zakaz;
-      F_Main.IBQuery1.Close;
+{      F_Main.IBQuery1.Close;
       F_Main.IBQuery1.SQL.Clear;
       F_Main.IBQuery1.SQL.Add('update akt_vip_rabot_0 set id_zakaz='+DM_Mebeli.IB_Zakaz_0.FieldByname('ID').AsString+' where nomer='+DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('NOMER').AsString);
-      F_Main.IBQuery1.ExecSQL;
+      F_Main.IBQuery1.ExecSQL;}
       DBE_ID_Zakaz.SetFocus;
     end;
 end;//proc
@@ -256,24 +249,6 @@ end;//proc
 procedure TF_Akt_vip_rab_edit.DBLookupComboBox2DropDown(Sender: TObject);
 begin
   DBLookupComboBox2.Height:=500;
-end;//proc
-
-procedure TF_Akt_vip_rab_edit.DBE_Date_aExit(Sender: TObject);
-begin
-  //изменять дату акта на большую (вперед) могут только пользователи группы BUHGALTER или ADMIN
-  IF (Old_Date<DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').AsDateTime) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      ShowMessage('Изменять дату вперед нельзя. Обратитесь к бухгалтеру');
-      DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').Value:=Old_Date;
-      DBE_Date_a.SetFocus;
-    end;//IF
-
-  IF (DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      ShowMessage('Дата документа меньше даты запрета редактирования: '+DateToStr(DataZapretaRedakt));
-      DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').Value:=Old_Date;
-      DBE_Date_a.SetFocus;
-    end;//IF DataZapretaRedakt
 end;//proc
 
 procedure TF_Akt_vip_rab_edit.FormKeyUp(Sender: TObject; var Key: Word;

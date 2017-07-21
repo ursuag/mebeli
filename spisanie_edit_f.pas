@@ -80,18 +80,6 @@ begin
      end;//IF operation='EDIT'
   ID_AKT:=DM_Mebeli.IB_spisanie_0.FieldByName('ID').AsInteger;
 
-  //изменять дату акта могут только пользователи группы BUHGALTER или ADMIN
-  IF (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    DBE_Date_Spis.ReadOnly:=true;
-
-  IF (DM_Mebeli.IB_spisanie_0.FieldByName('DATE_SPIS').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      B_Exit.Enabled:=false;
-{      DBG_Listy.Enabled:=false;
-      DBG_Furn.Enabled:=false;
-      DBGR_DETALI.Enabled:=false;}
-      ShowMessage('Дата документа меньше даты запрета редактирования');
-    end;//IF DataZapretaRedakt
 end;//proc
 
 procedure TF_Spisanie_edit.DBGR_DETALIKeyPress(Sender: TObject;

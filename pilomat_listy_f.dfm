@@ -1,6 +1,6 @@
 object F_Pilomat_listy: TF_Pilomat_listy
-  Left = 64
-  Top = 356
+  Left = 50
+  Top = 463
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083' '#1083#1080#1089#1090#1086#1074#1086#1081
@@ -88,7 +88,7 @@ object F_Pilomat_listy: TF_Pilomat_listy
     Height = 57
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    TabOrder = 3
+    TabOrder = 4
     object B_Exit: TButton
       Left = 664
       Top = 12
@@ -106,7 +106,6 @@ object F_Pilomat_listy: TF_Pilomat_listy
       Height = 33
       Caption = #1047#1072#1087#1080#1089#1072#1090#1100
       Default = True
-      ModalResult = 1
       TabOrder = 0
       OnClick = B_OkClick
     end
@@ -157,7 +156,7 @@ object F_Pilomat_listy: TF_Pilomat_listy
     Font.Style = [fsBold]
     ParentFont = False
     ReadOnly = True
-    TabOrder = 4
+    TabOrder = 5
   end
   object CB_IsList: TCheckBox
     Left = 216
@@ -165,7 +164,7 @@ object F_Pilomat_listy: TF_Pilomat_listy
     Width = 121
     Height = 17
     Caption = #1069#1090#1086' '#1083#1080#1089#1090
-    TabOrder = 5
+    TabOrder = 3
   end
   object DBLookupComboBox1: TDBLookupComboBox
     Left = 216
@@ -211,7 +210,7 @@ object F_Pilomat_listy: TF_Pilomat_listy
       'where'
       '  ID = :OLD_ID')
     GeneratorField.Field = 'ID'
-    GeneratorField.Generator = 'GEN_PILOMAT_liSTY_ID'
+    GeneratorField.Generator = 'GEN_PILOMAT_LISTY_ID'
     Left = 680
     Top = 14
     object IB_Pilomat_listyID: TIntegerField
@@ -250,14 +249,17 @@ object F_Pilomat_listy: TF_Pilomat_listy
       Required = True
       Size = 100
     end
-    object IB_Pilomat_listyAREA: TIntegerField
-      FieldName = 'AREA'
-      Origin = 'PILOMAT_LISTY.AREA'
-      Required = True
-    end
     object IB_Pilomat_listyISLIST: TSmallintField
       FieldName = 'ISLIST'
       Origin = 'PILOMAT_LISTY.ISLIST'
+    end
+    object IB_Pilomat_listyAREA: TIntegerField
+      FieldName = 'AREA'
+      Origin = 'PILOMAT_LISTY.AREA'
+    end
+    object IB_Pilomat_listyARTICLE: TIntegerField
+      FieldName = 'ARTICLE'
+      Origin = 'PILOMAT_LISTY.ARTICLE'
     end
   end
   object DS_Pilomat_listy: TDataSource

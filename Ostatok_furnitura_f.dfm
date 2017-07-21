@@ -1,6 +1,6 @@
 object F_Ostatok_furnitura: TF_Ostatok_furnitura
-  Left = 15
-  Top = 108
+  Left = 0
+  Top = 123
   AutoScroll = False
   Caption = #1054#1089#1090#1072#1090#1082#1080' '#1089#1099#1088#1100#1103' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074' '#1085#1072' '#1085#1072#1095#1072#1083#1086' '#1087#1077#1088#1080#1086#1076#1072
   ClientHeight = 670
@@ -262,7 +262,7 @@ object F_Ostatok_furnitura: TF_Ostatok_furnitura
       FieldName = 'FURNITURA_NAME'
       Origin = 'FURNITURA.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Prihod_furnitura_1_FID_FURNITURA: TIntegerField
       FieldName = 'ID_FURNITURA'

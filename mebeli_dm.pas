@@ -86,8 +86,6 @@ type
     IB_Akt_vip_rabot_1Got_prod_name: TStringField;
     IB_Akt_vip_prod_1ID_PARENT: TIntegerField;
     IB_Akt_vip_prod_1ID_GOTOV_PROD: TIntegerField;
-    IB_Akt_vip_prod_1KOL_VO: TIntegerField;
-    IB_Akt_vip_prod_1GOTOVPROD_NAME: TStringField;
     IB_Prihod_furnitura_1ID_PARENT: TIntegerField;
     IB_Prihod_furnitura_1ID_FURNITURA: TIntegerField;
     IB_Prihod_detali_1ID_PARENT: TIntegerField;
@@ -329,7 +327,6 @@ type
     IB_GOTOV_PROD_grupa_name: TIBDataSet;
     IB_Gotov_prod_0GRUPA_NAME: TStringField;
     IB_Akt_vip_prod_1ID: TIntegerField;
-    IB_Akt_vip_prod_1GRUPA_NAME: TStringField;
     IB_Akt_raspil_ostatokKOL_VO: TIntegerField;
     IB_GOTOV_PROD_VIDRABOT: TIBDataSet;
     DS_GOTOV_PROD_VIDRABOT: TDataSource;
@@ -385,7 +382,6 @@ type
     IB_Gotov_prod_0ID_LINKED_GOTOVPROD: TIntegerField;
     IB_Gotov_prod_0ARTICLE: TIntegerField;
     IB_Peremeschenie_furnituraGRUPA_NAME: TStringField;
-    IB_Akt_vip_prod_1ARTICLE: TIntegerField;
     IB_Prihod_listy_1LISTY_NAME: TStringField;
     IB_Prihod_listy_1GRUPA_NAME: TStringField;
     DB_Images: TIBDatabase;
@@ -401,6 +397,10 @@ type
     IB_Pilomat_grupaMANUFACTURER_CODE: TIBStringField;
     IB_Pilomat_listyNAME: TIBStringField;
     IB_Pilomat_detaliNAME: TIBStringField;
+    IB_Akt_vip_prod_1KOL_VO: TIntegerField;
+    IB_Akt_vip_prod_1GOTOVPROD_NAME: TStringField;
+    IB_Akt_vip_prod_1GRUPA_NAME: TStringField;
+    IB_Akt_vip_prod_1ARTICLE: TIntegerField;
     procedure IB_Pilomat_grupa_vidrabotNewRecord(DataSet: TDataSet);
     procedure IB_Pilomat_listyBeforePost(DataSet: TDataSet);
     procedure IB_Pilomat_detaliBeforePost(DataSet: TDataSet);
@@ -493,11 +493,13 @@ type
     procedure IB_Prihod_furnitura_1AfterPost(DataSet: TDataSet);
     procedure IB_Prihod_listy_1AfterPost(DataSet: TDataSet);
     procedure IB_Prihod_listy_1CalcFields(DataSet: TDataSet);
+    procedure IB_Akt_vip_prod_1CalcFields(DataSet: TDataSet);
   private
     { Private declarations }
   public
     { Public declarations }
     procedure trigger_error (error: string);
+    procedure get_gotovprod_name(id_gotovprod:integer;var article:integer; var gotovprod_name: string; var grupa_name: string);
   end;
 
 var
@@ -510,6 +512,22 @@ uses main_f, Akt_raspil_edit_f, prihod_furnitura_edit_f,
   prihod_listy_edit_f;
 
 {$R *.dfm}
+
+procedure TDM_Mebeli.get_gotovprod_name(id_gotovprod:integer;var article:integer; var gotovprod_name: string; var grupa_name: string);
+var ib_tmp:TIBDataSet;
+begin
+  ib_tmp:=TIBDataSet.Create(nil);
+  ib_tmp.Database:=IB_Sklad.Database;
+  ib_tmp.SelectSQL.Add('select gp.article article, gpg.name grupa_name, gp.name gotovprod_name from gotov_prod_grupa gpg, gotov_prod_0 gp where (gpg.id=gp.id_grupa) and (gp.id= :id_gotovprod)');
+  ib_tmp.ParamByName('id_gotovprod').Value:=id_gotovprod;
+  ib_tmp.open;
+  article:=ib_tmp.FieldByName('article').AsInteger;
+  gotovprod_name:=ib_tmp.FieldByName('gotovprod_name').AsString;
+  grupa_name:=ib_tmp.FieldByName('grupa_name').AsString;
+  ib_tmp.close;
+  ib_tmp.Free;
+end;//proc
+
 
 procedure TDM_Mebeli.trigger_error (error: string);
 var errmsg: string;
@@ -1007,5 +1025,17 @@ begin
   ib_tmp.close;
   ib_tmp.Free;
 end;//proc
+
+procedure TDM_Mebeli.IB_Akt_vip_prod_1CalcFields(DataSet: TDataSet);
+var
+         article: integer;
+  gotovprod_name: string;
+      grupa_name: string;
+begin
+  get_gotovprod_name(IB_Akt_vip_prod_1.FieldByname('id_gotov_prod').AsInteger, article, gotovprod_name, grupa_name);
+  IB_Akt_vip_prod_1.FieldByname('article').Value:=article;
+  IB_Akt_vip_prod_1.FieldByname('gotovprod_name').Value:=gotovprod_name;
+  IB_Akt_vip_prod_1.FieldByname('grupa_name').Value:=grupa_name;
+end;
 
 end.

@@ -1,6 +1,6 @@
 object F_Prihod_detali_edit: TF_Prihod_detali_edit
-  Left = -9
-  Top = 59
+  Left = 0
+  Top = 100
   BorderStyle = bsSingle
   Caption = #1055#1086#1089#1090#1091#1087#1083#1077#1085#1080#1077' '#1076#1077#1090#1072#1083#1077#1081
   ClientHeight = 690
@@ -111,7 +111,6 @@ object F_Prihod_detali_edit: TF_Prihod_detali_edit
       DataField = 'DATE_P'
       DataSource = DM_Mebeli.DS_Prihod_detali_0
       TabOrder = 1
-      OnExit = DBE_Date_pExit
     end
     object DBLookupComboBox1: TDBLookupComboBox
       Left = 64
@@ -142,7 +141,6 @@ object F_Prihod_detali_edit: TF_Prihod_detali_edit
       DataField = 'PRIMECHANIE'
       DataSource = DM_Mebeli.DS_Prihod_detali_0
       TabOrder = 5
-      OnExit = DBE_Date_pExit
     end
     object DBE_ID_Zakaz: TDBEdit
       Left = 75

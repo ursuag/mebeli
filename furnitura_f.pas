@@ -177,10 +177,6 @@ begin
   id_furnitura:=DM_Mebeli.IB_Furnitura.FieldByName('ID').AsInteger;
   id_furnitura_grupa:=DM_Mebeli.IB_Furnitura_grupa.FieldByName('ID').AsInteger;
 
-  F_Reports.id_furnitura:=DM_Mebeli.IB_Furnitura.FieldByName('ID').AsInteger;
-  F_Reports.id_furnitura_grupa:=DM_Mebeli.IB_Furnitura_grupa.FieldByName('ID').AsInteger;
-  F_Reports.E_OstSkl_Furnitura.Text:=DM_Mebeli.IB_Furnitura_grupa.FieldByName('NAME').AsString+'\'+DM_Mebeli.IB_Furnitura.FieldByName('NAME').AsString;
-
   F_Peremeschenie_jurnal_print.id_furnitura:=DM_Mebeli.IB_Furnitura.FieldByName('ID').AsInteger;
   F_Peremeschenie_jurnal_print.id_furnitura_grupa:=DM_Mebeli.IB_Furnitura_grupa.FieldByName('ID').AsInteger;
   F_Peremeschenie_jurnal_print.E_Furnitura.Text:=DM_Mebeli.IB_Furnitura_grupa.FieldByName('NAME').AsString+'\'+DM_Mebeli.IB_Furnitura.FieldByName('NAME').AsString;

@@ -1,9 +1,9 @@
 object F_Prodaja_edit: TF_Prodaja_edit
   Left = 0
-  Top = 82
+  Top = 120
   AutoScroll = False
   Caption = #1054#1090#1075#1088#1091#1079#1082#1072' ('#1087#1088#1086#1076#1072#1078#1072') '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
-  ClientHeight = 702
+  ClientHeight = 682
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -11,6 +11,7 @@ object F_Prodaja_edit: TF_Prodaja_edit
   Font.Height = -16
   Font.Name = 'Arial'
   Font.Style = []
+  Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
   PrintScale = poNone
@@ -57,6 +58,20 @@ object F_Prodaja_edit: TF_Prodaja_edit
       Height = 18
       Caption = #1055#1088#1080#1084#1077#1095#1072#1085#1080#1077
     end
+    object L_Signed: TLabel
+      Left = 854
+      Top = 22
+      Width = 295
+      Height = 22
+      Caption = #1042#1085#1080#1084#1072#1085#1080#1077', '#1076#1086#1082#1091#1084#1077#1085#1090' '#1087#1086#1076#1087#1080#1089#1072#1085'!'
+      Font.Charset = RUSSIAN_CHARSET
+      Font.Color = clRed
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Visible = False
+    end
     object DBE_NOMER: TDBEdit
       Left = 66
       Top = 3
@@ -77,7 +92,7 @@ object F_Prodaja_edit: TF_Prodaja_edit
       DataSource = DS_Prodaja_0_edit
       TabOrder = 1
     end
-    object DBLookupComboBox1: TDBLookupComboBox
+    object DBL_Contragent: TDBLookupComboBox
       Left = 374
       Top = 3
       Width = 427
@@ -86,7 +101,7 @@ object F_Prodaja_edit: TF_Prodaja_edit
       DataSource = DS_Prodaja_0_edit
       TabOrder = 2
     end
-    object DBEdit1: TDBEdit
+    object DBE_Description: TDBEdit
       Left = 100
       Top = 36
       Width = 701
@@ -96,7 +111,7 @@ object F_Prodaja_edit: TF_Prodaja_edit
       TabOrder = 3
     end
   end
-  object DBGrid1: TDBGrid
+  object DBG_Gotovprod: TDBGrid
     Left = 1
     Top = 72
     Width = 1176
@@ -114,8 +129,8 @@ object F_Prodaja_edit: TF_Prodaja_edit
     TitleFont.Height = -13
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
-    OnEditButtonClick = DBGrid1EditButtonClick
-    OnKeyPress = DBGrid1KeyPress
+    OnEditButtonClick = DBG_GotovprodEditButtonClick
+    OnKeyPress = DBG_GotovprodKeyPress
     Columns = <
       item
         ButtonStyle = cbsEllipsis
@@ -399,5 +414,20 @@ object F_Prodaja_edit: TF_Prodaja_edit
     DataSet = IB_Prodaja_1_edit
     Left = 112
     Top = 224
+  end
+  object MainMenu1: TMainMenu
+    Left = 392
+    Top = 256
+    object N1: TMenuItem
+      Caption = #1055#1086#1076#1087#1080#1089#1080
+      object N_Sign: TMenuItem
+        Caption = #1055#1086#1076#1087#1080#1089#1072#1090#1100' '#1076#1086#1082#1091#1084#1077#1085#1090
+        OnClick = N_SignClick
+      end
+      object N_UnSign: TMenuItem
+        Caption = #1057#1085#1103#1090#1100' '#1087#1086#1076#1087#1080#1089#1100
+        OnClick = N_UnSignClick
+      end
+    end
   end
 end

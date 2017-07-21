@@ -44,7 +44,6 @@ type
     procedure DBLookupComboBox3Enter(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure DBE_Date_pExit(Sender: TObject);
     procedure B_Select_ZakazClick(Sender: TObject);
     procedure DBGrid1Enter(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -87,12 +86,6 @@ begin
   DM_Mebeli.IB_prihod_detali_0.Edit;
 
   ID_AKT:=DM_Mebeli.IB_prihod_detali_0.FieldByName('ID').AsInteger;
-
-  IF (DM_Mebeli.IB_prihod_detali_0.FieldByName('DATE_P').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      B_Exit.Enabled:=false;
-      ShowMessage('Дата документа меньше даты запрета редактирования');
-    end;//IF DataZapretaRedakt
 end;//proc
 
 procedure TF_Prihod_detali_edit.B_ExitClick(Sender: TObject);
@@ -155,16 +148,6 @@ procedure TF_Prihod_detali_edit.FormKeyUp(Sender: TObject; var Key: Word;
 begin
   IF (Shift=[ssCtrl]) and (Key=VK_END)	Then //нажали Ctrl+END
     B_OKClick(Sender);
-end;//proc
-
-procedure TF_Prihod_detali_edit.DBE_Date_pExit(Sender: TObject);
-begin
-  //изменять дату акта на большую (вперед) могут только пользователи группы BUHGALTER или ADMIN
-  IF (Old_Date<DM_Mebeli.IB_Prihod_detali_0.FieldByName('DATE_P').AsDateTime) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      ShowMessage('Изменять дату на большую нельзя. Обратитесь к бухгалтеру');
-      DM_Mebeli.IB_Prihod_detali_0.FieldByName('DATE_A').Value:=Old_Date;
-    end;//IF
 end;//proc
 
 procedure TF_Prihod_detali_edit.B_Select_ZakazClick(Sender: TObject);

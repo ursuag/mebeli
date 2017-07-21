@@ -1,6 +1,6 @@
 object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
-  Left = 14
-  Top = 35
+  Left = 33
+  Top = 66
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1072#1082#1090#1086#1074' '#1074#1099#1087#1086#1083#1085#1077#1085#1085#1099#1093' '#1088#1072#1073#1086#1090
   ClientHeight = 682

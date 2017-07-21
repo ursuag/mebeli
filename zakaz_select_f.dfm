@@ -1,6 +1,6 @@
 object F_Zakaz_select: TF_Zakaz_select
-  Left = 231
-  Top = 72
+  Left = 162
+  Top = 93
   AutoSize = True
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
@@ -136,6 +136,13 @@ object F_Zakaz_select: TF_Zakaz_select
     Height = 49
     BevelInner = bvLowered
     TabOrder = 2
+    object Label1: TLabel
+      Left = 8
+      Top = 16
+      Width = 101
+      Height = 18
+      Caption = #1053#1086#1084#1077#1088' '#1079#1072#1082#1072#1079#1072
+    end
     object B_Exit: TButton
       Left = 856
       Top = 8
@@ -152,10 +159,18 @@ object F_Zakaz_select: TF_Zakaz_select
       Width = 89
       Height = 33
       Caption = '&'#1042#1099#1073#1088#1072#1090#1100
-      Default = True
       ModalResult = 1
       TabOrder = 1
       OnClick = B_SelectClick
+    end
+    object E_Zakaz: TEdit
+      Left = 125
+      Top = 14
+      Width = 145
+      Height = 26
+      TabOrder = 2
+      OnExit = E_ZakazExit
+      OnKeyDown = E_ZakazKeyDown
     end
   end
   object IB_Zakaz_0: TIBDataSet

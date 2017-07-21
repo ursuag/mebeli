@@ -1,5 +1,5 @@
 object F_Peremeschenie_edit: TF_Peremeschenie_edit
-  Left = 128
+  Left = 8
   Top = 0
   BorderStyle = bsSingle
   Caption = #1040#1082#1090' '#1087#1077#1088#1077#1084#1077#1097#1077#1085#1080#1103' '#1087#1086' '#1089#1082#1083#1072#1076#1091
@@ -156,7 +156,6 @@ object F_Peremeschenie_edit: TF_Peremeschenie_edit
       DataField = 'DATE_PER'
       DataSource = DM_Mebeli.DS_Peremeschenie_0
       TabOrder = 1
-      OnExit = DBE_Date_PERExit
     end
     object CB_Sklad_otkuda: TDBLookupComboBox
       Left = 652

@@ -178,7 +178,8 @@ begin
   operation:='SELECT';
   F_Vidy_rabot.ShowModal;
   DM_Mebeli.IB_Akt_vip_rabot_0.Close;
-  DM_Mebeli.IB_Akt_vip_rabot_0.SelectSQL[1]:='where id_vid_rabot='+IntToStr(id_vidrabot);
+  DM_Mebeli.IB_Akt_vip_rabot_0.SelectSQL[1]:='where (date_a >=:date_start) and (id_vid_rabot='+IntToStr(id_vidrabot)+')';
+  DM_Mebeli.IB_Akt_vip_rabot_0.ParamByName('date_start').Value:=DateToStr(period_start);
   DM_Mebeli.IB_Akt_vip_rabot_0.Open;
   DM_Mebeli.IB_Akt_vip_rabot_0.Locate('NOMER',id_akt,[]);
   L_Filtre.Visible:=true;
@@ -191,7 +192,8 @@ begin
   F_Sotrudniki.ShowModal;
   id_akt:=DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('NOMER').AsInteger;
   DM_Mebeli.IB_Akt_vip_rabot_0.Close;
-  DM_Mebeli.IB_Akt_vip_rabot_0.SelectSQL[1]:='where id_sotrudnik='+IntToStr(id_sotrudnik);
+  DM_Mebeli.IB_Akt_vip_rabot_0.SelectSQL[1]:='where (date_a >=:date_start) and (id_sotrudnik='+IntToStr(id_sotrudnik)+')';
+  DM_Mebeli.IB_Akt_vip_rabot_0.ParamByName('date_start').Value:=DateToStr(period_start);
   DM_Mebeli.IB_Akt_vip_rabot_0.Open;
   DM_Mebeli.IB_Akt_vip_rabot_0.Locate('NOMER',id_akt,[]);
   L_Filtre.Visible:=true;

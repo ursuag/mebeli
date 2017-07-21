@@ -1,6 +1,6 @@
 object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
   Left = 0
-  Top = 69
+  Top = 92
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1087#1088#1080#1093#1086#1076#1072' '#1082#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1093
   ClientHeight = 681
@@ -260,7 +260,7 @@ object F_Prihod_furnitura_jurnal: TF_Prihod_furnitura_jurnal
       FieldName = 'FURNITURA_NAME'
       Origin = 'FURNITURA.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Prihod_furnitura_1_FID_FURNITURA: TIntegerField
       FieldName = 'ID_FURNITURA'

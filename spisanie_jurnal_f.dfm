@@ -1,44 +1,35 @@
 object F_Spisanie_jurnal: TF_Spisanie_jurnal
   Left = 8
-  Top = 1
+  Top = 0
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1072#1082#1090#1086#1074' '#1089#1087#1080#1089#1072#1085#1080#1103
-  ClientHeight = 494
-  ClientWidth = 782
+  ClientHeight = 666
+  ClientWidth = 1175
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -16
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
+  ParentFont = True
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
+  Scaled = False
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 20
+  TextHeight = 13
   object DBGrid1: TDBGrid
     Left = 1
     Top = 0
     Width = 1176
     Height = 241
     DataSource = DM_Mebeli.DS_Spisanie_0
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    ParentFont = False
     ReadOnly = True
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -13
+    TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
+    TitleFont.Style = []
     Columns = <
       item
         Expanded = False
@@ -79,20 +70,14 @@ object F_Spisanie_jurnal: TF_Spisanie_jurnal
     Width = 545
     Height = 209
     DataSource = DM_Mebeli.DS_Spisanie_listy
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    ParentFont = False
     ReadOnly = True
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -13
+    TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
+    TitleFont.Style = []
     Columns = <
       item
         Expanded = False
@@ -165,20 +150,14 @@ object F_Spisanie_jurnal: TF_Spisanie_jurnal
     Width = 1169
     Height = 153
     DataSource = DM_Mebeli.DS_Spisanie_detali
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    ParentFont = False
     ReadOnly = True
     TabOrder = 3
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -13
+    TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
+    TitleFont.Style = []
     Columns = <
       item
         Expanded = False
@@ -227,20 +206,14 @@ object F_Spisanie_jurnal: TF_Spisanie_jurnal
     Width = 617
     Height = 209
     DataSource = DM_Mebeli.DS_Spisanie_furnitura
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -16
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    ParentFont = False
     ReadOnly = True
     TabOrder = 4
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -13
+    TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = [fsBold]
+    TitleFont.Style = []
     Columns = <
       item
         Expanded = False
@@ -300,7 +273,6 @@ object F_Spisanie_jurnal: TF_Spisanie_jurnal
       'where (pg.id=pd.id_grupa)')
     ModifySQL.Strings = (
       '')
-    Active = True
     Left = 824
     Top = 544
   end

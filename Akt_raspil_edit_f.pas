@@ -77,7 +77,6 @@ type
     procedure IB_Akt_raspil_detaliNewRecord(DataSet: TDataSet);
     procedure B_Select_ZakazClick(Sender: TObject);
     procedure P_ShapkaExit(Sender: TObject);
-    procedure DBE_Date_RExit(Sender: TObject);
     procedure B_Sotrudnik2_clearClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure IB_Akt_raspil_detaliDeleteError(DataSet: TDataSet;
@@ -106,7 +105,6 @@ var
          OK_Pressed: boolean;
       ID_Akt_raspil: integer;
            is_error: boolean;//true если возникла ошибка удалени€ из справочника Pilomat_listy
-           Old_Date: TDateTime;
           read_only: boolean;
 implementation
 
@@ -289,16 +287,6 @@ begin
      end;//IF 'INSERT'
   IF operation='EDIT' Then
     DM_Mebeli.IB_Akt_raspil.Edit;
-  Old_Date:=DM_Mebeli.IB_Akt_raspil.FieldByName('DATE_R').AsDateTime;
-  IF (DM_Mebeli.IB_Akt_raspil.FieldByName('DATE_R').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      B_Ok.Enabled:=false;
-      ShowMessage('ƒата документа меньше даты запрета редактировани€. ƒокумент только дл€ чтени€');
-      DBGR_Listy.Enabled:=false;
-      DBGR_Ostatki.Enabled:=false;
-      DBGR_Detali.Enabled:=false;
-      Read_Only:=true;
-    end;//IF DataZapretaRedakt
   DBE_Id_Zakaz.SetFocus;
   ID_Akt_raspil:=DM_Mebeli.IB_Akt_raspil.FieldByName('ID').AsInteger;
   E_Ostatok.Text:=FloatToStrF((DM_Mebeli.IB_Akt_raspil.FieldByName('OSTATOK').AsInteger/1000000.000),ffNumber,9,3)+' м2';
@@ -455,16 +443,6 @@ begin
       DBE_ID_Zakaz.SetFocus;
     end;//if
 end;
-
-procedure TF_Akt_raspil_edit.DBE_Date_RExit(Sender: TObject);
-begin
-  IF (DM_Mebeli.IB_Akt_raspil.FieldByName('DATE_R').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      ShowMessage('ƒата документа меньше даты запрета редактировани€: '+DateToStr(DataZapretaRedakt));
-      DM_Mebeli.IB_Akt_raspil.FieldByName('DATE_R').Value:=Old_Date;
-      DBE_Date_r.SetFocus;
-    end;//IF DataZapretaRedakt
-end;//proc
 
 procedure TF_Akt_raspil_edit.B_Sotrudnik2_clearClick(Sender: TObject);
 begin

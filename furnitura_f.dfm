@@ -1,12 +1,12 @@
 object F_Furnitura: TF_Furnitura
-  Left = 0
-  Top = 0
+  Left = 30
+  Top = 70
+  Width = 1200
+  Height = 720
   BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsSingle
   Caption = #1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1077
-  ClientHeight = 670
-  ClientWidth = 1184
   Color = clBtnFace
+  DefaultMonitor = dmMainForm
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -16
@@ -15,6 +15,7 @@ object F_Furnitura: TF_Furnitura
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
+  Scaled = False
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnClose = FormClose
@@ -25,7 +26,7 @@ object F_Furnitura: TF_Furnitura
     Left = 504
     Top = 0
     Width = 673
-    Height = 601
+    Height = 585
     DataSource = DM_Mebeli.DS_Furnitura
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -82,7 +83,7 @@ object F_Furnitura: TF_Furnitura
   end
   object Panel1: TPanel
     Left = 0
-    Top = 616
+    Top = 589
     Width = 1172
     Height = 49
     BevelInner = bvSpace
@@ -136,7 +137,7 @@ object F_Furnitura: TF_Furnitura
     Left = 0
     Top = 0
     Width = 497
-    Height = 601
+    Height = 585
     TabStop = False
     DataSource = DM_Mebeli.DS_Furnitura_grupa
     Font.Charset = DEFAULT_CHARSET

@@ -218,7 +218,6 @@ object F_Akt_vip_rab_edit: TF_Akt_vip_rab_edit
       DataField = 'DATE_A'
       DataSource = DM_Mebeli.DS_Akt_vip_rabot_0
       TabOrder = 1
-      OnExit = DBE_Date_aExit
     end
     object DBLookupComboBox1: TDBLookupComboBox
       Left = 119

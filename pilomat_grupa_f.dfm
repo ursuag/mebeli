@@ -1,6 +1,6 @@
 object F_pilomat_grupa: TF_pilomat_grupa
-  Left = 311
-  Top = 215
+  Left = 260
+  Top = 245
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1043#1088#1091#1087#1087#1099' '#1087#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074

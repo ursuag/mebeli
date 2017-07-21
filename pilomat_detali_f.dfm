@@ -1,6 +1,6 @@
 object F_Pilomat_detali: TF_Pilomat_detali
-  Left = 199
-  Top = 163
+  Left = 167
+  Top = 185
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099' '#1076#1077#1090#1072#1083#1080

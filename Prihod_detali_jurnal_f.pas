@@ -71,7 +71,7 @@ end;//proc
 
 procedure TF_Prihod_detali_jurnal.B_EditClick(Sender: TObject);
 begin
-  IF IB_Prihod_detali_0_F.FieldByName('ID_AKT_RASPIL').IsNull Then
+  IF (IB_Prihod_detali_0_F.FieldByName('ID_AKT_RASPIL').IsNull) or (role_name='ADMIN') Then
     begin
       operation:='EDIT';
       id_akt:=IB_Prihod_detali_0_F.FieldByName('ID').AsInteger;

@@ -289,13 +289,13 @@ object F_Ostatok_listy: TF_Ostatok_listy
       FieldName = 'LISTY_NAME'
       Origin = 'PILOMAT_LISTY.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object F_IB_Prihod_listy_1GRUPA_NAME: TIBStringField
       FieldName = 'GRUPA_NAME'
       Origin = 'PILOMAT_GRUPA.NAME'
       Required = True
-      Size = 60
+      Size = 100
     end
     object F_IB_Prihod_listy_1KOL_VO: TIntegerField
       FieldName = 'KOL_VO'

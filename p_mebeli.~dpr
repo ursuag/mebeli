@@ -77,7 +77,9 @@ uses
   Ostatok_furnitura_edit_f in 'Ostatok_furnitura_edit_f.pas' {F_Ostatok_furnitura_edit},
   Ostatok_listy_f in 'Ostatok_listy_f.pas' {F_Ostatok_listy},
   Ostatok_listy_edit_f in 'Ostatok_listy_edit_f.pas' {F_Ostatok_listy_edit},
-  Ostatok_detali_f in 'Ostatok_detali_f.pas' {F_Ostatok_detali};
+  Ostatok_detali_f in 'Ostatok_detali_f.pas' {F_Ostatok_detali},
+  Get_zakaz_rabota_f in 'Get_zakaz_rabota_f.pas' {F_Report_Get_zakaz_rabota},
+  Report_Get_Zakaz_Ostalosi_Sdelati_f in 'Report_Get_Zakaz_Ostalosi_Sdelati_f.pas' {F_Report_Get_Zakaz_Ostalosi_Sdelati};
 
 {$R *.res}
 
@@ -157,5 +159,7 @@ begin
   Application.CreateForm(TF_Ostatok_listy, F_Ostatok_listy);
   Application.CreateForm(TF_Ostatok_listy_edit, F_Ostatok_listy_edit);
   Application.CreateForm(TF_Ostatok_detali, F_Ostatok_detali);
+  Application.CreateForm(TF_Report_Get_zakaz_rabota, F_Report_Get_zakaz_rabota);
+  Application.CreateForm(TF_Report_Get_Zakaz_Ostalosi_Sdelati, F_Report_Get_Zakaz_Ostalosi_Sdelati);
   Application.Run;
 end.

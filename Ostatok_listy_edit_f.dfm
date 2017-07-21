@@ -1,6 +1,6 @@
 object F_Ostatok_listy_edit: TF_Ostatok_listy_edit
-  Left = 36
-  Top = 49
+  Left = 0
+  Top = 56
   AutoScroll = False
   Caption = #1044#1086#1082#1091#1084#1077#1085#1090' '#1054#1089#1090#1072#1090#1082#1080' '#1083#1080#1089#1090#1086#1074' '
   ClientHeight = 702

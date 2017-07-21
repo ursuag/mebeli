@@ -1,6 +1,6 @@
 object F_Cassa_rashod: TF_Cassa_rashod
-  Left = 130
-  Top = 70
+  Left = 0
+  Top = 82
   AutoScroll = False
   Caption = #1056#1072#1089#1093#1086#1076' '#1087#1086' '#1082#1072#1089#1089#1077
   ClientHeight = 702
@@ -68,7 +68,7 @@ object F_Cassa_rashod: TF_Cassa_rashod
     Caption = #1050#1086#1085#1090#1088#1072#1075#1077#1085#1090
   end
   object B_Contragent_clear: TSpeedButton
-    Left = 488
+    Left = 498
     Top = 188
     Width = 27
     Height = 24
@@ -96,7 +96,7 @@ object F_Cassa_rashod: TF_Cassa_rashod
     Caption = #1057#1086#1090#1088#1091#1076#1085#1080#1082
   end
   object B_Sotrudnik_Clear: TSpeedButton
-    Left = 488
+    Left = 498
     Top = 228
     Width = 27
     Height = 24
@@ -180,7 +180,7 @@ object F_Cassa_rashod: TF_Cassa_rashod
     TabOrder = 2
   end
   object DBLookupComboBox3: TDBLookupComboBox
-    Left = 98
+    Left = 108
     Top = 189
     Width = 384
     Height = 26
@@ -189,7 +189,7 @@ object F_Cassa_rashod: TF_Cassa_rashod
     TabOrder = 3
   end
   object DBLookupComboBox1: TDBLookupComboBox
-    Left = 98
+    Left = 108
     Top = 229
     Width = 384
     Height = 26
@@ -198,7 +198,7 @@ object F_Cassa_rashod: TF_Cassa_rashod
     TabOrder = 4
   end
   object DBLookupComboBox2: TDBLookupComboBox
-    Left = 122
+    Left = 132
     Top = 261
     Width = 360
     Height = 26

@@ -1,6 +1,6 @@
 object F_Ostatok_detali: TF_Ostatok_detali
-  Left = 11
-  Top = 79
+  Left = 0
+  Top = 90
   AutoScroll = False
   Caption = #1054#1089#1090#1072#1090#1082#1080' '#1076#1077#1090#1072#1083#1077#1081' '#1085#1072' '#1085#1072#1095#1072#1083#1086' '#1084#1077#1089#1103#1094#1072
   ClientHeight = 682
@@ -260,13 +260,13 @@ object F_Ostatok_detali: TF_Ostatok_detali
       FieldName = 'DETALI_GRUPA'
       Origin = 'PILOMAT_GRUPA.NAME'
       Required = True
-      Size = 60
+      Size = 100
     end
     object IB_Prihod_detali_1_FDETALI_NAME: TIBStringField
       FieldName = 'DETALI_NAME'
       Origin = 'PILOMAT_DETALI.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Prihod_detali_1_FID_PILOMAT_DETALI: TIntegerField
       FieldName = 'ID_PILOMAT_DETALI'

@@ -1,8 +1,8 @@
 object DM_Mebeli: TDM_Mebeli
   OldCreateOrder = False
-  Left = 23
-  Top = 7
-  Height = 787
+  Left = 13
+  Top = 83
+  Height = 724
   Width = 1117
   object DB_Mebeli: TIBDatabase
     Connected = True
@@ -840,7 +840,7 @@ object DM_Mebeli: TDM_Mebeli
       LookupKeyFields = 'ID'
       LookupResultField = 'NAME'
       KeyFields = 'ID_GOTOV_PROD'
-      Size = 60
+      Size = 100
       Lookup = True
     end
     object IB_Akt_vip_rabot_1STOIMOSTI_RABOTI: TIBBCDField
@@ -865,40 +865,40 @@ object DM_Mebeli: TDM_Mebeli
     Database = DB_Mebeli
     Transaction = IBTransaction1
     ForcedRefresh = True
+    OnCalcFields = IB_Akt_vip_prod_1CalcFields
     OnNewRecord = IB_Akt_vip_prod_NewRecord
     BufferChunks = 1000
     CachedUpdates = False
     DeleteSQL.Strings = (
       'delete from AKT_VIP_PROD_1'
       'where'
-      '  ID_GOTOV_PROD = :OLD_ID_GOTOV_PROD and'
-      '  ID_PARENT = :OLD_ID_PARENT')
+      '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into AKT_VIP_PROD_1'
-      '  (ID_GOTOV_PROD, ID_PARENT, KOL_VO)'
+      '  (ID_PARENT, ID_GOTOV_PROD, KOL_VO, ID)'
       'values'
-      '  (:ID_GOTOV_PROD, :ID_PARENT, :KOL_VO)')
+      '  (:ID_PARENT, :ID_GOTOV_PROD, :KOL_VO, :ID)')
     RefreshSQL.Strings = (
       'Select '
       '  ID_PARENT,'
       '  ID_GOTOV_PROD,'
-      '  KOL_VO'
+      '  KOL_VO,'
+      '  ID'
       'from AKT_VIP_PROD_1 '
       'where'
-      '  ID_GOTOV_PROD = :ID_GOTOV_PROD and'
-      '  ID_PARENT = :ID_PARENT')
+      '  ID = :ID')
     SelectSQL.Strings = (
       'select *  from AKT_VIP_PROD_1'
       'where id_parent=:NOMER')
     ModifySQL.Strings = (
       'update AKT_VIP_PROD_1'
       'set'
-      '  ID_GOTOV_PROD = :ID_GOTOV_PROD,'
       '  ID_PARENT = :ID_PARENT,'
-      '  KOL_VO = :KOL_VO'
+      '  ID_GOTOV_PROD = :ID_GOTOV_PROD,'
+      '  KOL_VO = :KOL_VO,'
+      '  ID = :ID'
       'where'
-      '  ID_GOTOV_PROD = :OLD_ID_GOTOV_PROD and'
-      '  ID_PARENT = :OLD_ID_PARENT')
+      '  ID = :OLD_ID')
     GeneratorField.Field = 'ID'
     GeneratorField.Generator = 'GEN_AKT_VIP_PROD_1_ID'
     DataSource = DS_Akt_vip_prod_0
@@ -914,43 +914,30 @@ object DM_Mebeli: TDM_Mebeli
       Origin = 'AKT_VIP_PROD_1.ID_GOTOV_PROD'
       Required = True
     end
-    object IB_Akt_vip_prod_1KOL_VO: TIntegerField
-      FieldName = 'KOL_VO'
-      Origin = 'AKT_VIP_PROD_1.KOL_VO'
-      Required = True
-    end
-    object IB_Akt_vip_prod_1GOTOVPROD_NAME: TStringField
-      FieldKind = fkLookup
-      FieldName = 'GOTOVPROD_NAME'
-      LookupDataSet = IB_Gotov_prod_0
-      LookupKeyFields = 'ID'
-      LookupResultField = 'NAME'
-      KeyFields = 'ID_GOTOV_PROD'
-      Size = 60
-      Lookup = True
-    end
     object IB_Akt_vip_prod_1ID: TIntegerField
       FieldName = 'ID'
       Origin = 'AKT_VIP_PROD_1.ID'
     end
+    object IB_Akt_vip_prod_1KOL_VO: TIntegerField
+      FieldName = 'KOL_VO'
+      Origin = 'AKT_VIP_PROD_1.KOL_VO'
+    end
+    object IB_Akt_vip_prod_1GOTOVPROD_NAME: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'GOTOVPROD_NAME'
+      Size = 200
+      Calculated = True
+    end
     object IB_Akt_vip_prod_1GRUPA_NAME: TStringField
-      FieldKind = fkLookup
+      FieldKind = fkCalculated
       FieldName = 'GRUPA_NAME'
-      LookupDataSet = IB_Gotov_prod_0
-      LookupKeyFields = 'ID'
-      LookupResultField = 'GRUPA_NAME'
-      KeyFields = 'ID_GOTOV_PROD'
-      Size = 60
-      Lookup = True
+      Size = 200
+      Calculated = True
     end
     object IB_Akt_vip_prod_1ARTICLE: TIntegerField
-      FieldKind = fkLookup
+      FieldKind = fkCalculated
       FieldName = 'ARTICLE'
-      LookupDataSet = IB_Gotov_prod_0
-      LookupKeyFields = 'ID'
-      LookupResultField = 'ARTICLE'
-      KeyFields = 'ID_GOTOV_PROD'
-      Lookup = True
+      Calculated = True
     end
   end
   object IB_Akt_raspil_listy: TIBDataSet

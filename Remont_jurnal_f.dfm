@@ -1,6 +1,6 @@
 object F_Remont_jurnal: TF_Remont_jurnal
-  Left = 56
-  Top = 130
+  Left = 0
+  Top = 132
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' "'#1040#1082#1090#1099' '#1088#1077#1084#1086#1085#1090#1072'"'
   ClientHeight = 670
@@ -51,7 +51,7 @@ object F_Remont_jurnal: TF_Remont_jurnal
     Left = 1
     Top = 0
     Width = 1176
-    Height = 617
+    Height = 297
     DataSource = DS_Remont_Jurnal
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
@@ -117,6 +117,76 @@ object F_Remont_jurnal: TF_Remont_jurnal
         Visible = True
       end>
   end
+  object DBGrid2: TDBGrid
+    Left = 0
+    Top = 304
+    Width = 1176
+    Height = 297
+    DataSource = DS_Remont_rashod
+    Font.Charset = RUSSIAN_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Arial'
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    ReadOnly = True
+    TabOrder = 2
+    TitleFont.Charset = RUSSIAN_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -16
+    TitleFont.Name = 'Arial'
+    TitleFont.Style = [fsBold]
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'TIP_MATERIALA'
+        Title.Alignment = taCenter
+        Title.Caption = #1058#1048#1055
+        Width = 172
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ARTICLE'
+        Title.Alignment = taCenter
+        Width = 101
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'GRUPA_NAME'
+        Title.Alignment = taCenter
+        Title.Caption = #1043#1088#1091#1087#1087#1072
+        Width = 309
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MATERIAL_NAME'
+        Title.Alignment = taCenter
+        Title.Caption = #1052#1072#1090#1077#1088#1080#1072#1083
+        Width = 220
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'KOL_VO'
+        Title.Alignment = taCenter
+        Title.Caption = #1050#1086#1083'-'#1074#1086
+        Width = 111
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ED_IZM'
+        Title.Alignment = taCenter
+        Title.Caption = #1045#1076'.'#1080#1084#1079'.'
+        Width = 122
+        Visible = True
+      end>
+  end
   object MainMenu1: TMainMenu
     Left = 216
     Top = 112
@@ -149,13 +219,11 @@ object F_Remont_jurnal: TF_Remont_jurnal
     CachedUpdates = False
     SelectSQL.Strings = (
       
-        'select r0.id id_doc, r0.date_rem date_doc, c1.name contragent_na' +
-        'me, gp0.name gotovprod_name, r0.description description, r0.summ' +
-        'a_prodaja'
-      'from remont_0 r0, contragenty_1 c1, gotov_prod_0 gp0'
-      
-        'where (r0.id_contragent=c1.id) and (r0.id_gotov_prod=gp0.id) and' +
-        ' (r0.date_rem>=:date_start)'
+        'select r0.id id_doc, r0.date_rem date_doc, (select name from con' +
+        'tragenty_1 where id=r0.id_contragent) contragent_name, gp0.name ' +
+        'gotovprod_name, r0.description description, r0.summa_prodaja'
+      'from remont_0 r0, gotov_prod_0 gp0'
+      'where (r0.id_gotov_prod=gp0.id) and (r0.date_rem>=:date_start)'
       'order by r0.date_rem, r0.id')
     Left = 432
     Top = 128
@@ -183,5 +251,38 @@ object F_Remont_jurnal: TF_Remont_jurnal
     object N_Delete: TMenuItem
       Caption = #1059#1076#1072#1083#1080#1090#1100
     end
+  end
+  object IB_Remont_rashod: TIBDataSet
+    Database = DM_Mebeli.DB_Mebeli
+    Transaction = DM_Mebeli.IBTransaction1
+    BufferChunks = 1000
+    CachedUpdates = False
+    SelectSQL.Strings = (
+      
+        'select '#39#1084#1072#1090#1077#1088#1080#1072#1083#1099#39' tip_materiala, f.article article, fg.name gru' +
+        'pa_name, f.name material_name, rf.kol_vo kol_vo, f.ed_izm'
+      'from rashod_furnitura rf, furnitura_grupa fg, furnitura f'
+      
+        'where (fg.id=f.id_parent) and (f.id=rf.id_furnitura) and (id_rem' +
+        'ont=:ID_DOC)'
+      ''
+      'union all'
+      ''
+      'select '#39#1076#1077#1090#1072#1083#1080#39', pd.id, pg.name, pd.name, rd.kol_vo, '#39#1096#1090#39
+      'from rashod_detali rd, pilomat_grupa pg, pilomat_detali pd'
+      
+        'where (pg.id=pd.id_grupa) and (pd.id=rd.id_pilomat_detali) and (' +
+        'id_remont=:ID_DOC)'
+      ''
+      'order by 1,3,4')
+    DataSource = DS_Remont_Jurnal
+    Left = 112
+    Top = 448
+  end
+  object DS_Remont_rashod: TDataSource
+    AutoEdit = False
+    DataSet = IB_Remont_rashod
+    Left = 152
+    Top = 448
   end
 end

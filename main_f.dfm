@@ -1,6 +1,6 @@
 object F_Main: TF_Main
   Left = 0
-  Top = 0
+  Top = 132
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = #1052#1077#1073#1077#1083#1100#1085#1099#1081' '#1094#1077#1093
@@ -6332,9 +6332,9 @@ object F_Main: TF_Main
   object Label1: TLabel
     Left = 416
     Top = 51
-    Width = 228
+    Width = 255
     Height = 23
-    Caption = #1055#1088#1086#1080#1079#1074#1086#1076#1089#1090#1074#1086' '#1052#1077#1073#1077#1083#1080
+    Caption = #1055#1088#1086#1080#1079#1074#1086#1076#1089#1090#1074#1086' '#1052#1077#1073#1077#1083#1080' v2'
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clBlack
     Font.Height = -19
@@ -6359,7 +6359,7 @@ object F_Main: TF_Main
   end
   object DBGrid1: TDBGrid
     Left = 1
-    Top = 77
+    Top = 74
     Width = 1176
     Height = 260
     DataSource = DM_Mebeli.DS_Zakaz_0
@@ -6430,7 +6430,8 @@ object F_Main: TF_Main
         Expanded = False
         FieldName = 'ARTICLE'
         Title.Alignment = taCenter
-        Title.Caption = #1050#1054#1044
+        Title.Caption = #1040#1088#1090#1080#1082#1091#1083
+        Width = 129
         Visible = True
       end
       item
@@ -6454,14 +6455,6 @@ object F_Main: TF_Main
         FieldName = 'KOL_VO'
         Title.Alignment = taCenter
         Title.Caption = #1050#1086#1083'-'#1074#1086
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRIORITET'
-        Title.Alignment = taCenter
-        Title.Caption = #1055#1088#1080#1086#1088#1080#1090#1077#1090
         Width = 100
         Visible = True
       end>
@@ -6488,8 +6481,7 @@ object F_Main: TF_Main
       Top = 9
       Width = 153
       Height = 33
-      Caption = #1048#1084#1087#1086#1088#1090' '#1040#1088#1090#1080#1082#1091#1083
-      Enabled = False
+      Caption = #1069#1082#1089#1087#1086#1088#1090' '#1074' Excel'
       TabOrder = 1
       OnClick = Button1Click
     end
@@ -6707,7 +6699,24 @@ object F_Main: TF_Main
         3300330FFFFF00033300330F00FF0F033300330FFFFF00333300330000000333
         33003333333333333300}
       Caption = #1054#1090#1095#1077#1090#1099
-      OnClick = N_ReportsClick
+      object N_General: TMenuItem
+        Caption = #1054#1073#1097#1080#1077
+        OnClick = N_GeneralClick
+      end
+      object N_materialy_Ostatok_sklad: TMenuItem
+        Caption = #1054#1089#1090#1072#1090#1082#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074' '#1085#1072' '#1089#1082#1083#1072#1076#1072#1093
+      end
+      object N25: TMenuItem
+        Caption = #1056#1072#1073#1086#1090#1072' '#1087#1086' '#1079#1072#1082#1072#1079#1072#1084
+        object N_Get_zakaz_rabota: TMenuItem
+          Caption = #1061#1086#1076' '#1088#1072#1073#1086#1090#1099' '#1087#1086' '#1079#1072#1082#1072#1079#1072#1084
+          OnClick = N_Get_zakaz_rabotaClick
+        end
+        object N_Get_zakaz_ostalosi_sdelati: TMenuItem
+          Caption = #1057#1082#1086#1083#1100#1082#1086' '#1086#1089#1090#1072#1083#1086#1089#1100' '#1089#1076#1077#1083#1072#1090#1100' '#1087#1086' '#1079#1072#1082#1072#1079#1072#1084
+          OnClick = N_Get_zakaz_ostalosi_sdelatiClick
+        end
+      end
     end
     object N2: TMenuItem
       Caption = #1057#1087#1088#1072#1074#1082#1072
@@ -6974,8 +6983,8 @@ object F_Main: TF_Main
       '  ID_GOTOV_PROD = :ID_GOTOV_PROD')
     SelectSQL.Strings = (
       
-        'select gp0.id article , gpg.name grupa_name, gp0.name gotovprod_' +
-        'name, z1.kol_vo kol_vo, z1.prioritet prioritet'
+        'select gp0.article article , gpg.name grupa_name, gp0.name gotov' +
+        'prod_name, z1.kol_vo kol_vo, z1.prioritet prioritet'
       'from zakaz_1 z1, gotov_prod_0 gp0, gotov_prod_grupa gpg'
       
         'where (z1.id_parent=:ID) and (gp0.id_grupa=gpg.id) and (z1.id_go' +
@@ -7000,5 +7009,13 @@ object F_Main: TF_Main
     OnTimer = Timer1Timer
     Left = 848
     Top = 24
+  end
+  object EXLReport1: TEXLReport
+    About = 'EMS Advanced Excel Report(tm) Component Suite for Delphi(R)'
+    DataSet = F_IB_Zakaz_1
+    Dictionary = <>
+    _Version = '1.60'
+    Left = 768
+    Top = 168
   end
 end

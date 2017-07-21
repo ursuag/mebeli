@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, Menus, Math, StdCtrls, DB, IBCustomDataSet, IBQuery,
   ExtCtrls, IniFiles, EXLReportExcelTLB, EXLReportBand, EXLReport, DBCtrls,
-  Consts, ImgList, DateUtils, ComObj;
+  Consts, ImgList, DateUtils, ComObj, IB, UHojaCalc;
 
 type
   TF_Main = class(TForm)
@@ -100,6 +100,12 @@ type
     N22: TMenuItem;
     N23: TMenuItem;
     N24: TMenuItem;
+    N_General: TMenuItem;
+    N_materialy_Ostatok_sklad: TMenuItem;
+    EXLReport1: TEXLReport;
+    N25: TMenuItem;
+    N_Get_zakaz_rabota: TMenuItem;
+    N_Get_zakaz_ostalosi_sdelati: TMenuItem;
     procedure N_ExitClick(Sender: TObject);
     function VolumeID:dword;
     procedure FormCreate(Sender: TObject);
@@ -124,7 +130,6 @@ type
     procedure N_prihod_furnituraClick(Sender: TObject);
     procedure N2Click(Sender: TObject);
     procedure N_Akt_spisaniaClick(Sender: TObject);
-    procedure N_ReportsClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure N_Gotov_prod_categoriesClick(Sender: TObject);
     procedure N_Zakazy_viewClick(Sender: TObject);
@@ -138,7 +143,6 @@ type
     procedure N_PeremescheniaClick(Sender: TObject);
     procedure N_KassaClick(Sender: TObject);
     procedure N_RemontClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
     procedure N_LavoareClick(Sender: TObject);
     procedure N_ReviziiClick(Sender: TObject);
     procedure N_Calculation_SebestClick(Sender: TObject);
@@ -159,6 +163,10 @@ type
     procedure N21Click(Sender: TObject);
     procedure N22Click(Sender: TObject);
     procedure N23Click(Sender: TObject);
+    procedure N_GeneralClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure N_Get_zakaz_rabotaClick(Sender: TObject);
+    procedure N_Get_zakaz_ostalosi_sdelatiClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -200,9 +208,11 @@ uses mebeli_dm, password_dlg, sotrudniki_f, sklad_f, password_f,
   Statyi_Rashoda_f, Signs_Management_f, Bank_Jurnal_f, Statyi_Dohoda_f,
   Cassa_Jurnal_f, Remont_jurnal_f, Lavoare_list_f, Revizii_jurnal_df,
   gotov_prod_edit_f, Calc_sebestoimosti_f, Ostatok_furnitura_f,
-  Ostatok_listy_f, Ostatok_detali_f;
+  Ostatok_listy_f, Ostatok_detali_f, Get_zakaz_rabota_f,
+  Report_Get_Zakaz_Ostalosi_Sdelati_f;
 
 {$R *.dfm}
+
 procedure TF_Main.AdjustResolution(oForm:TForm);
  var
    iPercentage:integer;
@@ -790,6 +800,20 @@ begin
       IB_Vidy_rabot.Open;
       IB_Vidy_rabot.Last;
       Last_vid_rabot:=IB_Vidy_rabot.FieldByName('ID').AsInteger;
+
+      //check Users access rights
+      if role_name='DEPOZITAR' then
+        begin
+          MainMenu1.Items[0].Enabled:=false;
+          MainMenu1.Items[1].Enabled:=false;
+          MainMenu1.Items[2].Enabled:=false;
+          MainMenu1.Items[3].Enabled:=false;
+          MainMenu1.Items[4].Enabled:=false;
+          MainMenu1.Items[6].Enabled:=false;
+          MainMenu1.Items[7].Enabled:=false;
+        end;
+
+
     end;//With DM_Mebeli
 end;//proc
 
@@ -910,16 +934,6 @@ begin
   reopen_tables;
 end;//proc
 
-procedure TF_Main.N_ReportsClick(Sender: TObject);
-begin
-  DM_Mebeli.IBTransaction1.Rollback;
-  DM_Mebeli.DB_Mebeli.Close;
-  DM_Mebeli.DB_Mebeli.Open;
-  F_Reports.ShowModal;
-  DM_Mebeli.IB_Zakaz_0.Open;
-  F_IB_Zakaz_1.Open;
-end;//proc
-
 procedure TF_Main.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   IF DM_Mebeli.IBTransaction1.Active Then
@@ -992,56 +1006,6 @@ procedure TF_Main.N_RemontClick(Sender: TObject);
 begin
   F_Remont_jurnal.ShowModal;
 end;
-
-procedure TF_Main.Button1Click(Sender: TObject);
-var ib_tmp:TIBDataSet;
-         f: System.Text;
-         s: String;
-         ts: TStringList;
- filename: string;
-
-begin
-  ts:=TStringList.Create;
-  ts.Delimiter:=';';
-  ib_tmp:=TIBDataSet.Create(nil);
-  ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
-  ib_tmp.SelectSQL.Add('update furnitura set article= :article where id= :id_furnitura');
-
-  filename:='e:\furnitura_fdb.csv';
-  AssignFile(f, filename);
-  Reset(f);
-  Readln(f,s);
-  while not eof(f) do
-  begin
-    Readln(f,s);
-    ts.DelimitedText:=s;
-    ib_tmp.ParamByName('article').Value:=ts[0];
-    ib_tmp.ParamByName('id_furnitura').Value:=ts[1];
-    ib_tmp.ExecSQL;
-  end;
-  closefile (f);
-
-  ib_tmp.SelectSQL.Clear;
-  ib_tmp.SelectSQL.Add('update pilomat_grupa set article= :article where id= :id_pilomat_grupa');
-  filename:='e:\furnitura_fdb.csv';
-  AssignFile(f, filename);
-  Reset(f);
-  Readln(f,s);
-  while not eof(f) do
-  begin
-    Readln(f,s);
-    ts.DelimitedText:=s;
-    ib_tmp.ParamByName('article').Value:=ts[0];
-    ib_tmp.ParamByName('id_pilomat_grupa').Value:=ts[1];
-    ib_tmp.ExecSQL;
-  end;
-  closefile (f);
-
-  ts.Free;
-  ib_tmp.Close;
-  ib_tmp.Free;
-  DM_Mebeli.IBTransaction1.Commit;
-end;//proc
 
 procedure TF_Main.N_LavoareClick(Sender: TObject);
 begin
@@ -1452,7 +1416,7 @@ var  FIB_Query: TIBDataSet;
 begin
   FIB_Query:=TIBDataSet.Create(nil);
   FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
-  FIB_Query.SelectSQL.Add('select first 1 ID_GOTOVPROD from SUMMA_FOR_SEBEST');
+  FIB_Query.SelectSQL.Add('select * from rdb$database');
   Try
     FIB_Query.Open;
   finally
@@ -1593,6 +1557,46 @@ begin
   Excel.Quit;
   Excel:=Unassigned;
   reopen_tables;
+end;
+
+procedure TF_Main.N_GeneralClick(Sender: TObject);
+begin
+  DM_Mebeli.IBTransaction1.Rollback;
+  DM_Mebeli.DB_Mebeli.Close;
+  DM_Mebeli.DB_Mebeli.Open;
+  F_Reports.ShowModal;
+  DM_Mebeli.IB_Zakaz_0.Open;
+  F_IB_Zakaz_1.Open;
+end;//proc
+
+procedure TF_Main.Button1Click(Sender: TObject);
+var HCalc: THojaCalc;
+    SaveDialog1: TSaveDialog;
+begin
+  SaveDialog1:=TSaveDialog.Create(nil);
+  HCalc:=THojaCalc.create(thcExcel, false, false);
+  SaveDialog1.Execute;
+  HCalc.FileName:= SaveDialog1.FileName;
+  HCalc.CellText[1,1] := '(1x1) Hello world!  v2';
+  HCalc.CellText[1,2] := '(1x2) Hello world!  v2';
+  HCalc.Visible:=false;
+  HCalc.SaveDoc;
+  HCalc.Free;
+  SaveDialog1.Free;
+end;
+
+procedure TF_Main.N_Get_zakaz_rabotaClick(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  F_Report_Get_zakaz_rabota.ShowModal;
+  reopen_tables;
+end;
+
+procedure TF_Main.N_Get_zakaz_ostalosi_sdelatiClick(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  F_Report_Get_Zakaz_Ostalosi_Sdelati.ShowModal;
+  reopen_tables;  
 end;
 
 end.

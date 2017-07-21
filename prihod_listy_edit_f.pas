@@ -36,7 +36,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure DBE_Date_pExit(Sender: TObject);
     procedure DBGrid1EditButtonClick(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
@@ -78,33 +77,11 @@ begin
   E_Itogo.Text:=F_Main.IBQuery1.FieldByName('summa').AsString;
   F_Main.IBQuery1.Close;
 
-//  DM_Mebeli.IB_prihod_listy_0.Edit;
   ID_AKT:=DM_Mebeli.IB_prihod_listy_0.FieldByName('ID').AsInteger;
-
-  IF (DM_Mebeli.IB_prihod_listy_0.FieldByName('DATE_P').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      B_Exit.Enabled:=false;
-      ShowMessage('Дата документа меньше даты запрета редактирования');
-    end;//IF DataZapretaRedakt
 end;//proc
 
 procedure TF_Prihod_listy_edit.B_OkClick(Sender: TObject);
 begin
-  IF (DM_Mebeli.IB_prihod_listy_0.FieldByName('DATE_P').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      DM_Mebeli.IBTransaction1.Rollback;
-      OK_Pressed:=True;
-      close;
-      exit;
-    end;//IF DataZapretaRedakt
-
-  IF DM_Mebeli.IB_Prihod_listy_0.FieldByName('id_contragent').IsNull then
-    begin
-      ShowMessage('Не указан поставщик');
-      DBL_Contragent.SetFocus;
-      exit;
-    end;
-
   IF DM_Mebeli.IB_Prihod_listy_0.FieldByName('id_contragent').IsNull then
     begin
       ShowMessage('Не указан поставщик');
@@ -165,16 +142,6 @@ procedure TF_Prihod_listy_edit.FormKeyUp(Sender: TObject; var Key: Word;
 begin
   IF (Shift=[ssCtrl]) and (Key=VK_END)	Then //нажали Ctrl+END
     B_OKClick(Sender);
-end;//proc
-
-procedure TF_Prihod_listy_edit.DBE_Date_pExit(Sender: TObject);
-begin
-  //изменять дату акта на большую (вперед) могут только пользователи группы BUHGALTER или ADMIN
-{  IF (Old_Date<DM_Mebeli.IB_Prihod_listy_0.FieldByName('DATE_P').AsDateTime) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      ShowMessage('Изменять дату на большую нельзя. Обратитесь к бухгалтеру');
-      DM_Mebeli.IB_Prihod_listy_0.FieldByName('DATE_A').Value:=Old_Date;
-    end;//IF}
 end;//proc
 
 procedure TF_Prihod_listy_edit.DBGrid1EditButtonClick(Sender: TObject);

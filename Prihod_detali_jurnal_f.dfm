@@ -266,13 +266,13 @@ object F_Prihod_detali_jurnal: TF_Prihod_detali_jurnal
       FieldName = 'DETALI_GRUPA'
       Origin = 'PILOMAT_GRUPA.NAME'
       Required = True
-      Size = 60
+      Size = 100
     end
     object IB_Prihod_detali_1_FDETALI_NAME: TIBStringField
       FieldName = 'DETALI_NAME'
       Origin = 'PILOMAT_DETALI.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Prihod_detali_1_FID_PILOMAT_DETALI: TIntegerField
       FieldName = 'ID_PILOMAT_DETALI'

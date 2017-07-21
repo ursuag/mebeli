@@ -78,6 +78,7 @@ object F_Zakaz_edit: TF_Zakaz_edit
     Height = 26
     DataField = 'ID'
     DataSource = DM_Mebeli.DS_Zakaz_0
+    ReadOnly = True
     TabOrder = 1
   end
   object DBE_Date_z: TDBEdit
@@ -87,6 +88,7 @@ object F_Zakaz_edit: TF_Zakaz_edit
     Height = 26
     DataField = 'DATE_Z'
     DataSource = DM_Mebeli.DS_Zakaz_0
+    ReadOnly = True
     TabOrder = 2
   end
   object DBGrid1: TDBGrid

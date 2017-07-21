@@ -1,6 +1,6 @@
 object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
   Left = 0
-  Top = 84
+  Top = 108
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1072#1082#1090#1086#1074' '#1088#1072#1089#1087#1080#1083#1072
   ClientHeight = 688
@@ -627,7 +627,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       FieldName = 'LISTY_NAME'
       Origin = 'PILOMAT_LISTY.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Akt_raspil_listyKOL_VO: TIntegerField
       FieldName = 'KOL_VO'
@@ -765,7 +765,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       FieldName = 'LISTY_NAME'
       Origin = 'PILOMAT_LISTY.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Akt_raspil_listy_priceKOL_VO: TIntegerField
       FieldName = 'KOL_VO'
@@ -859,7 +859,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       FieldName = 'DETALY_NAME'
       Origin = 'PILOMAT_DETALI.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Akt_raspil_detali_priceKOL_VO: TIntegerField
       FieldName = 'KOL_VO'
@@ -950,7 +950,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       FieldName = 'LISTY_NAME'
       Origin = 'PILOMAT_LISTY.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object IB_Akt_raspil_ostatok_priceKOL_VO: TIntegerField
       FieldName = 'KOL_VO'

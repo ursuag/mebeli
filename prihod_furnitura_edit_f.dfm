@@ -113,7 +113,6 @@ object F_prihod_furnitura_edit: TF_prihod_furnitura_edit
       DataField = 'DATE_P'
       DataSource = DM_Mebeli.DS_Prihod_furnitura_0
       TabOrder = 1
-      OnExit = DBE_Date_pExit
     end
     object DBLookupComboBox1: TDBLookupComboBox
       Left = 712
@@ -133,7 +132,6 @@ object F_prihod_furnitura_edit: TF_prihod_furnitura_edit
       DataField = 'PRIMECHANIE'
       DataSource = DM_Mebeli.DS_Prihod_furnitura_0
       TabOrder = 3
-      OnExit = DBE_Date_pExit
     end
     object DBLookupComboBox2: TDBLookupComboBox
       Left = 88
@@ -257,7 +255,6 @@ object F_prihod_furnitura_edit: TF_prihod_furnitura_edit
     DataField = 'NOMER_TTN'
     DataSource = DM_Mebeli.DS_Prihod_furnitura_0
     TabOrder = 3
-    OnExit = DBE_Date_pExit
   end
   object DBL_Furnitura: TDBLookupComboBox
     Left = 424

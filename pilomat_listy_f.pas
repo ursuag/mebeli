@@ -32,9 +32,10 @@ type
     IB_Pilomat_listyRAZMER_X: TIntegerField;
     IB_Pilomat_listyRAZMER_Y: TIntegerField;
     IB_Pilomat_listyNAME: TIBStringField;
-    IB_Pilomat_listyAREA: TIntegerField;
     IB_Pilomat_listyISLIST: TSmallintField;
     IB_Pilomat_Grupa_F: TIBDataSet;
+    IB_Pilomat_listyAREA: TIntegerField;
+    IB_Pilomat_listyARTICLE: TIntegerField;
     procedure FormActivate(Sender: TObject);
     procedure DBE_Razmer_XKeyPress(Sender: TObject; var Key: Char);
     procedure DBE_Razmer_YKeyPress(Sender: TObject; var Key: Char);
@@ -104,6 +105,12 @@ end;//proc
 procedure TF_Pilomat_listy.B_OkClick(Sender: TObject);
 begin
   OK_Pressed:=True;
+  if (IB_Pilomat_listy.FieldByName('Razmer_X').IsNull) or (IB_Pilomat_listy.FieldByName('Razmer_Y').IsNull) then
+    begin
+      ShowMessage('Не указаны размеры');
+      DBE_Razmer_X.SetFocus;
+      exit;
+    end;
   IF DM_Mebeli.IBTransaction1.Active Then
      begin
        IF CB_IsList.Checked Then
@@ -113,6 +120,7 @@ begin
        IB_Pilomat_listy.Post;
        DM_Mebeli.IBTransaction1.Commit;
      end;
+  F_Pilomat_listy.Close;
 end;//proc
 
 procedure TF_Pilomat_listy.FormClose(Sender: TObject;

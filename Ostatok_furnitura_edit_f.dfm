@@ -1,6 +1,6 @@
 object F_Ostatok_furnitura_edit: TF_Ostatok_furnitura_edit
   Left = 0
-  Top = 54
+  Top = 61
   AutoScroll = False
   Caption = #1054#1089#1090#1072#1090#1082#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074' '#1085#1072' '#1085#1072#1095#1072#1083#1086
   ClientHeight = 702

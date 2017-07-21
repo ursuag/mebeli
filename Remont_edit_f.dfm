@@ -1,6 +1,6 @@
 object F_Remont_edit: TF_Remont_edit
   Left = 0
-  Top = 78
+  Top = 91
   AutoScroll = False
   Caption = #1056#1077#1084#1086#1085#1090' '#1087#1088#1086#1076#1091#1082#1094#1080#1080
   ClientHeight = 702

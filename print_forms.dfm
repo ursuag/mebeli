@@ -1,6 +1,6 @@
 object F_Print_Forms: TF_Print_Forms
-  Left = 20
-  Top = 39
+  Left = 14
+  Top = 57
   Width = 1179
   Height = 695
   Caption = 'Print_forms'
@@ -8431,10 +8431,10 @@ object F_Print_Forms: TF_Print_Forms
     Units = MM
     Zoom = 100
     PrevFormStyle = fsNormal
-    PreviewInitialState = wsNormal
+    PreviewInitialState = wsMaximized
     PrevShowThumbs = False
     PrevShowSearch = False
-    PrevInitialZoom = qrZoomToFit
+    PrevInitialZoom = qrZoom100
     PreviewDefaultSaveType = stPDF
     object QRBand1: TQRBand
       Left = 38

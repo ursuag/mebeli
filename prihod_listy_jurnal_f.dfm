@@ -1,6 +1,6 @@
 object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
-  Left = 3
-  Top = 91
+  Left = 4
+  Top = 120
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1087#1088#1080#1093#1086#1076#1072' '#1083#1080#1089#1090#1086#1074#1099#1093' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074
   ClientHeight = 682
@@ -352,7 +352,7 @@ object F_Prihod_listy_jurnal: TF_Prihod_listy_jurnal
       FieldName = 'LISTY_NAME'
       Origin = 'PILOMAT_LISTY.NAME'
       Required = True
-      Size = 50
+      Size = 100
     end
     object F_IB_Prihod_listy_1GRUPA_NAME: TIBStringField
       FieldName = 'GRUPA_NAME'

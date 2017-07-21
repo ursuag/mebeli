@@ -1,5 +1,5 @@
 object F_Peremeschenie_jurnal: TF_Peremeschenie_jurnal
-  Left = 146
+  Left = 13
   Top = 0
   Width = 1185
   Height = 728

@@ -1,6 +1,6 @@
 object F_Gotov_prod_edit: TF_Gotov_prod_edit
-  Left = 36
-  Top = 87
+  Left = 0
+  Top = 94
   AutoScroll = False
   Caption = #1043#1086#1090#1086#1074#1072#1103' '#1087#1088#1086#1076#1091#1082#1094#1080#1103
   ClientHeight = 702

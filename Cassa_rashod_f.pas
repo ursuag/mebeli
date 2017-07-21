@@ -83,7 +83,9 @@ procedure TF_Cassa_rashod.FormClose(Sender: TObject;
 begin
   if not button_clicked then
     if (Application.MessageBox( PChar('Выйте без сохранения?'), PChar('Confirm'), MB_YESNO or MB_DEFBUTTON2 or MB_ICONQUESTION) = IDNO) then
-      action:=caNone;
+      action:=caNone
+    else
+      IB_Cassa_Rashod.Close;
 end;
 
 procedure TF_Cassa_rashod.FormActivate(Sender: TObject);

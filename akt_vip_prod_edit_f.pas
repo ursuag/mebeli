@@ -98,13 +98,6 @@ begin
   ID_Akt:=DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('NOMER').AsInteger;
   DM_Mebeli.IB_Rashod_detali.Open;
   DM_Mebeli.IB_Rashod_furnitura.Open;
-  IF (DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      B_Exit.Enabled:=false;
-      DBGrid1.ReadOnly:=true;
-      ShowMessage('Дата документа меньше даты запрета редактирования');
-    end;//IF DataZapretaRedakt
-
 end;//proc
 
 procedure TF_Akt_vip_prod_edit.FormClose(Sender: TObject;
