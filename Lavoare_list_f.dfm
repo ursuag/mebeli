@@ -1,6 +1,6 @@
 object F_Lavoare_list: TF_Lavoare_list
-  Left = 78
-  Top = 50
+  Left = -12
+  Top = 53
   Width = 1200
   Height = 740
   Caption = #1057#1087#1088#1072#1074#1086#1095#1085#1080#1082' "'#1059#1084#1099#1074#1072#1083#1100#1085#1080#1082#1080'"'
@@ -13,6 +13,7 @@ object F_Lavoare_list: TF_Lavoare_list
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
+  Scaled = False
   WindowState = wsMaximized
   OnActivate = FormActivate
   OnClose = FormClose
@@ -84,7 +85,7 @@ object F_Lavoare_list: TF_Lavoare_list
     Left = 526
     Top = 0
     Width = 641
-    Height = 617
+    Height = 321
     DataSource = DS_Lavoare_1
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -124,6 +125,54 @@ object F_Lavoare_list: TF_Lavoare_list
         Font.Style = []
         Title.Alignment = taCenter
         Title.Caption = #1053#1072#1080#1084#1077#1085#1086#1074#1072#1085#1080#1077' '#1091#1084#1099#1074#1072#1083#1100#1085#1080#1082#1072
+        Width = 431
+        Visible = True
+      end>
+  end
+  object DBGrid1: TDBGrid
+    Left = 526
+    Top = 328
+    Width = 641
+    Height = 281
+    DataSource = DS_Lavoare_gotovprod
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -13
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ARTICLE'
+        Font.Charset = RUSSIAN_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Arial'
+        Font.Style = []
+        Title.Alignment = taCenter
+        Title.Caption = #1040#1088#1090#1080#1082#1091#1083
+        Width = 98
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NAME'
+        Font.Charset = RUSSIAN_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Arial'
+        Font.Style = []
+        Title.Alignment = taCenter
+        Title.Caption = #1053#1072#1080#1084#1077#1085#1086#1074#1072#1085#1080#1077' '#1096#1082#1072#1092#1072
         Width = 431
         Visible = True
       end>
@@ -249,8 +298,57 @@ object F_Lavoare_list: TF_Lavoare_list
     end
     object N_Import: TMenuItem
       Caption = #1048#1084#1087#1086#1088#1090
-      Enabled = False
-      OnClick = N_ImportClick
+      object N_Import_lavoare: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1091#1084#1099#1074#1072#1083#1100#1085#1080#1082#1086#1074
+        Enabled = False
+        OnClick = N_Import_lavoareClick
+      end
+      object N_Import_lavoare_gotovprod: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1096#1082#1072#1092#1086#1074' '#1082' '#1091#1084#1099#1074#1072#1083#1100#1085#1080#1082#1072#1084
+        OnClick = N_Import_lavoare_gotovprodClick
+      end
     end
+  end
+  object DS_Lavoare_gotovprod: TDataSource
+    AutoEdit = False
+    DataSet = IB_Lavoare_gotovprod
+    Left = 1104
+    Top = 488
+  end
+  object IB_Lavoare_gotovprod: TIBDataSet
+    Database = DM_Mebeli.DB_Mebeli
+    Transaction = DM_Mebeli.IBTransaction1
+    ForcedRefresh = True
+    AutoCalcFields = False
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from lavoare_1'
+      'where'
+      '  ID = :OLD_ID')
+    InsertSQL.Strings = (
+      'insert into lavoare_1'
+      '  (ID)'
+      'values'
+      '  (:ID)')
+    RefreshSQL.Strings = (
+      'Select *'
+      'from lavoare_1 '
+      'where'
+      '  ID = :ID')
+    SelectSQL.Strings = (
+      'select gp0.article, gp0.name'
+      'from LAVOARE_GOTOVPROD lg, gotov_prod_0 gp0'
+      'where (lg.id_gotovprod=gp0.id) and (lg.id_lavoar=:id)'
+      'order by gp0.name')
+    ModifySQL.Strings = (
+      'update lavoare_1'
+      'set'
+      '  ID = :ID'
+      'where'
+      '  ID = :OLD_ID')
+    DataSource = DS_Lavoare_1
+    Left = 1064
+    Top = 488
   end
 end

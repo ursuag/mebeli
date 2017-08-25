@@ -79,7 +79,11 @@ uses
   Ostatok_listy_edit_f in 'Ostatok_listy_edit_f.pas' {F_Ostatok_listy_edit},
   Ostatok_detali_f in 'Ostatok_detali_f.pas' {F_Ostatok_detali},
   Get_zakaz_rabota_f in 'Get_zakaz_rabota_f.pas' {F_Report_Get_zakaz_rabota},
-  Report_Get_Zakaz_Ostalosi_Sdelati_f in 'Report_Get_Zakaz_Ostalosi_Sdelati_f.pas' {F_Report_Get_Zakaz_Ostalosi_Sdelati};
+  Report_Get_Zakaz_Ostalosi_Sdelati_f in 'Report_Get_Zakaz_Ostalosi_Sdelati_f.pas' {F_Report_Get_Zakaz_Ostalosi_Sdelati},
+  Report_Ostatok_materialy_f in 'Report_Ostatok_materialy_f.pas' {F_Report_Ostatok_materialy},
+  Contragenty_edit_f in 'Contragenty_edit_f.pas' {F_Contragenty_edit},
+  Rashod_na_gotovprod_furnitura_f in 'Rashod_na_gotovprod_furnitura_f.pas' {F_Rashod_na_gotovprod_furnitura},
+  Print_Furnitura_In_Norma_f in 'Print_Furnitura_In_Norma_f.pas' {F_Print_Furnitura_In_Norma};
 
 {$R *.res}
 
@@ -161,5 +165,9 @@ begin
   Application.CreateForm(TF_Ostatok_detali, F_Ostatok_detali);
   Application.CreateForm(TF_Report_Get_zakaz_rabota, F_Report_Get_zakaz_rabota);
   Application.CreateForm(TF_Report_Get_Zakaz_Ostalosi_Sdelati, F_Report_Get_Zakaz_Ostalosi_Sdelati);
+  Application.CreateForm(TF_Report_Ostatok_materialy, F_Report_Ostatok_materialy);
+  Application.CreateForm(TF_Contragenty_edit, F_Contragenty_edit);
+  Application.CreateForm(TF_Rashod_na_gotovprod_furnitura, F_Rashod_na_gotovprod_furnitura);
+  Application.CreateForm(TF_Print_Furnitura_In_Norma, F_Print_Furnitura_In_Norma);
   Application.Run;
 end.

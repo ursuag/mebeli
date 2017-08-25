@@ -134,7 +134,7 @@ begin
   IF Check_IF_All_Data=False Then
      exit;
 
-  IF (DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+  IF (DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
     begin
       if DM_Mebeli.IBTransaction1.Active then DM_Mebeli.IBTransaction1.Rollback;
       OK_Pressed:=True;

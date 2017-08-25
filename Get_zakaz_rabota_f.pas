@@ -39,7 +39,7 @@ type
 
 var
   F_Report_Get_zakaz_rabota: TF_Report_Get_zakaz_rabota;
-
+  id_zakaz_report: integer;
 implementation
 
 uses mebeli_dm, main_f, gotov_prod_f, zakaz_select_f,
@@ -92,7 +92,7 @@ begin
       FIB_Query.SelectSQL.Add('akt_kolvo8, akt_kolvo9, akt_kolvo10, akt_kolvo11, akt_kolvo12, prodaja_kolvo');
       FIB_Query.SelectSQL.Add('from GET_ZAKAZ_RABOTA_KOLVO(:id_zakaz_report,:period_end)');
       FIB_Query.SelectSQL.Add('where ((zakaz_kolvo-prodaja_kolvo)<>0) order by zakaz, gotovprod_name');
-      FIB_Query.ParamByName('id_zakaz_report').Value:=id_zakaz;
+      FIB_Query.ParamByName('id_zakaz_report').Value:=id_zakaz_report;
       FIB_Query.ParamByName('period_end').Value:=F_Report_Get_zakaz_rabota.Period_End.DateTime;
       FIB_Query.Open;
       i:=3;
@@ -128,6 +128,7 @@ procedure TF_Report_Get_zakaz_rabota.FormCreate(Sender: TObject);
 begin
   period_end.Date:=Date;
   cb_export_excel.Checked:=false;
+  id_zakaz_report:=-1;
 end;
 
 procedure TF_Report_Get_zakaz_rabota.FormClose(Sender: TObject;
@@ -152,13 +153,14 @@ procedure TF_Report_Get_zakaz_rabota.B_AVR_zakaz_selectClick(Sender: TObject);
 begin
   operation:='SELECT';
   F_Zakaz_select.ShowModal;
-  E_AVR_Zakaz.Text:=IntToStr(id_zakaz);
+  id_zakaz_report:=id_zakaz;
+  E_AVR_Zakaz.Text:=IntToStr(id_zakaz_report);
 end;
 
 procedure TF_Report_Get_zakaz_rabota.SpeedButton2Click(Sender: TObject);
 begin
   E_AVR_Zakaz.Text:='';
-  id_zakaz:=-1;
+  id_zakaz_report:=-1;
 end;
 
 procedure TF_Report_Get_zakaz_rabota.B_ShowReportClick(Sender: TObject);
@@ -170,7 +172,7 @@ begin
       F_print_forms.IBQuery1.Close;
       F_print_forms.IBQuery1.SQL.Clear;
       F_print_forms.IBQuery1.SQL.Add('select * from GET_ZAKAZ_RABOTA_KOLVO(:id_zakaz_report,:period_end) where ((zakaz_kolvo-prodaja_kolvo)<>0) order by zakaz, gotovprod_name');
-      F_print_forms.IBQuery1.ParamByName('id_zakaz_report').Value:=id_zakaz;
+      F_print_forms.IBQuery1.ParamByName('id_zakaz_report').Value:=id_zakaz_report;
       F_print_forms.IBQuery1.ParamByName('period_end').Value:=Period_End.DateTime;
       F_print_forms.IBQuery1.Open;
 

@@ -39,7 +39,7 @@ type
 
 var
   F_Report_Get_Zakaz_Ostalosi_Sdelati: TF_Report_Get_Zakaz_Ostalosi_Sdelati;
-
+  id_zakaz_report: integer;
 implementation
 
 uses mebeli_dm, main_f, gotov_prod_f, zakaz_select_f,
@@ -99,7 +99,7 @@ begin
       FIB_Query.SelectSQL.Add('select zakaz, zakaz_kolvo, dney_v_rabote, (select article from gotov_prod_0 where id=id_gotov_prod), gotovprod_name, is_raspileno, akt_kolvo_ostatok2, akt_kolvo_ostatok3,');
       FIB_Query.SelectSQL.Add('akt_kolvo_ostatok4, akt_kolvo_ostatok5, akt_kolvo_ostatok6, akt_kolvo_ostatok7, akt_kolvo_ostatok8, akt_kolvo_ostatok9, akt_kolvo_ostatok10, akt_kolvo_ostatok11, akt_kolvo_ostatok12, prodaja_ostatok');
       FIB_Query.SelectSQL.Add('from GET_ZAKAZ_OSTALOSI_SDELATI (:period_end, :id_zakaz) where (prodaja_ostatok>0) order by zakaz, gotovprod_name');
-      FIB_Query.ParamByName('id_zakaz').Value:=id_zakaz;
+      FIB_Query.ParamByName('id_zakaz').Value:=id_zakaz_report;
       FIB_Query.ParamByName('period_end').Value:=F_Report_Get_Zakaz_Ostalosi_Sdelati.Period_End.DateTime;
       FIB_Query.Open;
       i:=3;
@@ -142,6 +142,7 @@ procedure TF_Report_Get_Zakaz_Ostalosi_Sdelati.FormCreate(Sender: TObject);
 begin
   period_end.Date:=Date;
   cb_export_excel.Checked:=false;
+  id_zakaz_report:=-1;
 end;
 
 procedure TF_Report_Get_Zakaz_Ostalosi_Sdelati.B_ShowReportClick(
@@ -154,7 +155,7 @@ begin
       F_print_forms_2.IBQuery1.Close;
       F_print_forms_2.IBQuery1.SQL.Clear;
       F_print_forms_2.IBQuery1.SQL.Add('select * from GET_ZAKAZ_OSTALOSI_SDELATI (:period_end, :id_zakaz) where (prodaja_ostatok>0) order by zakaz, gotovprod_name');
-      F_print_forms_2.IBQuery1.ParamByName('id_zakaz').value:=id_zakaz;
+      F_print_forms_2.IBQuery1.ParamByName('id_zakaz').value:=id_zakaz_report;
       F_print_forms_2.IBQuery1.ParamByName('period_end').Value:=Period_End.DateTime;
       F_print_forms_2.IBQuery1.Open;
 
@@ -201,7 +202,8 @@ procedure TF_Report_Get_Zakaz_Ostalosi_Sdelati.B_AVR_zakaz_selectClick(
 begin
   operation:='SELECT';
   F_Zakaz_select.ShowModal;
-  E_AVR_Zakaz.Text:=IntToStr(id_zakaz);
+  id_zakaz_report:=id_zakaz;
+  E_AVR_Zakaz.Text:=IntToStr(id_zakaz_report);
 end;
 
 procedure TF_Report_Get_Zakaz_Ostalosi_Sdelati.B_AVR_gotovprod_clearClick(
@@ -218,3 +220,4 @@ begin
 end;
 
 end.
+

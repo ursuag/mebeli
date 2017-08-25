@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  QDialogs, Grids, DBGrids, StdCtrls, ExtCtrls, Menus, DB;
+  QDialogs, Grids, DBGrids, StdCtrls, ExtCtrls, Menus, DB, IBQuery, JPeg,
+  IBCustomDataSet;
 
 type
   TF_Gotov_prod = class(TForm)
@@ -24,6 +25,12 @@ type
     B_Select: TButton;
     E_Grupa_Filter: TEdit;
     E_Gotovprod_Filter: TEdit;
+    N3: TMenuItem;
+    N_Search_gotovprod_article: TMenuItem;
+    N4: TMenuItem;
+    N_Import_Photos: TMenuItem;
+    IB_Image: TIBDataSet;
+    DS_Image: TDataSource;
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DBGrid_GrupaDblClick(Sender: TObject);
@@ -45,6 +52,8 @@ type
     procedure E_Gotovprod_FilterExit(Sender: TObject);
     procedure E_Gotovprod_FilterKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure N_Search_gotovprod_articleClick(Sender: TObject);
+    procedure N_Import_PhotosClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -244,6 +253,76 @@ procedure TF_Gotov_prod.E_Gotovprod_FilterKeyUp(Sender: TObject;
 begin
   if Length(E_Gotovprod_Filter.Text)>2 then
     DM_Mebeli.IB_Gotov_prod_0.Locate('name',E_Gotovprod_Filter.Text,[loCaseInsensitive, loPartialKey]);
+end;
+
+procedure TF_Gotov_prod.N_Search_gotovprod_articleClick(Sender: TObject);
+var
+  sql_article: TIBQuery;
+  article: string;
+begin
+  //id_grupa, id_got_prod
+  sql_article:=TIBQuery.Create(nil);
+  sql_article.Database:=DM_Mebeli.DB_Mebeli;
+  article:=InputBox('Поиск готовой продукции по артикулу','Введите артикул:','');
+  if article<>'' then
+    begin
+      sql_article.SQL.Add('select id, id_grupa from gotov_prod_0 where article='+article);
+      sql_article.Open;
+      if not sql_article.FieldByName('id').IsNull then
+        begin
+          id_got_prod:=sql_article.FieldByName('id').AsInteger;
+          id_grupa:=sql_article.FieldByName('id_grupa').AsInteger;
+          reopen_tables;
+        end;
+    end;
+  sql_article.Close;
+  sql_article.Free;
+end;
+
+procedure TF_Gotov_prod.N_Import_PhotosClick(Sender: TObject);
+var
+  Image : TJPEGImage;
+  FileName: string;
+  ib_gotovprod: TIBDataSet;
+begin
+  ib_gotovprod:=TIBDataSet.Create(nil);
+  ib_gotovprod.Database:=DM_Mebeli.DB_Mebeli;
+
+  ib_gotovprod.SelectSQL.Add('select id, article from gotov_prod_0');
+  ib_gotovprod.open;
+  while not ib_gotovprod.Eof do
+    begin
+      IB_Image.Close;
+      IB_Image.ParamByname('id_gotovprod').Value:=ib_gotovprod.FieldValues['id'];
+      IB_Image.Open;
+      Image:=TJPEGImage.Create;
+      filename:='d:\0\'+ib_gotovprod.FieldByname('article').AsString+'_1.jpg';
+      if FileExists(FileName) then
+          if IB_Image.fieldbyname('id').IsNull then
+            begin
+              image.LoadFromFile(FileName);
+              IB_Image.Insert;
+              IB_Image.FieldByname('id_gotovprod').Value:=ib_gotovprod.FieldValues['id'];
+              IB_Image.FieldByname('article').Value:=ib_gotovprod.FieldValues['article'];
+              IB_Image.FieldByName('image_jpg').Assign(image);
+              IB_Image.Post;
+              DM_Mebeli.Transaction_Images.Commit;
+            end//if null
+          else
+            begin
+              image.LoadFromFile(FileName);
+              IB_Image.Edit;
+              IB_Image.FieldByName('image_jpg').Assign(image);
+              IB_Image.Post;
+              DM_Mebeli.Transaction_Images.Commit;
+            end;//else if null
+          Image.Free;
+          ib_gotovprod.Next;
+      end;
+
+  IB_Image.Close;
+  ib_gotovprod.close;
+  ib_gotovprod.free;
 end;
 
 end.

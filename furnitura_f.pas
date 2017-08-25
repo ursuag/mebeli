@@ -30,6 +30,8 @@ type
     N1: TMenuItem;
     N_Import_new: TMenuItem;
     N_Import_names: TMenuItem;
+    PM_DBG_Furnitura: TPopupMenu;
+    N2: TMenuItem;
     procedure FormActivate(Sender: TObject);
     procedure N_CloseClick(Sender: TObject);
     procedure N_Insert_grupaClick(Sender: TObject);
@@ -55,6 +57,7 @@ type
     procedure DBG_FurnituraKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure N_Import_namesClick(Sender: TObject);
+    procedure N2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -71,6 +74,20 @@ uses mebeli_dm, furnitura_edit_f, main_f, furnitura_grupa_vidrabot_f,
   Spisanie_jurnal_print_f, Peremeschenie_edit_f;
 
 {$R *.dfm}
+
+procedure furnitura_add_to_list;
+var furn_select: TIBDataSet;
+begin
+  furn_select:=TIBDataSet.Create(nil);
+  furn_select.Database:=DM_Mebeli.IB_Sklad.Database;
+  furn_select.SelectSQL.Add('update or insert into FURNITURA_LIST_FOR_REPORT (id_furnitura) values (:id_furnitura) matching (id_furnitura)');
+  furn_select.ParamByName('id_furnitura').Value:=DM_Mebeli.IB_Furnitura.FieldByName('id').AsInteger;
+  try
+    furn_select.ExecSQL;
+  finally
+    furn_select.Free;
+  end;
+end;
 
 procedure Reopen_tables;
 begin
@@ -160,8 +177,12 @@ end;//proc
 procedure TF_Furnitura.DBG_FurnituraDblClick(Sender: TObject);
 begin
   IF operation='SELECT' Then
-    B_SelectClick(Sender)
-  ELSE
+    B_SelectClick(Sender);
+
+  IF operation='SELECT_FOR_LIST' Then
+    furnitura_add_to_list;
+
+  if operation='' then
     N_Edit_furnituraClick(Sender);
 end;//proc
 
@@ -297,6 +318,11 @@ begin
   Excel:=Unassigned;
   reopen_tables;
   ShowMessage('Imported '+IntToStr(j)+' rows');
+end;
+
+procedure TF_Furnitura.N2Click(Sender: TObject);
+begin
+  furnitura_add_to_list;
 end;
 
 end.

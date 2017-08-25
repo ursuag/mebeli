@@ -221,7 +221,7 @@ begin
       DBG_Detali.DataSource:=DS_Pilomat_Detali_F;
 
       IB_Pilomat_grupa_F.SelectSQL.Clear;
-      IB_Pilomat_grupa_F.SelectSQL.Add('select pg.id, pg.name from pilomat_grupa pg');
+      IB_Pilomat_grupa_F.SelectSQL.Add('select pg.id, pg.article article, pg.name from pilomat_grupa pg');
       IB_Pilomat_grupa_F.SelectSQL.Add('where (exists (select list_id from GET_LISTY_ESTI_OSTATOK(pg.id)))');
       IB_Pilomat_grupa_F.SelectSQL.Add('and (Upper(name) like upper(:grupa_name)) order by pg.name');
 

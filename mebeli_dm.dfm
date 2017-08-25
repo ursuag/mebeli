@@ -1,7 +1,7 @@
 object DM_Mebeli: TDM_Mebeli
   OldCreateOrder = False
-  Left = 13
-  Top = 83
+  Left = 25
+  Top = 8
   Height = 724
   Width = 1117
   object DB_Mebeli: TIBDatabase
@@ -1827,20 +1827,18 @@ object DM_Mebeli: TDM_Mebeli
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into AKT_RASPIL'
-      
-        '  (ID, DATE_R, OTHOD, OSTATOK, PRIMECHANIE, ID_ZAKAZ, ID_SOTRUDN' +
-        'IK_1, ID_SOTRUDNIK_2, '
-      '   OTHOD_SUMMA, OTHOD_M2)'
+      '  (ID, DATE_R, OTHOD_PRC, OSTATOK, PRIMECHANIE, ID_ZAKAZ, '
+      'ID_SOTRUDNIK_1, '
+      '   ID_SOTRUDNIK_2, OTHOD_SUMMA, OTHOD_M2)'
       'values'
-      
-        '  (:ID, :DATE_R, :OTHOD, :OSTATOK, :PRIMECHANIE, :ID_ZAKAZ, :ID_' +
-        'SOTRUDNIK_1, '
+      '  (:ID, :DATE_R, :OTHOD_PRC, :OSTATOK, :PRIMECHANIE, :ID_ZAKAZ, '
+      ':ID_SOTRUDNIK_1, '
       '   :ID_SOTRUDNIK_2, :OTHOD_SUMMA, :OTHOD_M2)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
       '  DATE_R,'
-      '  OTHOD,'
+      '  OTHOD_PRC,'
       '  OSTATOK,'
       '  PRIMECHANIE,'
       '  ID_ZAKAZ,'
@@ -1860,7 +1858,7 @@ object DM_Mebeli: TDM_Mebeli
       'set'
       '  ID = :ID,'
       '  DATE_R = :DATE_R,'
-      '  OTHOD = :OTHOD,'
+      '  OTHOD_PRC = :OTHOD_PRC,'
       '  OSTATOK = :OSTATOK,'
       '  PRIMECHANIE = :PRIMECHANIE,'
       '  ID_ZAKAZ = :ID_ZAKAZ,'
@@ -1882,13 +1880,6 @@ object DM_Mebeli: TDM_Mebeli
     object IB_Akt_raspilDATE_R: TDateField
       FieldName = 'DATE_R'
       Origin = 'AKT_RASPIL.DATE_R'
-    end
-    object IB_Akt_raspilOTHOD: TIBBCDField
-      FieldName = 'OTHOD'
-      Origin = '"AKT_RASPIL"."OTHOD"'
-      Required = True
-      Precision = 9
-      Size = 2
     end
     object IB_Akt_raspilOSTATOK: TIntegerField
       FieldName = 'OSTATOK'
@@ -1945,6 +1936,14 @@ object DM_Mebeli: TDM_Mebeli
       DisplayFormat = '##0.000'
       Precision = 18
       Size = 4
+    end
+    object IB_Akt_raspilOTHOD_PRC: TIBBCDField
+      FieldName = 'OTHOD_PRC'
+      Origin = 'AKT_RASPIL.OTHOD_PRC'
+      Required = True
+      DisplayFormat = '0.00'
+      Precision = 9
+      Size = 2
     end
   end
   object IB_Peremeschenie_0: TIBDataSet
@@ -2684,14 +2683,7 @@ object DM_Mebeli: TDM_Mebeli
         'TURER_CODE, '
       '   :ARTICLE)')
     RefreshSQL.Strings = (
-      'Select '
-      '  ID,'
-      '  NAME,'
-      '  ED_IZM,'
-      '  ID_PARENT,'
-      '  MANUFACTURER_NAME,'
-      '  MANUFACTURER_CODE,'
-      '  ARTICLE'
+      'Select * '
       'from FURNITURA '
       'where'
       '  ID = :ID')
@@ -4069,9 +4061,9 @@ object DM_Mebeli: TDM_Mebeli
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into contragenty_1'
-      '  (ID, ID_PARENT, NAME)'
+      '  (ID, ID_PARENT, NAME, CODFISCAL)'
       'values'
-      '  (:ID, :ID_PARENT, :NAME)')
+      '  (:ID, :ID_PARENT, :NAME, :CODFISCAL)')
     RefreshSQL.Strings = (
       'Select *'
       'from contragenty_1 '
@@ -4086,7 +4078,8 @@ object DM_Mebeli: TDM_Mebeli
       'set'
       '  ID = :ID,'
       '  ID_PARENT = :ID_PARENT,'
-      '  NAME = :NAME'
+      '  NAME = :NAME,'
+      '  CODFISCAL = :CODFISCAL'
       'where'
       '  ID = :OLD_ID')
     GeneratorField.Field = 'ID'
@@ -4108,6 +4101,10 @@ object DM_Mebeli: TDM_Mebeli
       Origin = 'CONTRAGENTY_1.NAME'
       Required = True
       Size = 50
+    end
+    object IB_Contragenty_1CODFISCAL: TIBStringField
+      FieldName = 'CODFISCAL'
+      Origin = 'CONTRAGENTY_1.CODFISCAL'
     end
   end
   object IB_GOTOV_PROD_grupa_name: TIBDataSet

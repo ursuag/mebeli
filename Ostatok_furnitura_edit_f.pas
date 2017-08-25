@@ -86,7 +86,7 @@ begin
        IB_prihod_furnitura_0.FieldByName('IS_OSTATOK').Value:=1;
      end;//IF 'INSERT'
   F_Ostatok_furnitura.id_akt:=IB_prihod_furnitura_0.FieldByName('ID').AsInteger;
-  IF (IB_prihod_furnitura_0.FieldByName('DATE_P').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+  IF (IB_prihod_furnitura_0.FieldByName('DATE_P').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
     begin
       B_OK.Enabled:=false;
       ShowMessage('Дата документа меньше даты запрета редактирования');

@@ -129,7 +129,7 @@ end;//proc
 
 procedure TF_Akt_vip_prod_jurnal.B_DeleteClick(Sender: TObject);
 begin
-  IF (DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+  IF (DM_Mebeli.IB_Akt_vip_prod_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
     begin
       ShowMessage('Дата документа меньше даты запрета редактирования');
       exit;
@@ -155,12 +155,14 @@ procedure TF_Akt_vip_prod_jurnal.N1Click(Sender: TObject);
 begin
   IB_Group_area.Open;
   DBG_Group_area.Visible:=true;
+  DBG_Detali.Visible:=false;
 end;//proc
 
 procedure TF_Akt_vip_prod_jurnal.N2Click(Sender: TObject);
 begin
   IB_Group_area.Close;
   DBG_Group_area.Visible:=false;
+  DBG_Detali.Visible:=true;
 end;//proc
 
 

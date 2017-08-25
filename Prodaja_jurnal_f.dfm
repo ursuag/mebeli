@@ -1,6 +1,6 @@
 object F_Prodaja_jurnal: TF_Prodaja_jurnal
   Left = 0
-  Top = 60
+  Top = 96
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' "'#1054#1090#1075#1088#1091#1079#1082#1072' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080'"'
   ClientHeight = 682
@@ -248,7 +248,7 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
       end
       item
         Expanded = False
-        FieldName = 'AKT_VIP_PROD'
+        FieldName = 'ID_AKTVIPPROD_0'
         Title.Alignment = taCenter
         Title.Caption = #1040#1082#1090' '#1074#1099#1087#1091#1089#1082#1072
         Width = 125
@@ -376,8 +376,8 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
       
         'select gp.article article, gpg.name grupa_name, gp.name gotovpro' +
         'd_name, pr1s.kol_vo kol_vo, pr1s.sebest sebest, (select id_paren' +
-        't from akt_vip_prod_1 where id=pr1s.id_aktvipprod_1), pr1s.id_ak' +
-        'tvipprod_1'
+        't from akt_vip_prod_1 where id=pr1s.id_aktvipprod_1) id_aktvippr' +
+        'od_0, pr1s.id_aktvipprod_1'
       
         'from prodaja_gotovprod_1_sebest pr1s, gotov_prod_0 gp, gotov_pro' +
         'd_grupa gpg'

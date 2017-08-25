@@ -1,6 +1,6 @@
 object F_Furnitura: TF_Furnitura
-  Left = 30
-  Top = 70
+  Left = 35
+  Top = 82
   Width = 1200
   Height = 720
   BorderIcons = [biSystemMenu, biMinimize]
@@ -35,6 +35,7 @@ object F_Furnitura: TF_Furnitura
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
+    PopupMenu = PM_DBG_Furnitura
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -57,7 +58,7 @@ object F_Furnitura: TF_Furnitura
         FieldName = 'NAME'
         Title.Alignment = taCenter
         Title.Caption = #1053#1072#1080#1084#1077#1085#1086#1074#1072#1085#1080#1077
-        Width = 367
+        Width = 351
         Visible = True
       end
       item
@@ -78,6 +79,7 @@ object F_Furnitura: TF_Furnitura
         FieldName = 'ID'
         Title.Alignment = taCenter
         Title.Caption = #1042#1085'.'#1082#1086#1076
+        Width = 65
         Visible = True
       end>
   end
@@ -221,6 +223,14 @@ object F_Furnitura: TF_Furnitura
     object N_Close: TMenuItem
       Caption = #1042#1099#1093#1086#1076
       OnClick = N_CloseClick
+    end
+  end
+  object PM_DBG_Furnitura: TPopupMenu
+    Left = 936
+    Top = 320
+    object N2: TMenuItem
+      Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1074' '#1089#1087#1080#1089#1086#1082' '#1076#1083#1103' '#1072#1085#1072#1083#1080#1079#1072
+      OnClick = N2Click
     end
   end
 end

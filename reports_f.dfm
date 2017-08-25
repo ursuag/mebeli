@@ -1,12 +1,12 @@
 object F_Reports: TF_Reports
-  Left = 39
-  Top = 96
+  Left = 34
+  Top = 110
   AutoSize = True
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1054#1090#1095#1077#1090#1099
   ClientHeight = 698
-  ClientWidth = 833
+  ClientWidth = 881
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
   Font.Color = clWindowText
@@ -20,7 +20,6 @@ object F_Reports: TF_Reports
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
-  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 18
   object Label1: TLabel
@@ -37,7 +36,7 @@ object F_Reports: TF_Reports
     ParentFont = False
   end
   object PC_Report_select: TPageControl
-    Left = 0
+    Left = 48
     Top = 24
     Width = 833
     Height = 609
@@ -46,619 +45,6 @@ object F_Reports: TF_Reports
     MultiLine = True
     TabOrder = 0
     OnChange = PC_Report_selectChange
-    object Ostat_sklad: TTabSheet
-      Caption = #1054#1089#1090#1072#1090#1082#1080' '#1087#1086' '#1089#1082#1083#1072#1076#1072#1084
-      OnShow = Ostat_skladShow
-      object Label15: TLabel
-        Left = 0
-        Top = 12
-        Width = 115
-        Height = 18
-        Caption = #1054#1089#1090#1072#1090#1082#1080' '#1085#1072' '#1076#1072#1090#1091
-      end
-      object Label13: TLabel
-        Left = 2
-        Top = 44
-        Width = 49
-        Height = 18
-        Caption = #1057#1082#1083#1072#1076':'
-      end
-      object B_OstSkl_Detali_select: TSpeedButton
-        Left = 597
-        Top = 289
-        Width = 27
-        Height = 24
-        Hint = #1042#1099#1073#1086#1088' '#1044#1077#1090#1072#1083#1080
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000130B0000130B00001000000000000000000000000000
-          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-          333333333333333333FF33333333333330003FF3FFFFF3333777003000003333
-          300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333
-          330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000
-          333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000
-          339977FF777777773377000BFB03333333337773FF733333333F333000333333
-          3300333777333333337733333333333333003333333333333377333333333333
-          333333333333333333FF33333333333330003333333333333777333333333333
-          3000333333333333377733333333333333333333333333333333}
-        NumGlyphs = 2
-        OnClick = B_OstSkl_Detali_selectClick
-      end
-      object B_OstSkl_Detali_clear: TSpeedButton
-        Left = 629
-        Top = 289
-        Width = 27
-        Height = 24
-        Hint = #1054#1095#1080#1089#1090#1080#1090#1100' '#1087#1086#1083#1077' '#1044#1077#1090#1072#1083#1080
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000130B0000130B00001000000000000000000000000000
-          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-          333333333333333333333333333333333333333FFF33FF333FFF339993370733
-          999333777FF37FF377733339993000399933333777F777F77733333399970799
-          93333333777F7377733333333999399933333333377737773333333333990993
-          3333333333737F73333333333331013333333333333777FF3333333333910193
-          333333333337773FF3333333399000993333333337377737FF33333399900099
-          93333333773777377FF333399930003999333337773777F777FF339993370733
-          9993337773337333777333333333333333333333333333333333333333333333
-          3333333333333333333333333333333333333333333333333333}
-        NumGlyphs = 2
-        OnClick = B_OstSkl_Detali_clearClick
-      end
-      object B_OstSkl_Furnitura_select: TSpeedButton
-        Left = 597
-        Top = 321
-        Width = 27
-        Height = 24
-        Hint = #1042#1099#1073#1086#1088' '#1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1077#1075#1086
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000130B0000130B00001000000000000000000000000000
-          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-          333333333333333333FF33333333333330003FF3FFFFF3333777003000003333
-          300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333
-          330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000
-          333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000
-          339977FF777777773377000BFB03333333337773FF733333333F333000333333
-          3300333777333333337733333333333333003333333333333377333333333333
-          333333333333333333FF33333333333330003333333333333777333333333333
-          3000333333333333377733333333333333333333333333333333}
-        NumGlyphs = 2
-        OnClick = B_OstSkl_Furnitura_selectClick
-      end
-      object B_OstSkl_Furnitura_clear: TSpeedButton
-        Left = 629
-        Top = 321
-        Width = 27
-        Height = 24
-        Hint = #1054#1095#1080#1089#1090#1080#1090#1100' '#1087#1086#1083#1077' '#1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1077
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000130B0000130B00001000000000000000000000000000
-          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-          333333333333333333333333333333333333333FFF33FF333FFF339993370733
-          999333777FF37FF377733339993000399933333777F777F77733333399970799
-          93333333777F7377733333333999399933333333377737773333333333990993
-          3333333333737F73333333333331013333333333333777FF3333333333910193
-          333333333337773FF3333333399000993333333337377737FF33333399900099
-          93333333773777377FF333399930003999333337773777F777FF339993370733
-          9993337773337333777333333333333333333333333333333333333333333333
-          3333333333333333333333333333333333333333333333333333}
-        NumGlyphs = 2
-        OnClick = B_OstSkl_Furnitura_clearClick
-      end
-      object B_OSTSKL_Listy_select: TSpeedButton
-        Left = 597
-        Top = 255
-        Width = 27
-        Height = 24
-        Hint = #1042#1099#1073#1086#1088' '#1083#1080#1089#1090#1072
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000130B0000130B00001000000000000000000000000000
-          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-          333333333333333333FF33333333333330003FF3FFFFF3333777003000003333
-          300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333
-          330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000
-          333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000
-          339977FF777777773377000BFB03333333337773FF733333333F333000333333
-          3300333777333333337733333333333333003333333333333377333333333333
-          333333333333333333FF33333333333330003333333333333777333333333333
-          3000333333333333377733333333333333333333333333333333}
-        NumGlyphs = 2
-        OnClick = B_OSTSKL_Listy_selectClick
-      end
-      object B_OSTSKL_Listy_clear: TSpeedButton
-        Left = 629
-        Top = 255
-        Width = 27
-        Height = 24
-        Hint = #1054#1095#1080#1089#1090#1080#1090#1100' '#1087#1086#1083#1077' '#1051#1080#1089#1090#1099
-        Glyph.Data = {
-          76010000424D7601000000000000760000002800000020000000100000000100
-          04000000000000010000130B0000130B00001000000000000000000000000000
-          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-          333333333333333333333333333333333333333FFF33FF333FFF339993370733
-          999333777FF37FF377733339993000399933333777F777F77733333399970799
-          93333333777F7377733333333999399933333333377737773333333333990993
-          3333333333737F73333333333331013333333333333777FF3333333333910193
-          333333333337773FF3333333399000993333333337377737FF33333399900099
-          93333333773777377FF333399930003999333337773777F777FF339993370733
-          9993337773337333777333333333333333333333333333333333333333333333
-          3333333333333333333333333333333333333333333333333333}
-        NumGlyphs = 2
-        OnClick = B_OSTSKL_Listy_clearClick
-      end
-      object RG_OstSkl: TRadioGroup
-        Left = 1
-        Top = 224
-        Width = 592
-        Height = 137
-        Caption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1086#1073#1098#1077#1082#1090' '#1086#1090#1095#1077#1090#1072
-        ItemIndex = 0
-        Items.Strings = (
-          #1051#1080#1089#1090#1099
-          #1044#1077#1090#1072#1083#1080
-          #1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1077)
-        TabOrder = 10
-      end
-      object Panel5: TPanel
-        Left = 672
-        Top = 488
-        Width = 145
-        Height = 54
-        BevelInner = bvLowered
-        TabOrder = 0
-        object B_Ostatki_sklad: TButton
-          Left = 23
-          Top = 10
-          Width = 105
-          Height = 36
-          Caption = #1055#1086#1082#1072#1079#1072#1090#1100
-          TabOrder = 0
-          OnClick = B_Ostatki_skladClick
-        end
-      end
-      object D_ostatok_sklad: TDateTimePicker
-        Left = 136
-        Top = 8
-        Width = 137
-        Height = 26
-        Date = 39516.790861354180000000
-        Format = 'dd.MM.yyyy'
-        Time = 39516.790861354180000000
-        TabOrder = 1
-      end
-      object DBG_Sklad: TDBGrid
-        Left = 64
-        Top = 44
-        Width = 449
-        Height = 161
-        DataSource = DM_Mebeli.DS_Sklad
-        Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-        ReadOnly = True
-        TabOrder = 2
-        TitleFont.Charset = RUSSIAN_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -16
-        TitleFont.Name = 'Arial'
-        TitleFont.Style = []
-        OnExit = DBG_SkladExit
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'NAME'
-            Width = 400
-            Visible = True
-          end>
-      end
-      object CB_Excel_ostat_sklad: TCheckBox
-        Left = 672
-        Top = 459
-        Width = 153
-        Height = 25
-        Hint = #1054#1090#1084#1077#1090#1080#1090#1100' '#1076#1083#1103' '#1101#1082#1089#1087#1086#1088#1090#1072' '#1074' Excel'
-        Caption = #1069#1082#1089#1087#1086#1088#1090' '#1074' &Excel'
-        TabOrder = 3
-      end
-      object E_OstSkl_Detali: TEdit
-        Left = 192
-        Top = 287
-        Width = 393
-        Height = 26
-        TabStop = False
-        ReadOnly = True
-        TabOrder = 6
-        Text = 'E_OstSkl_Detali'
-      end
-      object CB_OstSkl_Detali_grupa: TCheckBox
-        Left = 668
-        Top = 288
-        Width = 113
-        Height = 25
-        Caption = #1055#1086' '#1075#1088#1091#1087#1087#1077
-        TabOrder = 7
-      end
-      object E_OstSkl_Furnitura: TEdit
-        Left = 192
-        Top = 319
-        Width = 393
-        Height = 26
-        TabStop = False
-        ReadOnly = True
-        TabOrder = 8
-        Text = 'E_OstSkl_Furnitura'
-      end
-      object CB_OstSkl_Furnitura_grupa: TCheckBox
-        Left = 668
-        Top = 320
-        Width = 113
-        Height = 25
-        Caption = #1055#1086' '#1075#1088#1091#1087#1087#1077
-        TabOrder = 9
-      end
-      object CB_OSTSKL_Listy_grupa: TCheckBox
-        Left = 667
-        Top = 256
-        Width = 113
-        Height = 25
-        Caption = #1055#1086' '#1075#1088#1091#1087#1087#1077
-        TabOrder = 5
-      end
-      object E_OSTSKL_Listy: TEdit
-        Left = 192
-        Top = 253
-        Width = 393
-        Height = 26
-        TabStop = False
-        ReadOnly = True
-        TabOrder = 4
-        Text = 'E_OstSkl_Listy'
-      end
-    end
-    object Ostat_vid_rab: TTabSheet
-      Caption = #1054#1089#1090#1072#1090#1082#1080' '#1087#1086' '#1074#1080#1076' '#1088#1072#1073#1086#1090
-      ImageIndex = 1
-      object Label7: TLabel
-        Left = 264
-        Top = 8
-        Width = 289
-        Height = 20
-        Caption = #1054#1089#1090#1072#1090#1082#1080' '#1076#1077#1090#1072#1083#1077#1081' '#1087#1086' '#1074#1080#1076#1072#1084' '#1088#1072#1073#1086#1090
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clMaroon
-        Font.Height = -16
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label8: TLabel
-        Left = 16
-        Top = 48
-        Width = 115
-        Height = 18
-        Caption = #1054#1089#1090#1072#1090#1082#1080' '#1085#1072' '#1076#1072#1090#1091
-      end
-      object Label9: TLabel
-        Left = 16
-        Top = 88
-        Width = 79
-        Height = 18
-        Caption = #1042#1080#1076' '#1088#1072#1073#1086#1090':'
-      end
-      object Label10: TLabel
-        Left = 16
-        Top = 312
-        Width = 56
-        Height = 18
-        Caption = #1044#1077#1090#1072#1083#1100':'
-      end
-      object Bevel2: TBevel
-        Left = 0
-        Top = 432
-        Width = 825
-        Height = 17
-        Shape = bsTopLine
-      end
-      object Date_Ostatok_vidrab: TDateTimePicker
-        Left = 160
-        Top = 44
-        Width = 137
-        Height = 26
-        Date = 39516.790861354180000000
-        Format = 'dd.MM.yyyy'
-        Time = 39516.790861354180000000
-        TabOrder = 0
-      end
-      object DBGrid2: TDBGrid
-        Left = 160
-        Top = 88
-        Width = 449
-        Height = 201
-        DataSource = DM_Mebeli.DS_Vidy_rabot
-        Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
-        ReadOnly = True
-        TabOrder = 1
-        TitleFont.Charset = RUSSIAN_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -16
-        TitleFont.Name = 'Arial'
-        TitleFont.Style = []
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'NAME'
-            Width = 400
-            Visible = True
-          end>
-      end
-      object DBEdit1: TDBEdit
-        Left = 160
-        Top = 306
-        Width = 361
-        Height = 26
-        DataField = 'NAME'
-        DataSource = DM_Mebeli.DS_Pilomat_detali
-        Enabled = False
-        ReadOnly = True
-        TabOrder = 2
-      end
-      object Button2: TButton
-        Left = 528
-        Top = 306
-        Width = 85
-        Height = 28
-        Cursor = crHandPoint
-        Caption = '&'#1042#1099#1073#1088#1072#1090#1100
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -16
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        TabOrder = 3
-        OnClick = B_Select_detaliClick
-      end
-      object Panel2: TPanel
-        Left = 672
-        Top = 352
-        Width = 145
-        Height = 70
-        BevelInner = bvLowered
-        TabOrder = 4
-        object B_OK_Ostatok_vidrab: TButton
-          Left = 20
-          Top = 17
-          Width = 105
-          Height = 36
-          Cursor = crHandPoint
-          Caption = '&'#1055#1086#1082#1072#1079#1072#1090#1100
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -16
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 0
-          OnClick = B_OK_Ostatok_vidrabClick
-        end
-      end
-      object CheckBox1: TCheckBox
-        Left = 16
-        Top = 152
-        Width = 129
-        Height = 17
-        Hint = #1043#1072#1083#1086#1095#1082#1072' - '#1086#1090#1095#1077#1090' '#1087#1086' '#1042#1057#1045#1052' '#1074#1080#1076#1072#1084' '#1088#1072#1073#1086#1090' '#1089#1088#1072#1079#1091
-        Caption = #1053#1077' '#1091#1095#1080#1090#1099#1074#1072#1090#1100
-        TabOrder = 5
-      end
-      object PB_Ostatki_vidrab: TProgressBar
-        Left = 16
-        Top = 360
-        Width = 545
-        Height = 41
-        Smooth = True
-        Step = 1
-        TabOrder = 6
-      end
-    end
-    object Dvij_mater: TTabSheet
-      Caption = #1044#1074#1080#1078#1077#1085#1080#1077' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074
-      ImageIndex = 2
-      object Label11: TLabel
-        Left = 16
-        Top = 16
-        Width = 119
-        Height = 18
-        Caption = #1053#1072#1095#1072#1083#1086' '#1087#1077#1088#1080#1086#1076#1072
-      end
-      object Label12: TLabel
-        Left = 28
-        Top = 48
-        Width = 109
-        Height = 18
-        Caption = #1050#1086#1085#1077#1094' '#1087#1077#1088#1080#1086#1076#1072
-      end
-      object Label14: TLabel
-        Left = 90
-        Top = 88
-        Width = 49
-        Height = 18
-        Caption = #1057#1082#1083#1072#1076':'
-      end
-      object Bevel3: TBevel
-        Left = 0
-        Top = 432
-        Width = 825
-        Height = 17
-        Shape = bsTopLine
-      end
-      object GroupBox1: TGroupBox
-        Left = 0
-        Top = 253
-        Width = 609
-        Height = 169
-        Caption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1086#1073#1098#1077#1082#1090' '#1086#1090#1095#1077#1090#1072
-        TabOrder = 4
-        object B_select_furnitura: TButton
-          Left = 515
-          Top = 133
-          Width = 85
-          Height = 28
-          Cursor = crHandPoint
-          Caption = '&'#1042#1099#1073#1088#1072#1090#1100
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -16
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 0
-          OnClick = B_select_furnituraClick
-        end
-        object DBE_Detali: TDBEdit
-          Left = 160
-          Top = 61
-          Width = 440
-          Height = 26
-          DataField = 'NAME'
-          DataSource = DM_Mebeli.DS_Pilomat_detali
-          ReadOnly = True
-          TabOrder = 1
-        end
-        object DBE_Furnitura: TDBEdit
-          Left = 160
-          Top = 93
-          Width = 440
-          Height = 26
-          DataField = 'NAME'
-          DataSource = DM_Mebeli.DS_Furnitura
-          ReadOnly = True
-          TabOrder = 2
-        end
-        object RB_Listy: TRadioButton
-          Left = 8
-          Top = 35
-          Width = 89
-          Height = 17
-          Caption = #1051#1080#1089#1090#1099
-          Checked = True
-          TabOrder = 3
-          TabStop = True
-          OnClick = RB_ListyClick
-        end
-        object RB_Detali: TRadioButton
-          Left = 8
-          Top = 67
-          Width = 89
-          Height = 17
-          Caption = #1044#1077#1090#1072#1083#1080
-          TabOrder = 4
-          OnClick = RB_DetaliClick
-        end
-        object RB_Furnitura: TRadioButton
-          Left = 8
-          Top = 99
-          Width = 146
-          Height = 17
-          Caption = #1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1077
-          TabOrder = 5
-          OnClick = RB_FurnituraClick
-        end
-        object DBE_Listy: TDBEdit
-          Left = 160
-          Top = 29
-          Width = 440
-          Height = 26
-          DataField = 'NAME'
-          DataSource = DM_Mebeli.DS_Pilomat_listy
-          ReadOnly = True
-          TabOrder = 6
-        end
-      end
-      object Dvij_mater_date_Begin: TDateTimePicker
-        Left = 160
-        Top = 16
-        Width = 137
-        Height = 26
-        Date = 39516.790861354180000000
-        Format = 'dd.MM.yyyy'
-        Time = 39516.790861354180000000
-        TabOrder = 0
-      end
-      object Dvij_mater_date_End: TDateTimePicker
-        Left = 160
-        Top = 48
-        Width = 137
-        Height = 26
-        Date = 39516.790861354180000000
-        Format = 'dd.MM.yyyy'
-        Time = 39516.790861354180000000
-        TabOrder = 1
-      end
-      object Panel3: TPanel
-        Left = 672
-        Top = 352
-        Width = 145
-        Height = 70
-        BevelInner = bvLowered
-        TabOrder = 2
-        object B_dvijenie_materialov: TButton
-          Left = 20
-          Top = 17
-          Width = 105
-          Height = 36
-          Cursor = crHandPoint
-          Caption = '&'#1055#1086#1082#1072#1079#1072#1090#1100
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -16
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 0
-          OnClick = B_dvijenie_materialovClick
-        end
-      end
-      object DBGrid3: TDBGrid
-        Left = 160
-        Top = 88
-        Width = 449
-        Height = 161
-        DataSource = DM_Mebeli.DS_Sklad
-        Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
-        ReadOnly = True
-        TabOrder = 3
-        TitleFont.Charset = RUSSIAN_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -16
-        TitleFont.Name = 'Arial'
-        TitleFont.Style = []
-        OnExit = DBGrid1Exit
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'NAME'
-            Width = 400
-            Visible = True
-          end>
-      end
-      object CB_Excel: TCheckBox
-        Left = 672
-        Top = 320
-        Width = 153
-        Height = 25
-        Hint = #1054#1090#1084#1077#1090#1080#1090#1100' '#1076#1083#1103' '#1101#1082#1089#1087#1086#1088#1090#1072' '#1074' Excel'
-        Caption = #1069#1082#1089#1087#1086#1088#1090' '#1074' &Excel'
-        TabOrder = 5
-      end
-    end
     object Report_Akt_vip_rab: TTabSheet
       Caption = #1054#1090#1095#1077#1090#1099' '#1087#1086' '#1072#1082#1090#1072#1084' '#1074#1099#1087#1086#1083#1085#1077#1085#1085#1099#1093' '#1088#1072#1073#1086#1090
       ImageIndex = 6
@@ -1077,6 +463,343 @@ object F_Reports: TF_Reports
         TabOrder = 9
       end
     end
+    object Dvij_mater: TTabSheet
+      Caption = #1044#1074#1080#1078#1077#1085#1080#1077' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074
+      ImageIndex = 2
+      object Label11: TLabel
+        Left = 16
+        Top = 16
+        Width = 119
+        Height = 18
+        Caption = #1053#1072#1095#1072#1083#1086' '#1087#1077#1088#1080#1086#1076#1072
+      end
+      object Label12: TLabel
+        Left = 28
+        Top = 48
+        Width = 109
+        Height = 18
+        Caption = #1050#1086#1085#1077#1094' '#1087#1077#1088#1080#1086#1076#1072
+      end
+      object Label14: TLabel
+        Left = 90
+        Top = 88
+        Width = 49
+        Height = 18
+        Caption = #1057#1082#1083#1072#1076':'
+      end
+      object Bevel3: TBevel
+        Left = 0
+        Top = 432
+        Width = 825
+        Height = 17
+        Shape = bsTopLine
+      end
+      object GroupBox1: TGroupBox
+        Left = 0
+        Top = 253
+        Width = 609
+        Height = 169
+        Caption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1086#1073#1098#1077#1082#1090' '#1086#1090#1095#1077#1090#1072
+        TabOrder = 4
+        object B_select_furnitura: TButton
+          Left = 515
+          Top = 133
+          Width = 85
+          Height = 28
+          Cursor = crHandPoint
+          Caption = '&'#1042#1099#1073#1088#1072#1090#1100
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          OnClick = B_select_furnituraClick
+        end
+        object DBE_Detali: TDBEdit
+          Left = 160
+          Top = 61
+          Width = 440
+          Height = 26
+          DataField = 'NAME'
+          DataSource = DM_Mebeli.DS_Pilomat_detali
+          ReadOnly = True
+          TabOrder = 1
+        end
+        object DBE_Furnitura: TDBEdit
+          Left = 160
+          Top = 93
+          Width = 440
+          Height = 26
+          DataField = 'NAME'
+          DataSource = DM_Mebeli.DS_Furnitura
+          ReadOnly = True
+          TabOrder = 2
+        end
+        object RB_Listy: TRadioButton
+          Left = 8
+          Top = 35
+          Width = 89
+          Height = 17
+          Caption = #1051#1080#1089#1090#1099
+          Checked = True
+          TabOrder = 3
+          TabStop = True
+          OnClick = RB_ListyClick
+        end
+        object RB_Detali: TRadioButton
+          Left = 8
+          Top = 67
+          Width = 89
+          Height = 17
+          Caption = #1044#1077#1090#1072#1083#1080
+          TabOrder = 4
+          OnClick = RB_DetaliClick
+        end
+        object RB_Furnitura: TRadioButton
+          Left = 8
+          Top = 99
+          Width = 146
+          Height = 17
+          Caption = #1050#1086#1084#1087#1083#1077#1082#1090#1091#1102#1097#1080#1077
+          TabOrder = 5
+          OnClick = RB_FurnituraClick
+        end
+        object DBE_Listy: TDBEdit
+          Left = 160
+          Top = 29
+          Width = 440
+          Height = 26
+          DataField = 'NAME'
+          DataSource = DM_Mebeli.DS_Pilomat_listy
+          ReadOnly = True
+          TabOrder = 6
+        end
+      end
+      object Dvij_mater_date_Begin: TDateTimePicker
+        Left = 160
+        Top = 16
+        Width = 137
+        Height = 26
+        Date = 39516.790861354180000000
+        Format = 'dd.MM.yyyy'
+        Time = 39516.790861354180000000
+        TabOrder = 0
+      end
+      object Dvij_mater_date_End: TDateTimePicker
+        Left = 160
+        Top = 48
+        Width = 137
+        Height = 26
+        Date = 39516.790861354180000000
+        Format = 'dd.MM.yyyy'
+        Time = 39516.790861354180000000
+        TabOrder = 1
+      end
+      object Panel3: TPanel
+        Left = 672
+        Top = 352
+        Width = 145
+        Height = 70
+        BevelInner = bvLowered
+        TabOrder = 2
+        object B_dvijenie_materialov: TButton
+          Left = 20
+          Top = 17
+          Width = 105
+          Height = 36
+          Cursor = crHandPoint
+          Caption = '&'#1055#1086#1082#1072#1079#1072#1090#1100
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          OnClick = B_dvijenie_materialovClick
+        end
+      end
+      object DBGrid3: TDBGrid
+        Left = 160
+        Top = 88
+        Width = 449
+        Height = 161
+        DataSource = DM_Mebeli.DS_Sklad
+        Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+        ReadOnly = True
+        TabOrder = 3
+        TitleFont.Charset = RUSSIAN_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -16
+        TitleFont.Name = 'Arial'
+        TitleFont.Style = []
+        OnExit = DBGrid1Exit
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'NAME'
+            Width = 400
+            Visible = True
+          end>
+      end
+      object CB_Excel: TCheckBox
+        Left = 672
+        Top = 320
+        Width = 153
+        Height = 25
+        Hint = #1054#1090#1084#1077#1090#1080#1090#1100' '#1076#1083#1103' '#1101#1082#1089#1087#1086#1088#1090#1072' '#1074' Excel'
+        Caption = #1069#1082#1089#1087#1086#1088#1090' '#1074' &Excel'
+        TabOrder = 5
+      end
+    end
+    object Ostat_vid_rab: TTabSheet
+      Caption = #1054#1089#1090#1072#1090#1082#1080' '#1087#1086' '#1074#1080#1076' '#1088#1072#1073#1086#1090
+      ImageIndex = 1
+      object Label7: TLabel
+        Left = 264
+        Top = 8
+        Width = 289
+        Height = 20
+        Caption = #1054#1089#1090#1072#1090#1082#1080' '#1076#1077#1090#1072#1083#1077#1081' '#1087#1086' '#1074#1080#1076#1072#1084' '#1088#1072#1073#1086#1090
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clMaroon
+        Font.Height = -16
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label8: TLabel
+        Left = 16
+        Top = 48
+        Width = 115
+        Height = 18
+        Caption = #1054#1089#1090#1072#1090#1082#1080' '#1085#1072' '#1076#1072#1090#1091
+      end
+      object Label9: TLabel
+        Left = 16
+        Top = 88
+        Width = 79
+        Height = 18
+        Caption = #1042#1080#1076' '#1088#1072#1073#1086#1090':'
+      end
+      object Label10: TLabel
+        Left = 16
+        Top = 312
+        Width = 56
+        Height = 18
+        Caption = #1044#1077#1090#1072#1083#1100':'
+      end
+      object Bevel2: TBevel
+        Left = 0
+        Top = 432
+        Width = 825
+        Height = 17
+        Shape = bsTopLine
+      end
+      object Date_Ostatok_vidrab: TDateTimePicker
+        Left = 160
+        Top = 44
+        Width = 137
+        Height = 26
+        Date = 39516.790861354180000000
+        Format = 'dd.MM.yyyy'
+        Time = 39516.790861354180000000
+        TabOrder = 0
+      end
+      object DBGrid2: TDBGrid
+        Left = 160
+        Top = 88
+        Width = 449
+        Height = 201
+        DataSource = DM_Mebeli.DS_Vidy_rabot
+        Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+        ReadOnly = True
+        TabOrder = 1
+        TitleFont.Charset = RUSSIAN_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -16
+        TitleFont.Name = 'Arial'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'NAME'
+            Width = 400
+            Visible = True
+          end>
+      end
+      object DBEdit1: TDBEdit
+        Left = 160
+        Top = 306
+        Width = 361
+        Height = 26
+        DataField = 'NAME'
+        DataSource = DM_Mebeli.DS_Pilomat_detali
+        Enabled = False
+        ReadOnly = True
+        TabOrder = 2
+      end
+      object Button2: TButton
+        Left = 528
+        Top = 306
+        Width = 85
+        Height = 28
+        Cursor = crHandPoint
+        Caption = '&'#1042#1099#1073#1088#1072#1090#1100
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
+        OnClick = B_Select_detaliClick
+      end
+      object Panel2: TPanel
+        Left = 672
+        Top = 352
+        Width = 145
+        Height = 70
+        BevelInner = bvLowered
+        TabOrder = 4
+        object B_OK_Ostatok_vidrab: TButton
+          Left = 20
+          Top = 17
+          Width = 105
+          Height = 36
+          Cursor = crHandPoint
+          Caption = '&'#1055#1086#1082#1072#1079#1072#1090#1100
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          OnClick = B_OK_Ostatok_vidrabClick
+        end
+      end
+      object CheckBox1: TCheckBox
+        Left = 16
+        Top = 152
+        Width = 129
+        Height = 17
+        Hint = #1043#1072#1083#1086#1095#1082#1072' - '#1086#1090#1095#1077#1090' '#1087#1086' '#1042#1057#1045#1052' '#1074#1080#1076#1072#1084' '#1088#1072#1073#1086#1090' '#1089#1088#1072#1079#1091
+        Caption = #1053#1077' '#1091#1095#1080#1090#1099#1074#1072#1090#1100
+        TabOrder = 5
+      end
+      object PB_Ostatki_vidrab: TProgressBar
+        Left = 16
+        Top = 360
+        Width = 545
+        Height = 41
+        Smooth = True
+        Step = 1
+        TabOrder = 6
+      end
+    end
     object Tab_Sverka: TTabSheet
       Caption = #1057#1074#1077#1088#1082#1072' '#1089' 1'#1057
       ImageIndex = 4
@@ -1241,10 +964,6 @@ object F_Reports: TF_Reports
         ParentFont = False
         TabOrder = 4
       end
-    end
-    object Tab_Sebestoimosti: TTabSheet
-      Caption = #1057#1077#1073#1077#1089#1090#1086#1080#1084#1086#1089#1090#1100
-      ImageIndex = 5
     end
   end
   object Panel1: TPanel

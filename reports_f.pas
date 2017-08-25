@@ -11,7 +11,6 @@ uses
 type
   TF_Reports = class(TForm)
     PC_Report_select: TPageControl;
-    Ostat_sklad: TTabSheet;
     Ostat_vid_rab: TTabSheet;
     Dvij_mater: TTabSheet;
     Label1: TLabel;
@@ -37,10 +36,6 @@ type
     B_dvijenie_materialov: TButton;
     Label14: TLabel;
     DBGrid3: TDBGrid;
-    Panel5: TPanel;
-    B_Ostatki_sklad: TButton;
-    Label15: TLabel;
-    D_ostatok_sklad: TDateTimePicker;
     GroupBox1: TGroupBox;
     B_select_furnitura: TButton;
     DBE_Detali: TDBEdit;
@@ -49,11 +44,8 @@ type
     RB_Detali: TRadioButton;
     RB_Furnitura: TRadioButton;
     CB_Excel: TCheckBox;
-    Label13: TLabel;
-    DBG_Sklad: TDBGrid;
     Bevel3: TBevel;
     Bevel2: TBevel;
-    CB_Excel_ostat_sklad: TCheckBox;
     DataSource1: TDataSource;
     Report_Akt_vip_rab: TTabSheet;
     Period_Start: TDateTimePicker;
@@ -85,21 +77,7 @@ type
     B_AVR_zakaz_select: TSpeedButton;
     SpeedButton2: TSpeedButton;
     DBE_Listy: TDBEdit;
-    E_OSTSKL_Listy: TEdit;
-    CB_OSTSKL_Listy_grupa: TCheckBox;
-    E_OstSkl_Detali: TEdit;
-    CB_OstSkl_Detali_grupa: TCheckBox;
-    E_OstSkl_Furnitura: TEdit;
-    CB_OstSkl_Furnitura_grupa: TCheckBox;
-    RG_OstSkl: TRadioGroup;
-    B_OSTSKL_Listy_select: TSpeedButton;
-    B_OSTSKL_Listy_clear: TSpeedButton;
-    B_OstSkl_Detali_select: TSpeedButton;
-    B_OstSkl_Detali_clear: TSpeedButton;
-    B_OstSkl_Furnitura_select: TSpeedButton;
-    B_OstSkl_Furnitura_clear: TSpeedButton;
     Tab_Sverka: TTabSheet;
-    Tab_Sebestoimosti: TTabSheet;
     Label2: TLabel;
     Panel4: TPanel;
     B_Show_sverka: TButton;
@@ -114,7 +92,6 @@ type
     L_Export1C_date: TLabel;
     EXL_Sverka: TEXLReport;
     SaveDialog1: TSaveDialog;
-    procedure B_Ostatki_skladClick(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);
     procedure Spisanie_periodEnter(Sender: TObject);
     procedure B_Select_detaliClick(Sender: TObject);
@@ -127,8 +104,6 @@ type
     procedure RB_ListyClick(Sender: TObject);
     procedure RB_DetaliClick(Sender: TObject);
     procedure RB_FurnituraClick(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure EXLR_Ostatki_skladGetFieldValue(Sender: TObject;
       const Field: String; var Value: OleVariant);
     procedure B_Show_Gotprod_ostatok_vidrabotClick(Sender: TObject);
@@ -146,12 +121,6 @@ type
     procedure B_AVR_zakaz_selectClick(Sender: TObject);
     procedure B_Select_ostatki_skladClick(Sender: TObject);
     procedure B_OSTSKL_Listy_selectClick(Sender: TObject);
-    procedure Ostat_skladShow(Sender: TObject);
-    procedure B_OstSkl_Detali_selectClick(Sender: TObject);
-    procedure B_OstSkl_Furnitura_selectClick(Sender: TObject);
-    procedure B_OSTSKL_Listy_clearClick(Sender: TObject);
-    procedure B_OstSkl_Detali_clearClick(Sender: TObject);
-    procedure B_OstSkl_Furnitura_clearClick(Sender: TObject);
     procedure B_load_from_1cClick(Sender: TObject);
     procedure B_Show_sverkaClick(Sender: TObject);
     procedure EXL_SverkaGetFieldValue(Sender: TObject; const Field: String;
@@ -199,90 +168,6 @@ uses main_f, mebeli_dm, print_forms, pilomat_f, furnitura_f, sotrudniki_f,
 
 {$R *.dfm}
 
-procedure TF_Reports.B_Ostatki_skladClick(Sender: TObject);
-var
-  IB_tmp: TIBQuery;
-begin
-  B_Ostatki_sklad.Tag:=1;//начали выполнение отчета
-  IB_tmp:=TIBQuery.Create(nil);
-  IB_tmp.Database:=DM_Mebeli.DB_Mebeli;
-  DateOstatok:=D_ostatok_sklad.DateTime;
-  id_sklad:=DM_Mebeli.IB_Sklad.FieldByname('id').AsInteger;
-  Case RG_OstSkl.ItemIndex of
-  0: begin
-       F_Print_Forms.IBQuery1.SQL.Clear;
-       F_Print_Forms.IBQuery1.SQL.Add('select 2 as TIP_MATERIALA, (select name from sklad where id=:id_sklad) as sklad_name, grupa_name, listy_name as name, LIST_OSTATOK as kol_vo, '+Chr(39)+'шт'+Chr(39)+' as ED_IZM, AREA');
-       F_Print_Forms.IBQuery1.SQL.Add('from OSTATOK_LIST(:id_listy,:id_sklad,:period_end)');
-       F_Print_Forms.IBQuery1.SQL.Add('order by sklad_name, grupa_name, listy_name');
-       IF CB_OstSkl_Listy_grupa.Checked Then
-         begin
-           F_Print_Forms.IBQuery1.SQL[2]:='where id_grupa='+IntToStr(id_pilomat_grupa);
-           F_Print_Forms.IBQuery1.SQL.Add('order by sklad_name, grupa_name, id_listy');
-           F_Print_Forms.IBQuery1.ParamByName('id_listy').Value:=null;
-         end
-       ELSE
-         F_Print_Forms.IBQuery1.ParamByName('id_listy').Value:=id_listy;
-     end;
-  1: begin
-       F_Print_Forms.IBQuery1.SQL.Clear;
-       F_Print_Forms.IBQuery1.SQL.Add('select 1 as TIP_MATERIALA, (select name from sklad where id=:id_sklad) as sklad_name, grupa_name, detali_name as name, ID_DETALI, DETALI_OSTATOK as kol_vo, '+Chr(39)+'шт'+Chr(39)+' as ED_IZM, AREA');
-       F_Print_Forms.IBQuery1.SQL.Add('from DETALI_OSTATOK(:id_detali,:id_sklad,:period_end)');
-       F_Print_Forms.IBQuery1.SQL.Add('order by sklad_name, grupa_name, detali_name');
-       IF CB_OstSkl_Detali_grupa.Checked Then
-         begin
-           F_Print_Forms.IBQuery1.SQL[2]:='where id_grupa='+IntToStr(id_pilomat_grupa);
-           F_Print_Forms.IBQuery1.SQL.Add('order by sklad_name, grupa_name, detali_name');
-           F_Print_Forms.IBQuery1.ParamByName('id_detali').Value:=null;
-         end
-       ELSE
-         F_Print_Forms.IBQuery1.ParamByName('id_detali').Value:=id_detali;
-     end;
-  2: begin
-       F_Print_Forms.IBQuery1.SQL.Clear;
-       F_Print_Forms.IBQuery1.SQL.Add('select 3 as TIP_MATERIALA, (select name from sklad where id=:id_sklad) as sklad_name, grupa_name, furnitura_name as name, FURNITURA_OSTATOK as kol_vo, (select ed_izm from furnitura where id=ID_FURNITURA_OUT) as ED_IZM, 0 as AREA');
-       F_Print_Forms.IBQuery1.SQL.Add('from FURNITURA_OSTATOK(:id_furnitura,:id_sklad,:period_end)');
-       F_Print_Forms.IBQuery1.SQL.Add('order by sklad_name, grupa_name, furnitura_name');
-       IF id_furnitura=-1 Then
-         F_Print_Forms.IBQuery1.ParamByName('id_furnitura').Value:=null
-       ELSE
-         IF CB_OstSkl_Furnitura_grupa.Checked Then
-           begin
-             F_Print_Forms.IBQuery1.SQL[2]:='where id_grupa='+IntToStr(id_furnitura_grupa);
-             F_Print_Forms.IBQuery1.SQL.Add('order by sklad_name, grupa_name, furnitura_name');
-             F_Print_Forms.IBQuery1.ParamByName('id_furnitura').Value:=null;
-           end
-         ELSE
-           F_Print_Forms.IBQuery1.ParamByName('id_furnitura').Value:=id_furnitura;
-     end;
-  end;//Case
-  F_Print_Forms.IBQuery1.ParamByName('id_sklad').Value:=id_sklad;
-  F_Print_Forms.IBQuery1.ParamByName('period_end').Value:=DateOstatok;
-  F_Print_Forms.IBQuery1.Open;
-  IF F_Print_Forms.IBQuery1.FieldByName('kol_vo').IsNull Then
-    begin
-      ShowMessage('Остатков нет');
-      exit;
-    end;
-
-      IF CB_Excel_ostat_sklad.Checked Then //если отмечено экспортировать в Excel
-        begin
-//          EXLR_Ostatki_sklad.TemplSheet:='ostat_sklad';
-//          EXLR_Ostatki_sklad.Show('');
-        end
-      ELSE
-        begin
-          DateOstatok:=D_ostatok_sklad.DateTime;
-          F_Print_Forms.QR_Ostatki_sklad.Preview;
-        end;
-  IF DM_Mebeli.IBTransaction1.Active Then
-    DM_Mebeli.IBTransaction1.Rollback;
-  IB_tmp.free;
-  PC_Report_select.Enabled:=true;
-  B_Ostatki_sklad.Tag:=0;//закончили выполнение отчета
-  DM_Mebeli.IB_Sklad.Open;
-  DM_Mebeli.IB_Sklad.Locate('id',id_sklad,[]);
-end;//proc
-
 procedure TF_Reports.B_ExitClick(Sender: TObject);
 begin
   Close;
@@ -322,7 +207,6 @@ begin
   DM_Mebeli.IB_Pilomat_listy.SelectSQL[1]:='';
   DM_Mebeli.IB_Furnitura.SelectSQL[1]:='';
   Date_Ostatok_vidrab.DateTime:=Today;
-  D_ostatok_sklad.DateTime:=Today;
 
   Dvij_mater_date_Begin.DateTime:=StartOfTheMonth(Today);
   Dvij_mater_date_End.DateTime:=Today;
@@ -666,14 +550,6 @@ begin
   DBE_Furnitura.Visible:=true;
 end;//proc
 
-procedure TF_Reports.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  IF (Key=VK_ESCAPE) and (B_Ostatki_sklad.Tag=1) Then
-    IF MessageDlg('Прервать расчет отчета?',mtConfirmation,[mbYes,mbNo],0)=mrYes Then
-      report_break:=true;
-end;//proc
-
 procedure TF_Reports.EXLR_Ostatki_skladGetFieldValue(Sender: TObject;
   const Field: String; var Value: OleVariant);
 begin
@@ -777,7 +653,9 @@ begin
         begin
           F_print_forms.IBQuery1.Close;
           F_print_forms.IBQuery1.SQL.Clear;
-          F_print_forms.IBQuery1.SQL.Add('select * from GET_KOLVO_VIDRABOT_category(:period_start,:period_end,:idsotrudnik,:idvidrabot,:idcategory)');
+          F_print_forms.IBQuery1.SQL.Add('select sotrudnik_name, VIDRABOT_NAME, CATEGORY_NAME, sum(KOL_VO) KOL_VO');
+          F_print_forms.IBQuery1.SQL.Add('from get_kolvo_vidrabot_category_gpr(:period_start,:period_end,:idsotrudnik,:idvidrabot,:idcategory)');
+          F_print_forms.IBQuery1.SQL.Add('group by sotrudnik_name, VIDRABOT_NAME, CATEGORY_NAME');
           F_print_forms.IBQuery1.SQL.Add('order by sotrudnik_name, vidrabot_name, category_name');
           F_print_forms.IBQuery1.ParamByName('idsotrudnik').Value:=null;
           F_print_forms.IBQuery1.ParamByName('idvidrabot').Value:=null;
@@ -975,12 +853,10 @@ procedure TF_Reports.B_OSTSKL_Listy_selectClick(Sender: TObject);
 var
    FIB_Query: TIBDataSet;
 begin
-  operation:='SELECT';
+  operation:='SELECT_STOCKS';
   if F_Pilomat.ShowModal=mrOk then
     begin
       id_detali:=-1;
-      E_OstSkl_Detali.Text:='';
-      RG_OstSkl.ItemIndex:=0;
       id_listy:=F_Pilomat.id_listy;
       id_pilomat_grupa:=F_Pilomat.id_group;
       FIB_Query:=TIBDataSet.Create(nil);
@@ -988,89 +864,9 @@ begin
       FIB_Query.SelectSQL.Add('select pg.name grupa_name, pl.name list_name from pilomat_grupa pg, pilomat_listy pl where (pg.id=pl.id_grupa) and (pl.id=:id_list)');
       FIB_Query.ParamByname('id_list').value:=id_listy;
       FIB_Query.Open;
-      E_OSTSKL_Listy.Text:=FIB_Query.FieldByName('grupa_name').AsString+' / '+FIB_Query.FieldByName('list_name').AsString;
       FIB_Query.Close;
       FIB_Query.Free;
     end;
-end;//proc
-
-procedure TF_Reports.Ostat_skladShow(Sender: TObject);
-begin
-  id_listy:=-1;
-  id_detali:=-1;
-  id_furnitura:=-1;
-  id_pilomat_grupa:=-1;
-  id_furnitura_grupa:=-1;
-  CB_OSTSKL_Listy_grupa.Checked:=false;
-  CB_OSTSKL_Detali_grupa.Checked:=false;
-  CB_OSTSKL_Furnitura_grupa.Checked:=false;
-  E_OSTSKL_Listy.Text:='';
-  E_OSTSKL_Detali.Text:='';
-  E_OSTSKL_Furnitura.Text:='';
-end;//proc
-
-procedure TF_Reports.B_OstSkl_Detali_selectClick(Sender: TObject);
-var
-   FIB_Query: TIBDataSet;
-begin
-  operation:='SELECT';
-  if F_Pilomat.ShowModal=mrOk then
-    begin
-      id_listy:=-1;
-      E_OstSkl_Listy.Text:='';
-      RG_OstSkl.ItemIndex:=1;
-      id_detali:=F_Pilomat.id_detali;
-      id_pilomat_grupa:=F_Pilomat.id_group;
-      FIB_Query:=TIBDataSet.Create(nil);
-      FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
-      FIB_Query.SelectSQL.Add('select pg.name grupa_name, pd.name detali_name from pilomat_grupa pg, pilomat_detali pd where (pg.id=pd.id_grupa) and (pd.id=:id_detali)');
-      FIB_Query.ParamByname('id_detali').value:=id_detali;
-      FIB_Query.Open;
-      E_OstSkl_Detali.Text:=FIB_Query.FieldByName('grupa_name').AsString+' / '+FIB_Query.FieldByName('detali_name').AsString;
-      FIB_Query.Close;
-      FIB_Query.Free;
-    end;
-end;//proc
-
-procedure TF_Reports.B_OstSkl_Furnitura_selectClick(Sender: TObject);
-var
-   FIB_Query: TIBDataSet;
-begin
-  operation:='SELECT';
-  if F_Furnitura.ShowModal=mrOk then
-    begin
-      E_OstSkl_Listy.Text:='';
-      E_OstSkl_Detali.Text:='';
-      RG_OstSkl.ItemIndex:=2;
-      FIB_Query:=TIBDataSet.Create(nil);
-      FIB_Query.Database:=DM_Mebeli.DB_Mebeli;
-      FIB_Query.SelectSQL.Add('select fg.name grupa_name, f.name furnitura_name from furnitura_grupa fg, furnitura f where (fg.id=f.id_parent) and (f.id=:id_furnitura)');
-      FIB_Query.ParamByname('id_furnitura').value:=id_furnitura;
-      FIB_Query.Open;
-      E_OstSkl_Furnitura.Text:=FIB_Query.FieldByName('grupa_name').AsString+' / '+FIB_Query.FieldByName('furnitura_name').AsString;
-      FIB_Query.Close;
-      FIB_Query.Free;
-    end;
-end;
-
-procedure TF_Reports.B_OSTSKL_Listy_clearClick(Sender: TObject);
-begin
-  E_OstSkl_listy.Text:='';
-  id_listy:=-1;
-  id_pilomat_grupa:=-1;
-end;//proc
-
-procedure TF_Reports.B_OstSkl_Detali_clearClick(Sender: TObject);
-begin
-  E_OstSkl_detali.Text:='';
-  id_detali:=-1;
-  id_pilomat_grupa:=-1;
-end;//proc
-
-procedure TF_Reports.B_OstSkl_Furnitura_clearClick(Sender: TObject);
-begin
-  E_OstSkl_furnitura.Text:='';
-  id_furnitura:=-1;
 end;//proc
 
 procedure TF_Reports.B_load_from_1cClick(Sender: TObject);

@@ -1,6 +1,6 @@
 object F_Main: TF_Main
   Left = 0
-  Top = 132
+  Top = 154
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = #1052#1077#1073#1077#1083#1100#1085#1099#1081' '#1094#1077#1093
@@ -6316,7 +6316,7 @@ object F_Main: TF_Main
     Transparent = True
   end
   object L_Server: TLabel
-    Left = 360
+    Left = 560
     Top = 6
     Width = 72
     Height = 16
@@ -6344,7 +6344,7 @@ object F_Main: TF_Main
     Transparent = True
   end
   object L_Database: TLabel
-    Left = 360
+    Left = 560
     Top = 27
     Width = 90
     Height = 16
@@ -6705,6 +6705,7 @@ object F_Main: TF_Main
       end
       object N_materialy_Ostatok_sklad: TMenuItem
         Caption = #1054#1089#1090#1072#1090#1082#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074' '#1085#1072' '#1089#1082#1083#1072#1076#1072#1093
+        OnClick = N_materialy_Ostatok_skladClick
       end
       object N25: TMenuItem
         Caption = #1056#1072#1073#1086#1090#1072' '#1087#1086' '#1079#1072#1082#1072#1079#1072#1084
@@ -6715,6 +6716,29 @@ object F_Main: TF_Main
         object N_Get_zakaz_ostalosi_sdelati: TMenuItem
           Caption = #1057#1082#1086#1083#1100#1082#1086' '#1086#1089#1090#1072#1083#1086#1089#1100' '#1089#1076#1077#1083#1072#1090#1100' '#1087#1086' '#1079#1072#1082#1072#1079#1072#1084
           OnClick = N_Get_zakaz_ostalosi_sdelatiClick
+        end
+      end
+      object N29: TMenuItem
+        Caption = '-'
+      end
+      object N26: TMenuItem
+        Caption = #1059#1095#1072#1089#1090#1080#1077' '#1074' '#1085#1086#1088#1084#1072#1093
+        object N27: TMenuItem
+          Caption = #1052#1072#1090#1077#1088#1080#1072#1083#1099
+          OnClick = N27Click
+        end
+        object N28: TMenuItem
+          Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099
+        end
+      end
+      object N30: TMenuItem
+        Caption = #1056#1072#1089#1093#1086#1076' '#1084#1072#1090#1077#1088#1080#1072#1083#1086#1074' '#1085#1072' '#1080#1079#1075#1086#1090#1086#1074#1083#1077#1085#1080#1077
+        object N_Rashod_na_gotovprod_furnitura: TMenuItem
+          Caption = #1052#1072#1090#1077#1088#1080#1072#1083#1099
+          OnClick = N_Rashod_na_gotovprod_furnituraClick
+        end
+        object N_Rashod_na_gotovprod_pilomat: TMenuItem
+          Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099
         end
       end
     end

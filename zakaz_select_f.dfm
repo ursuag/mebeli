@@ -8,13 +8,11 @@ object F_Zakaz_select: TF_Zakaz_select
   ClientHeight = 681
   ClientWidth = 953
   Color = clBtnFace
-  Font.Charset = RUSSIAN_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -16
-  Font.Name = 'Arial'
-  Font.Style = []
+  ParentFont = True
   OldCreateOrder = False
   Position = poDesktopCenter
+  PrintScale = poNone
+  Scaled = False
   OnActivate = FormActivate
   OnClose = FormClose
   PixelsPerInch = 96
@@ -25,10 +23,10 @@ object F_Zakaz_select: TF_Zakaz_select
     Width = 952
     Height = 217
     DataSource = DS_Zakaz_0
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -16
+    Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
@@ -74,10 +72,10 @@ object F_Zakaz_select: TF_Zakaz_select
     Width = 953
     Height = 401
     DataSource = DS_Zakaz_1
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -16
+    Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
@@ -118,14 +116,6 @@ object F_Zakaz_select: TF_Zakaz_select
         Title.Alignment = taCenter
         Title.Caption = #1050#1086#1083'-'#1074#1086
         Width = 75
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRIORITET'
-        Title.Alignment = taCenter
-        Title.Caption = #1055#1088#1080#1086#1088#1080#1090#1077#1090
-        Width = 101
         Visible = True
       end>
   end

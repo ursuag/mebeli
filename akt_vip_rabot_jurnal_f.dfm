@@ -1,6 +1,6 @@
 object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
-  Left = 33
-  Top = 66
+  Left = 0
+  Top = 75
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' '#1072#1082#1090#1086#1074' '#1074#1099#1087#1086#1083#1085#1077#1085#1085#1099#1093' '#1088#1072#1073#1086#1090
   ClientHeight = 682
@@ -56,6 +56,7 @@ object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
     TitleFont.Height = -13
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
+    OnDblClick = DBGrid1DblClick
     Columns = <
       item
         Expanded = False
@@ -376,6 +377,13 @@ object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
         Caption = #1057#1086#1090#1088#1091#1076#1085#1080#1082
         OnClick = N_Filtre_SotrudnikClick
       end
+      object N_Filtre_Zakaz: TMenuItem
+        Caption = #1047#1072#1082#1072#1079
+        OnClick = N_Filtre_ZakazClick
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
       object N_Filtre_Clear: TMenuItem
         Caption = #1054#1095#1080#1089#1090#1080#1090#1100' '#1092#1080#1083#1100#1090#1088
         OnClick = N_Filtre_ClearClick
@@ -391,6 +399,13 @@ object F_Akt_vip_rabot_jurnal: TF_Akt_vip_rabot_jurnal
     object N_Podrobno: TMenuItem
       Caption = #1055#1086#1076#1088#1086#1073#1085#1086
       OnClick = N_PodrobnoClick
+    end
+    object N4: TMenuItem
+      Caption = #1055#1086#1080#1089#1082
+      object N_Search_by_id: TMenuItem
+        Caption = #1055#1086' '#1085#1086#1084#1077#1088#1091' '#1072#1082#1090#1072
+        OnClick = N_Search_by_idClick
+      end
     end
   end
   object IB_Podrobno: TIBDataSet

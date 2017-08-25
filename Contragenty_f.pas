@@ -41,7 +41,7 @@ var
 
 implementation
 
-uses mebeli_dm;
+uses mebeli_dm, Contragenty_edit_f;
 
 {$R *.dfm}
 procedure Reopen_tables;
@@ -123,18 +123,10 @@ end;//proc
 
 
 procedure TF_Contragenty.N_Contragent_editClick(Sender: TObject);
-var s: Widestring;
 begin
-  s:=DM_Mebeli.IB_Contragenty_1.FieldByName('NAME').AsString;
-  IF InputQuery('Редактирование данных','Введите наименование:',s) Then
-     begin
-       DM_Mebeli.IB_Contragenty_1.Edit;
-       DM_Mebeli.IB_Contragenty_1.FieldByName('NAME').Value:=s;
-       DM_Mebeli.IB_Contragenty_1.Post;
-       DM_Mebeli.IBTransaction1.Commit;
-       reopen_tables;
-     end;//IF
-end;//proc
+  F_Contragenty_edit.ShowModal;
+  Reopen_tables;
+end;
 
 procedure TF_Contragenty.B_ExitClick(Sender: TObject);
 begin

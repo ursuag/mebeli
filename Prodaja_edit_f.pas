@@ -150,7 +150,7 @@ begin
 
   DM_Mebeli.IB_Contragenty_1.Open;
   OK_Pressed:=False;
-  IF (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+  IF (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
     DBE_Date_pro.ReadOnly:=true;
 end;//
 
@@ -236,7 +236,7 @@ end;//proc
 
 procedure TF_Prodaja_edit.B_OkClick(Sender: TObject);
 begin
-  IF (IB_Prodaja_0_edit.FieldByName('DATE_PRO').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+  IF (IB_Prodaja_0_edit.FieldByName('DATE_PRO').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
     begin
       DM_Mebeli.IBTransaction1.Rollback;
       OK_Pressed:=True;

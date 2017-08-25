@@ -157,7 +157,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     Width = 864
     Height = 97
     DataSource = DS_Gotov_prod_vidrabot
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ReadOnly = True
     TabOrder = 9
     TitleFont.Charset = RUSSIAN_CHARSET
@@ -201,7 +201,8 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     Width = 864
     Height = 145
     DataSource = DS_Gotov_Prod_2
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    PopupMenu = PM_ClipBoard
     ReadOnly = True
     TabOrder = 8
     TitleFont.Charset = RUSSIAN_CHARSET
@@ -261,7 +262,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     Width = 864
     Height = 153
     DataSource = DS_Gotov_prod_1
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentShowHint = False
     ReadOnly = True
     ShowHint = False
@@ -313,7 +314,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     Width = 1168
     Height = 105
     DataSource = DS_Gotovprod_normy
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ReadOnly = True
     TabOrder = 5
     TitleFont.Charset = RUSSIAN_CHARSET
@@ -630,7 +631,7 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     SelectSQL.Strings = (
       'select * from gotovprod_normy'
       'where id_gotov_prod=:id_gotov_prod'
-      'order by date_nor')
+      'order by date_nor desc ')
     ModifySQL.Strings = (
       'update gotovprod_normy'
       'set'
@@ -1000,5 +1001,13 @@ object F_Gotov_prod_normy: TF_Gotov_prod_normy
     Options = [ofReadOnly, ofEnableSizing]
     Left = 992
     Top = 320
+  end
+  object PM_ClipBoard: TPopupMenu
+    Left = 536
+    Top = 448
+    object N_CopyToClipboard: TMenuItem
+      Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
+      OnClick = N_CopyToClipboardClick
+    end
   end
 end

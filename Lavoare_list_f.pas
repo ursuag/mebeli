@@ -29,6 +29,11 @@ type
     N9: TMenuItem;
     N_Deletelavoar_main: TMenuItem;
     N_Import: TMenuItem;
+    N_Import_lavoare: TMenuItem;
+    N_Import_lavoare_gotovprod: TMenuItem;
+    DS_Lavoare_gotovprod: TDataSource;
+    IB_Lavoare_gotovprod: TIBDataSet;
+    DBGrid1: TDBGrid;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -38,7 +43,8 @@ type
     procedure N_EditLavoar_mainClick(Sender: TObject);
     procedure N_Deletelavoar_mainClick(Sender: TObject);
     procedure N_DeleteGrupa_mainClick(Sender: TObject);
-    procedure N_ImportClick(Sender: TObject);
+    procedure N_Import_lavoareClick(Sender: TObject);
+    procedure N_Import_lavoare_gotovprodClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -60,10 +66,12 @@ procedure reopen_tables;
 begin
   F_Lavoare_list.IB_Lavoare_Grupa.Close;
   F_Lavoare_list.IB_Lavoare_1.Close;
+  F_Lavoare_list.IB_Lavoare_gotovprod.Close;
   F_Lavoare_list.IB_Lavoare_Grupa.Open;
   F_Lavoare_list.IB_Lavoare_Grupa.Locate('id',F_Lavoare_list.id_lavoar_grupa,[]);
   F_Lavoare_list.IB_Lavoare_1.Open;
   F_Lavoare_list.IB_Lavoare_1.Locate('id',F_Lavoare_list.id_lavoar,[]);
+  F_Lavoare_list.IB_Lavoare_gotovprod.Open;
 end;
 
 
@@ -145,7 +153,7 @@ begin
     IB_Lavoare_Grupa.Delete;
 end;
 
-procedure TF_Lavoare_list.N_ImportClick(Sender: TObject);
+procedure TF_Lavoare_list.N_Import_lavoareClick(Sender: TObject);
 var ib_tmp:TIBDataSet;
          f: System.Text;
          s: String;
@@ -156,8 +164,8 @@ begin
   ts.Delimiter:=';';
   ib_tmp:=TIBDataSet.Create(nil);
   ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
-  ib_tmp.SelectSQL.Add('insert into lavoare_1 (name, id_parent, article)');
-  ib_tmp.SelectSQL.Add('values (:lavoar_name,(select id from lavoare_grupa where article= :article_grupa), :article_lavoar)');
+  ib_tmp.SelectSQL.Add('insert into lavoare_1 (name, id_parent, article, MANUFACTURER_CODE)');
+  ib_tmp.SelectSQL.Add('values (:lavoar_name,(select id from lavoare_grupa where article= :article_grupa), :article_lavoar, :MANUFACTURER_CODE)');
 
   filename:='e:\lavoar.csv';
   AssignFile(f, filename);
@@ -170,6 +178,40 @@ begin
     ib_tmp.ParamByName('article_grupa').Value:=ts[0];
     ib_tmp.ParamByName('lavoar_name').Value:=ts[1];
     ib_tmp.ParamByName('article_lavoar').Value:=ts[2];
+    ib_tmp.ParamByName('MANUFACTURER_CODE').Value:=ts[3];
+    ib_tmp.ExecSQL;
+  end;
+  closefile (f);
+  ts.Free;
+  ib_tmp.Close;
+  ib_tmp.Free;
+  DM_Mebeli.IBTransaction1.Commit;
+end;//proc
+
+procedure TF_Lavoare_list.N_Import_lavoare_gotovprodClick(Sender: TObject);
+var ib_tmp:TIBDataSet;
+         f: System.Text;
+         s: String;
+         ts: TStringList;
+ filename: string;
+begin
+  ts:=TStringList.Create;
+  ts.Delimiter:=';';
+  ib_tmp:=TIBDataSet.Create(nil);
+  ib_tmp.Database:=DM_Mebeli.DB_Mebeli;
+  ib_tmp.SelectSQL.Add('insert into lavoare_gotovprod (id_lavoar, id_gotovprod, description)');
+  ib_tmp.SelectSQL.Add('values ((select id from lavoare_1 where article= :article_lavoar), (select id from gotov_prod_0 where article= :article_gotovprod), :article_gotovprod)');
+
+  filename:='e:\lavoar.csv';
+  AssignFile(f, filename);
+  Reset(f);
+  Readln(f,s);
+  while not eof(f) do
+  begin
+    Readln(f,s);
+    ts.DelimitedText:=s;
+    ib_tmp.ParamByName('article_lavoar').Value:=ts[0];
+    ib_tmp.ParamByName('article_gotovprod').Value:=ts[1];
     ib_tmp.ExecSQL;
   end;
   closefile (f);

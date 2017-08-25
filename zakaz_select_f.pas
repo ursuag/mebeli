@@ -52,6 +52,7 @@ begin
     IB_Zakaz_0.open;
     IB_Zakaz_0.last;
     IB_Zakaz_1.Open;
+    E_Zakaz.Text:='';
     E_Zakaz.SetFocus;
 end;//proc
 

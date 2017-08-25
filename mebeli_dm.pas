@@ -230,7 +230,6 @@ type
     IB_Prihod_furnitura_0PRIMECHANIE: TIBStringField;
     IB_Peremeschenie_0PRIMECHANIE: TIBStringField;
     IB_Spisanie_0PRIMECHANIE: TIBStringField;
-    IB_Akt_raspilOTHOD: TIBBCDField;
     IB_Akt_raspilOSTATOK: TIntegerField;
     IB_Akt_raspil_listyID: TIntegerField;
     IB_Akt_vip_rabot_detali: TIBDataSet;
@@ -401,6 +400,8 @@ type
     IB_Akt_vip_prod_1GOTOVPROD_NAME: TStringField;
     IB_Akt_vip_prod_1GRUPA_NAME: TStringField;
     IB_Akt_vip_prod_1ARTICLE: TIntegerField;
+    IB_Akt_raspilOTHOD_PRC: TIBBCDField;
+    IB_Contragenty_1CODFISCAL: TIBStringField;
     procedure IB_Pilomat_grupa_vidrabotNewRecord(DataSet: TDataSet);
     procedure IB_Pilomat_listyBeforePost(DataSet: TDataSet);
     procedure IB_Pilomat_detaliBeforePost(DataSet: TDataSet);

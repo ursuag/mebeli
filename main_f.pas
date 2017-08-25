@@ -106,6 +106,13 @@ type
     N25: TMenuItem;
     N_Get_zakaz_rabota: TMenuItem;
     N_Get_zakaz_ostalosi_sdelati: TMenuItem;
+    N26: TMenuItem;
+    N27: TMenuItem;
+    N28: TMenuItem;
+    N29: TMenuItem;
+    N30: TMenuItem;
+    N_Rashod_na_gotovprod_furnitura: TMenuItem;
+    N_Rashod_na_gotovprod_pilomat: TMenuItem;
     procedure N_ExitClick(Sender: TObject);
     function VolumeID:dword;
     procedure FormCreate(Sender: TObject);
@@ -167,6 +174,9 @@ type
     procedure Button1Click(Sender: TObject);
     procedure N_Get_zakaz_rabotaClick(Sender: TObject);
     procedure N_Get_zakaz_ostalosi_sdelatiClick(Sender: TObject);
+    procedure N_materialy_Ostatok_skladClick(Sender: TObject);
+    procedure N_Rashod_na_gotovprod_furnituraClick(Sender: TObject);
+    procedure N27Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -209,7 +219,8 @@ uses mebeli_dm, password_dlg, sotrudniki_f, sklad_f, password_f,
   Cassa_Jurnal_f, Remont_jurnal_f, Lavoare_list_f, Revizii_jurnal_df,
   gotov_prod_edit_f, Calc_sebestoimosti_f, Ostatok_furnitura_f,
   Ostatok_listy_f, Ostatok_detali_f, Get_zakaz_rabota_f,
-  Report_Get_Zakaz_Ostalosi_Sdelati_f;
+  Report_Get_Zakaz_Ostalosi_Sdelati_f, Report_Ostatok_materialy_f,
+  Rashod_na_gotovprod_furnitura_f, Print_Furnitura_In_Norma_f;
 
 {$R *.dfm}
 
@@ -1009,7 +1020,10 @@ end;
 
 procedure TF_Main.N_LavoareClick(Sender: TObject);
 begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  operation:='';
   F_Lavoare_list.ShowModal;
+  reopen_tables;
 end;
 
 procedure TF_Main.N_ReviziiClick(Sender: TObject);
@@ -1597,6 +1611,27 @@ begin
   id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
   F_Report_Get_Zakaz_Ostalosi_Sdelati.ShowModal;
   reopen_tables;  
+end;
+
+procedure TF_Main.N_materialy_Ostatok_skladClick(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  F_Report_Ostatok_materialy.ShowModal;
+  reopen_tables;
+end;
+
+procedure TF_Main.N_Rashod_na_gotovprod_furnituraClick(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  F_Rashod_na_gotovprod_furnitura.ShowModal;
+  reopen_tables;
+end;
+
+procedure TF_Main.N27Click(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  F_Print_Furnitura_In_Norma.ShowModal;
+  reopen_tables;
 end;
 
 end.

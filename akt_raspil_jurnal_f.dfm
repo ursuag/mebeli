@@ -71,7 +71,7 @@ object F_Akt_raspil_jurnal: TF_Akt_raspil_jurnal
       end
       item
         Expanded = False
-        FieldName = 'OTHOD'
+        FieldName = 'OTHOD_PRC'
         Title.Alignment = taCenter
         Title.Caption = #1054#1090#1093#1086#1076', %'
         Title.Font.Charset = DEFAULT_CHARSET

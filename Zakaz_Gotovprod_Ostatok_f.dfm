@@ -1,6 +1,6 @@
 object F_Zakaz_Gotovprod_Ostatok: TF_Zakaz_Gotovprod_Ostatok
   Left = 0
-  Top = 83
+  Top = 102
   AutoScroll = False
   Caption = #1054#1089#1090#1072#1090#1086#1082' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080' ('#1087#1086' '#1047#1072#1082#1072#1079#1072#1084')'
   ClientHeight = 702

@@ -184,7 +184,6 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Width = 97
       Height = 33
       Caption = #1047#1072#1082#1088#1099#1090#1100
-      ModalResult = 2
       TabOrder = 1
       OnClick = B_ExitClick
     end
@@ -353,6 +352,7 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       DataSource = DM_Mebeli.DS_Akt_raspil
       ReadOnly = True
       TabOrder = 1
+      OnExit = DBE_Date_RExit
     end
     object DBEdit3: TDBEdit
       Left = 234

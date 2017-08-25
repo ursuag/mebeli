@@ -407,14 +407,14 @@ var
 
 implementation
 
-uses main_f, mebeli_dm, reports_f;
+uses main_f, mebeli_dm, reports_f, Report_Ostatok_materialy_f;
 
 {$R *.dfm}
 
 procedure TF_Print_Forms.QR_Ostatki_skladBeforePrint(Sender: TCustomQuickRep;
   var PrintReport: Boolean);
 begin
-  L_date_ostatok_sklad.Caption:='на дату '+DateToStr(DateOstatok);
+  L_date_ostatok_sklad.Caption:='на дату '+DateToStr(F_Report_Ostatok_materialy.D_ostatok_sklad.DateTime);
 end;//proc
 
 procedure TF_Print_Forms.QRBand9BeforePrint(Sender: TQRCustomBand;
@@ -435,7 +435,17 @@ begin
   IF IBQuery1.FieldValues['AREA']=0 Then
     QRDBText_Area.Font.Color:=clWhite
   ELSE
-    QRDBText_Area.Font.Color:=clBlack
+    QRDBText_Area.Font.Color:=clBlack;
+  if Length(IBQuery1.FieldByName('name').asString)>50 then
+    begin
+      QRDBText_name.Height:=38;
+      QRBand1.Height:=45;
+    end
+  else
+    begin
+      QRDBText_name.Height:=19;
+      QRBand1.Height:=26;
+    end;
 end;//proc
 
 procedure TF_Print_Forms.QR_Dvij_materBeforePrint(Sender: TCustomQuickRep;

@@ -1,6 +1,6 @@
 object F_Gotov_prod: TF_Gotov_prod
-  Left = 0
-  Top = 98
+  Left = 47
+  Top = 63
   Anchors = []
   AutoScroll = False
   Caption = #1043#1086#1090#1086#1074#1072#1103' '#1087#1088#1086#1076#1091#1082#1094#1080#1103
@@ -90,7 +90,7 @@ object F_Gotov_prod: TF_Gotov_prod
     Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
     ReadOnly = True
     TabOrder = 0
@@ -121,7 +121,7 @@ object F_Gotov_prod: TF_Gotov_prod
     Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = []
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
     ReadOnly = True
     TabOrder = 1
@@ -191,5 +191,67 @@ object F_Gotov_prod: TF_Gotov_prod
         OnClick = N_GotovProd_DeleteClick
       end
     end
+    object N3: TMenuItem
+      Caption = #1055#1086#1080#1089#1082
+      object N_Search_gotovprod_article: TMenuItem
+        Caption = #1048#1089#1082#1072#1090#1100' '#1096#1082#1072#1092' '#1087#1086' '#1040#1088#1090#1080#1082#1091#1083#1091
+        OnClick = N_Search_gotovprod_articleClick
+      end
+    end
+    object N4: TMenuItem
+      Caption = #1048#1084#1087#1086#1088#1090
+      Enabled = False
+      object N_Import_Photos: TMenuItem
+        Caption = #1048#1084#1087#1086#1088#1090' '#1092#1086#1090#1086#1075#1088#1072#1092#1080#1081
+        OnClick = N_Import_PhotosClick
+      end
+    end
+  end
+  object IB_Image: TIBDataSet
+    Database = DM_Mebeli.DB_Images
+    Transaction = DM_Mebeli.Transaction_Images
+    ForcedRefresh = True
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from GOTOVPROD_IMAGES'
+      'where'
+      '  ID = :OLD_ID')
+    InsertSQL.Strings = (
+      'insert into GOTOVPROD_IMAGES'
+      '  (ID, ID_GOTOVPROD, ARTICLE, IMAGE_JPG)'
+      'values'
+      '  (:ID, :ID_GOTOVPROD, :ARTICLE, :IMAGE_JPG)')
+    RefreshSQL.Strings = (
+      'Select '
+      '  ID,'
+      '  ID_GOTOVPROD,'
+      '  ARTICLE,'
+      '  IMAGE_JPG'
+      'from GOTOVPROD_IMAGES '
+      'where'
+      '  ID = :ID')
+    SelectSQL.Strings = (
+      'select * from GOTOVPROD_IMAGES'
+      'where ID_GOTOVPROD= :ID_GOTOVPROD')
+    ModifySQL.Strings = (
+      'update GOTOVPROD_IMAGES'
+      'set'
+      '  ID = :ID,'
+      '  ID_GOTOVPROD = :ID_GOTOVPROD,'
+      '  ARTICLE = :ARTICLE,'
+      '  IMAGE_JPG = :IMAGE_JPG'
+      'where'
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    GeneratorField.Generator = 'GEN_GOTOVPROD_IMAGES_ID'
+    Left = 1064
+    Top = 48
+  end
+  object DS_Image: TDataSource
+    AutoEdit = False
+    DataSet = IB_Image
+    Left = 1096
+    Top = 48
   end
 end

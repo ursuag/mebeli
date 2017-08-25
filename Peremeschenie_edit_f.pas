@@ -62,7 +62,7 @@ end;//proc
 
 procedure TF_Peremeschenie_edit.B_OkClick(Sender: TObject);
 begin
-  IF (DM_Mebeli.IB_peremeschenie_0.FieldByName('DATE_PER').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+  IF (DM_Mebeli.IB_peremeschenie_0.FieldByName('DATE_PER').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
     begin
       DM_Mebeli.IBTransaction1.Rollback;
       OK_Pressed:=True;

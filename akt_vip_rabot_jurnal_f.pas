@@ -43,6 +43,10 @@ type
     N_Change_Rashod_firnitura: TMenuItem;
     IB_Akt_vip_rabot_1: TIBDataSet;
     DS_Akt_vip_rabot_1: TDataSource;
+    N3: TMenuItem;
+    N_Filtre_Zakaz: TMenuItem;
+    N4: TMenuItem;
+    N_Search_by_id: TMenuItem;
     procedure FormActivate(Sender: TObject);
     procedure B_InsertClick(Sender: TObject);
     procedure B_EditClick(Sender: TObject);
@@ -58,6 +62,9 @@ type
     procedure FormCreate(Sender: TObject);
     procedure N_Real_RashodClick(Sender: TObject);
     procedure N_Change_Rashod_firnituraClick(Sender: TObject);
+    procedure N_Filtre_ZakazClick(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure N_Search_by_idClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -128,7 +135,7 @@ end;//proc
 
 procedure TF_Akt_vip_rabot_jurnal.B_DeleteClick(Sender: TObject);
 begin
-  IF (DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
+  IF (DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('DATE_A').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
     begin
       ShowMessage('Дата документа меньше даты запрета редактирования');
       exit;
@@ -270,6 +277,33 @@ end;
 procedure TF_Akt_vip_rabot_jurnal.N_Change_Rashod_firnituraClick(Sender: TObject);
 begin
   N_Real_RashodClick(Sender);
+end;
+
+procedure TF_Akt_vip_rabot_jurnal.N_Filtre_ZakazClick(Sender: TObject);
+var zakaz_str: string;
+begin
+  zakaz_str:=Dialogs.Inputbox('Фильтр по Заказу','Введите номер заказа:','');
+  operation:='SELECT';
+  id_akt:=DM_Mebeli.IB_Akt_vip_rabot_0.FieldByName('NOMER').AsInteger;
+  DM_Mebeli.IB_Akt_vip_rabot_0.Close;
+  DM_Mebeli.IB_Akt_vip_rabot_0.SelectSQL[1]:='where (date_a >=:date_start) and (id_zakaz='+zakaz_str+')';
+  DM_Mebeli.IB_Akt_vip_rabot_0.ParamByName('date_start').Value:=DateToStr(period_start);
+  DM_Mebeli.IB_Akt_vip_rabot_0.Open;
+  DM_Mebeli.IB_Akt_vip_rabot_0.Locate('NOMER',id_akt,[]);
+  L_Filtre.Visible:=true;
+  L_Filtre.Caption:='Включен фильтр по Заказу!';
+end;
+
+procedure TF_Akt_vip_rabot_jurnal.DBGrid1DblClick(Sender: TObject);
+begin
+  B_EditClick(Sender);
+end;
+
+procedure TF_Akt_vip_rabot_jurnal.N_Search_by_idClick(Sender: TObject);
+var id_doc: string;
+begin
+  id_doc:=InputBox('Найти документ по номеру','Введите номер Акта','');
+  DM_Mebeli.IB_Akt_vip_rabot_0.Locate('nomer',id_doc,[])
 end;
 
 end.

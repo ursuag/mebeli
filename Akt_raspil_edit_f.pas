@@ -94,6 +94,7 @@ type
     procedure DBL_Detali_GrupaCloseUp(Sender: TObject);
     procedure DBGR_DETALIDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBE_Date_RExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -180,81 +181,15 @@ begin
 end;//
 
 procedure Update_othod;
-var     sql_detali: TIBQuery;
-         sql_listy: TIBQuery;
-             othod_prc: real;
-              othod_m2: real;
-              price_m2: real;
-        area_listy: integer;
-       area_detali: integer;
-      area_ostatok: integer;
+var     sql_othod: TIBQuery;
 begin
-  DecimalSeparator_Old:=DecimalSeparator;
-  DecimalSeparator:='.';
-
-  SQL_detali:=TIBQuery.Create(nil);
-  SQL_detali.Database:=F_Main.IBQuery1.Database;
-  SQL_listy:=TIBQuery.Create(nil);
-  SQL_listy.Database:=F_Main.IBQuery1.Database;
-
-  F_Main.IBQuery1.Close;
-  //площадь листов в акте
-  SQL_listy.SQL.Clear;
-  SQL_listy.SQL.Add('select sum (area_list) as area_listy from (select pl.id, sum(arl.kol_vo)*pl.area as area_list from pilomat_listy as pl, akt_raspil_listy as arl');
-  SQL_listy.SQL.Add('where (arl.id_parent=:ID_Akt_raspil) and (arl.id_pilomat_listy=pl.id)');
-  SQL_listy.SQL.Add('group by pl.id, pl.area)');
-  SQL_listy.ParamByName('ID_Akt_raspil').Value:=ID_Akt_raspil;
-  SQL_listy.Open;
-  area_listy:=SQL_listy.FieldByName('area_listy').AsInteger;
-  //площадь деталей в акте
-  SQL_detali.SQL.Clear;
-  SQL_detali.SQL.Add('select sum(area_detali) as area_detalei from');
-  SQL_detali.SQL.Add('(select pd.id, sum(ard.kol_vo)*pd.area as area_detali from pilomat_detali as pd, akt_raspil_detali as ard');
-  SQL_detali.SQL.Add('where (ard.id_parent=:ID_Akt_raspil) and (ard.id_pilomat_detali=pd.id)');
-  SQL_detali.SQL.Add('group by pd.id, pd.area)');
-  SQL_detali.ParamByName('ID_Akt_raspil').Value:=ID_Akt_raspil;
-  SQL_detali.Open;
-  area_detali:=SQL_detali.FieldByName('area_detalei').AsInteger;
-  //площадь остатков в акте
-  F_Main.IBQuery1.SQL.Clear;
-  F_Main.IBQuery1.SQL.Add('select sum (ostatok) as ostatok_area from');
-  F_Main.IBQuery1.SQL.Add('(select id, cast(sum(razmer_x*razmer_y)*kol_vo as integer) as ostatok from akt_raspil_ostatok as aro');
-  F_Main.IBQuery1.SQL.Add('where (id_parent=:id_akt_raspil)');
-  F_Main.IBQuery1.SQL.Add('group by id, kol_vo)');
-  F_Main.IBQuery1.ParamByName('id_akt_raspil').Value:=ID_Akt_raspil;
-  F_Main.IBQuery1.Open;
-  DM_Mebeli.Ib_Akt_raspil.Edit;
-  area_ostatok:=F_Main.IBQuery1.FieldByName('ostatok_area').AsInteger;
-  DM_Mebeli.Ib_Akt_raspil.FieldByName('OSTATOK').Value:=area_ostatok;
-  DM_Mebeli.Ib_Akt_raspil.Post;
-  //процент отхода по акту
-  othod_prc:=0;
-  F_Main.IBQuery1.Close;
-  F_Main.IBQuery1.SQL.Clear;
-  F_Main.IBQuery1.SQL.Add('select sum(arlp.summa)/sum(arlp.kol_vo*pl.area/1000000.000) price_m2');
-  F_Main.IBQuery1.SQL.Add('from akt_raspil_listy_price arlp, pilomat_listy pl');
-  F_Main.IBQuery1.SQL.Add('where (arlp.id_parent=:ID_Akt_raspil) and (arlp.id_pilomat_listy=pl.id)');
-
-  F_Main.IBQuery1.ParamByname('ID_Akt_raspil').Value:=ID_Akt_raspil;
-  F_Main.IBQuery1.Open;
-  price_m2:=F_Main.IBQuery1.FieldByName('price_m2').AsFloat;
-
-  IF area_listy>0 Then
-    othod_prc:=(area_listy-area_detali-area_ostatok)/area_listy*100;
-  othod_m2:=(area_listy-area_detali-area_ostatok)/1000000.000;
-  F_Main.IBQuery1.Close;
-  F_Main.IBQuery1.SQL.Clear;
-  F_Main.IBQuery1.SQL.Add('update akt_raspil set OTHOD=:othod_prc, othod_m2= :othod_sqm, othod_summa= :othod_summa' );
-  F_Main.IBQuery1.SQL.Add('where id=:ID_Akt_raspil');
-  F_Main.IBQuery1.ParamByname('ID_Akt_raspil').Value:=ID_Akt_raspil;
-  F_Main.IBQuery1.ParamByname('othod_prc').Value:=othod_prc;
-  F_Main.IBQuery1.ParamByname('othod_sqm').Value:=othod_m2;
-  F_Main.IBQuery1.ParamByname('othod_summa').Value:=othod_m2*price_m2;
-  F_Main.IBQuery1.ExecSQL;
-
-  SQL_detali.Free;
-  SQL_listy.Free;
-  DecimalSeparator:=DecimalSeparator_Old;
+  SQL_othod:=TIBQuery.Create(nil);
+  SQL_othod.Database:=F_Main.IBQuery1.Database;
+  SQL_othod.SQL.Clear;
+  SQL_othod.SQL.Add('execute procedure SET_RASPIL_OTHOD(:ID_Akt_raspil)');
+  SQL_othod.ParamByName('ID_Akt_raspil').Value:=ID_Akt_raspil;
+  SQL_othod.ExecSQL;
+  SQL_othod.Free;
 end;//proc
 
 procedure TF_Akt_raspil_edit.FormActivate(Sender: TObject);
@@ -279,7 +214,7 @@ begin
           DM_Mebeli.IBTransaction1.StartTransaction;
        DM_Mebeli.IB_Akt_raspil.Insert;
        DM_Mebeli.IB_Akt_raspil.FieldByName('DATE_R').Value:=Date;
-       DM_Mebeli.IB_Akt_raspil.FieldByName('OTHOD').Value:=0;
+       DM_Mebeli.IB_Akt_raspil.FieldByName('OTHOD_PRC').Value:=0;
        DM_Mebeli.IB_Akt_raspil.Post;
        DM_Mebeli.IB_Akt_raspil.Edit;
        IF role_name='USER' Then
@@ -300,13 +235,6 @@ end;//proc
 
 procedure TF_Akt_raspil_edit.B_OkClick(Sender: TObject);
 begin
-  IF (DM_Mebeli.IB_Akt_raspil.FieldByName('DATE_R').AsDateTime<=DataZapretaRedakt) AND (Role_name<>'BUHGALTER') AND (Role_name<>'ADMIN') Then
-    begin
-      DM_Mebeli.IBTransaction1.Rollback;
-      OK_Pressed:=True;
-      close;
-    end;//IF DataZapretaRedakt
-
   is_error:=False;
   IF DM_Mebeli.IBTransaction1.Active Then
      begin
@@ -321,9 +249,9 @@ begin
        DM_Mebeli.IB_Akt_raspil.Refresh;
        if DM_Mebeli.IB_Akt_raspil.FieldByName('othod_m2').AsFloat<0 then
           begin
-            //is_error:=true;
-            //ShowMessage('Площадь деталей больше площади листов! Проверьте.');
-            //exit;
+            is_error:=true;
+            ShowMessage('Площадь деталей больше площади листов! Проверьте.');
+            exit;
           end;
 
        IF not is_error Then
@@ -367,9 +295,11 @@ begin
       ok_pressed:=true;
       B_OkClick(Sender);
     end;//IF res=mrYes
-  IF res<>mrCancel Then
+  if is_error then
+    action:=caNone
+  else
     begin
-      IB_Akt_raspil_detali.Close;
+      IB_Akt_raspil_listy.Close;
       IB_Akt_raspil_detali.Close;
     end;
 end;//proc
@@ -541,8 +471,23 @@ begin
 end;
 
 procedure TF_Akt_raspil_edit.DBGR_DETALIEnter(Sender: TObject);
+var sql_listy: TIBQuery;
 begin
-  DM_Mebeli.IB_Akt_raspil.Post;
+  if (DM_Mebeli.IB_Akt_raspil.state=dsEdit) or (DM_Mebeli.IB_Akt_raspil.state=dsInsert) then
+    DM_Mebeli.IB_Akt_raspil.Post;
+
+  SQL_listy:=TIBQuery.Create(nil);
+  SQL_listy.Database:=F_Main.IBQuery1.Database;
+  SQL_listy.SQL.Add('select id from akt_raspil_listy where id_parent=:id_raspil');
+  SQL_listy.ParamByname('id_raspil').Value:=DM_Mebeli.IB_Akt_raspil.FieldByName('id').AsInteger;
+  SQL_listy.Open;
+  if SQL_listy.FieldByname('id').IsNull then
+    begin
+      ShowMessage('Сначала добавьте в акт листы!');
+      DBGR_LISTY.SetFocus;
+    end;
+  SQL_listy.Close;
+  SQL_listy.Free;
 end;
 
 procedure TF_Akt_raspil_edit.IB_Akt_raspil_listyCalcFields(
@@ -606,6 +551,12 @@ begin
     end;
   end;
 
+end;
+
+procedure TF_Akt_raspil_edit.DBE_Date_RExit(Sender: TObject);
+begin
+  IF (DM_Mebeli.IB_Akt_raspil.FieldByName('DATE_R').Value<=DataZapretaRedakt) AND (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
+    ShowMessage('Дата документа меньше даты запрета редактирования');
 end;
 
 end.

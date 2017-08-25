@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Mask, DBCtrls, DB, IBCustomDataSet, Grids, DBGrids,
-  ExtCtrls, Menus, Buttons, Jpeg, DBTables, ExtDlgs, IB;
+  ExtCtrls, Menus, Buttons, Jpeg, DBTables, ExtDlgs, IB, ClipBrd;
 
 type
   TF_Gotov_prod_normy = class(TForm)
@@ -91,6 +91,8 @@ type
     dlgOpenPicture: TOpenPictureDialog;
     Panel2: TPanel;
     Gotovprod_image: TImage;
+    PM_ClipBoard: TPopupMenu;
+    N_CopyToClipboard: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -115,6 +117,7 @@ type
     procedure N_Delete_image_popupClick(Sender: TObject);
     procedure IB_ImageNewRecord(DataSet: TDataSet);
     procedure Image_fromDB;
+    procedure N_CopyToClipboardClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -301,6 +304,12 @@ begin
 
   ib_temp.SelectSQL.Clear;
   ib_temp.SelectSQL.Add('insert into gotov_prod_vidrabot (id_gotov_prod, id_vid_rabot, id_norma, id_category) select id_gotov_prod, id_vid_rabot, :id_new_norma, id_category from gotov_prod_vidrabot where id_norma=:id_old_norma');
+  ib_temp.ParamByName('id_new_norma').Value:=id_new_norma;
+  ib_temp.ParamByName('id_old_norma').Value:=IB_Gotovprod_normy.FieldByName('id').AsInteger;
+  ib_temp.ExecSQL;
+
+  ib_temp.SelectSQL.Clear;
+  ib_temp.SelectSQL.Add('insert into gotov_prod_categories_normy (id_norma, id_category) select :id_new_norma, id_category from gotov_prod_categories_normy where id_norma=:id_old_norma');
   ib_temp.ParamByName('id_new_norma').Value:=id_new_norma;
   ib_temp.ParamByName('id_old_norma').Value:=IB_Gotovprod_normy.FieldByName('id').AsInteger;
   ib_temp.ExecSQL;
@@ -559,6 +568,11 @@ begin
     IB_Image.FieldByname('article').Value:=null
   else
     IB_Image.FieldByname('article').Value:=IB_Gotov_prod_0_E.FieldByname('article').AsInteger;
+end;
+
+procedure TF_Gotov_prod_normy.N_CopyToClipboardClick(Sender: TObject);
+begin
+  Clipboard.AsText:=IB_Gotov_prod_2.FieldByName('furnitura_name').AsString;
 end;
 
 end.
