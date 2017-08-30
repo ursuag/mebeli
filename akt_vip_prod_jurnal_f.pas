@@ -9,7 +9,7 @@ uses
 type
   TF_Akt_vip_prod_jurnal = class(TForm)
     DBGrid1: TDBGrid;
-    DBGrid2: TDBGrid;
+    DBG_GotovProd: TDBGrid;
     Panel1: TPanel;
     B_Exit: TButton;
     B_Insert: TButton;
@@ -66,6 +66,9 @@ type
     procedure B_Podrobno_CloseClick(Sender: TObject);
     procedure N_Change_Rashod_firnituraClick(Sender: TObject);
     procedure N_Search_IDClick(Sender: TObject);
+    procedure N_Edit_mainClick(Sender: TObject);
+    procedure N_Insert_mainClick(Sender: TObject);
+    procedure N_Delete_mainClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -236,22 +239,25 @@ begin
       IB_Podrobno.Close;
       DBG_Detali.Visible:=true;
       DBG_Furnitura.Visible:=true;
+      DBG_GotovProd.Columns[4].Visible:=false;
+      DBG_GotovProd.Columns[5].Visible:=false;
     end
   else
     begin
       P_Podrobno.Visible:=true;
       DBG_Detali.Visible:=false;
       DBG_Furnitura.Visible:=false;
+      DBG_GotovProd.Columns[4].Visible:=true;
+      DBG_GotovProd.Columns[5].Visible:=true;
       IB_Podrobno.Open;
     end
 end;
 
 procedure TF_Akt_vip_prod_jurnal.B_Podrobno_CloseClick(Sender: TObject);
 begin
-  P_Podrobno.Visible:=false;
-  IB_Podrobno.Close;
+  F_Akt_vip_prod_jurnal.N_PodrobnoClick(Sender); 
 end;
-
+                                                
 procedure TF_Akt_vip_prod_jurnal.N_Change_Rashod_firnituraClick(
   Sender: TObject);
 begin
@@ -263,6 +269,21 @@ var id_doc: integer;
 begin
   id_doc:=StrToInt( InputBox('Поиск по номеру','Введите номер акта', '1') );
   DM_Mebeli.IB_Akt_vip_prod_0.Locate('nomer',id_doc,[]);
+end;
+
+procedure TF_Akt_vip_prod_jurnal.N_Edit_mainClick(Sender: TObject);
+begin
+  F_Akt_vip_prod_jurnal.B_EditClick(Sender); 
+end;
+
+procedure TF_Akt_vip_prod_jurnal.N_Insert_mainClick(Sender: TObject);
+begin
+  F_Akt_vip_prod_jurnal.B_InsertClick(Sender); 
+end;
+
+procedure TF_Akt_vip_prod_jurnal.N_Delete_mainClick(Sender: TObject);
+begin
+  F_Akt_vip_prod_jurnal.B_DeleteClick(Sender);
 end;
 
 end.

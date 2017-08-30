@@ -3,7 +3,7 @@ object F_Pilomat: TF_Pilomat
   Top = 0
   AutoScroll = False
   Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099
-  ClientHeight = 670
+  ClientHeight = 687
   ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
@@ -34,6 +34,7 @@ object F_Pilomat: TF_Pilomat
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
+    PopupMenu = PM_Add_detali_in_list
     ReadOnly = True
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -144,6 +145,7 @@ object F_Pilomat: TF_Pilomat
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
+    PopupMenu = PM_Add_detali_in_list
     ReadOnly = True
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
@@ -195,7 +197,7 @@ object F_Pilomat: TF_Pilomat
   end
   object P_Select: TPanel
     Left = 1
-    Top = 624
+    Top = 613
     Width = 1176
     Height = 57
     BevelInner = bvRaised
@@ -206,7 +208,7 @@ object F_Pilomat: TF_Pilomat
       Top = 12
       Width = 97
       Height = 33
-      Caption = #1054#1090#1084#1077#1085#1072
+      Caption = #1047#1072#1082#1088#1099#1090#1100
       ModalResult = 2
       TabOrder = 1
     end
@@ -469,5 +471,21 @@ object F_Pilomat: TF_Pilomat
   object OpenDialog1: TOpenDialog
     Left = 368
     Top = 96
+  end
+  object PM_Add_detali_in_list: TPopupMenu
+    OnPopup = PM_Add_detali_in_listPopup
+    Left = 912
+    Top = 464
+    object N_Add_detali_to_List: TMenuItem
+      Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1076#1077#1090#1072#1083#1100' '#1074' '#1089#1087#1080#1089#1086#1082' '#1076#1083#1103' '#1072#1085#1072#1083#1080#1079#1072
+      OnClick = N_Add_detali_to_ListClick
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object N_Add_grupa_to_List: TMenuItem
+      Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1075#1088#1091#1087#1087#1091' '#1074' '#1089#1087#1080#1089#1086#1082' '#1076#1083#1103' '#1072#1085#1072#1083#1080#1079#1072
+      OnClick = N_Add_grupa_to_ListClick
+    end
   end
 end

@@ -228,9 +228,9 @@ object F_Furnitura: TF_Furnitura
   object PM_DBG_Furnitura: TPopupMenu
     Left = 936
     Top = 320
-    object N2: TMenuItem
+    object N_Add_to_List: TMenuItem
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1074' '#1089#1087#1080#1089#1086#1082' '#1076#1083#1103' '#1072#1085#1072#1083#1080#1079#1072
-      OnClick = N2Click
+      OnClick = N_Add_to_ListClick
     end
   end
 end

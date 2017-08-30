@@ -30,6 +30,7 @@ type
     procedure N_Contragent_InsertClick(Sender: TObject);
     procedure N_Contragent_editClick(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -38,16 +39,18 @@ type
 
 var
   F_Contragenty: TF_Contragenty;
-
+  id_grupa_contragenty: integer;
 implementation
 
-uses mebeli_dm, Contragenty_edit_f;
+uses mebeli_dm, main_f, Contragenty_edit_f;
 
 {$R *.dfm}
 procedure Reopen_tables;
 begin
   DM_Mebeli.IB_Contragenty_0.Open;
   DM_Mebeli.IB_Contragenty_1.Open;
+  DM_Mebeli.IB_Contragenty_0.Locate('id',id_grupa_contragenty,[]);
+  DM_Mebeli.IB_Contragenty_1.Locate('id',id_contragent,[]);
 end;//proc
 
 
@@ -96,6 +99,7 @@ end;//proc
 procedure TF_Contragenty.N_Grupa_EditClick(Sender: TObject);
 var s: Widestring;
 begin
+  id_grupa_contragenty:=DM_Mebeli.IB_Contragenty_0.FieldByName('id').AsInteger;
   s:=DM_Mebeli.IB_Contragenty_0.FieldByName('NAME').AsString;
   IF InputQuery('Редактирование данных','Введите наименование:',s) Then
      begin
@@ -108,22 +112,20 @@ begin
 end;//proc
 
 procedure TF_Contragenty.N_Contragent_InsertClick(Sender: TObject);
-var s: WideString;
 begin
-  s:='';
-  IF InputQuery('Новый контрагент','Введите наименование:',s) Then
-     begin
-       DM_Mebeli.IB_Contragenty_1.Insert;
-       DM_Mebeli.IB_Contragenty_1.FieldByName('NAME').Value:=s;
-       DM_Mebeli.IB_Contragenty_1.Post;
-       DM_Mebeli.IBTransaction1.Commit;
-       reopen_tables;
-     end;//IF
+  id_grupa_contragenty:=DM_Mebeli.IB_Contragenty_0.FieldByName('id').AsInteger;
+  id_contragent:=DM_Mebeli.IB_Contragenty_0.FieldByName('id').AsInteger;
+  operation:='INSERT';
+  F_Contragenty_edit.ShowModal;
+  Reopen_tables;
 end;//proc
 
 
 procedure TF_Contragenty.N_Contragent_editClick(Sender: TObject);
 begin
+  id_grupa_contragenty:=DM_Mebeli.IB_Contragenty_0.FieldByName('id').AsInteger;
+  id_contragent:=DM_Mebeli.IB_Contragenty_1.FieldByName('id').AsInteger;
+  operation:='EDIT';
   F_Contragenty_edit.ShowModal;
   Reopen_tables;
 end;
@@ -131,6 +133,13 @@ end;
 procedure TF_Contragenty.B_ExitClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TF_Contragenty.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  DM_Mebeli.IB_Contragenty_1.Close;
+  DM_Mebeli.IB_Contragenty_1.SelectSQL[1]:='';
 end;
 
 end.

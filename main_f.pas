@@ -107,8 +107,8 @@ type
     N_Get_zakaz_rabota: TMenuItem;
     N_Get_zakaz_ostalosi_sdelati: TMenuItem;
     N26: TMenuItem;
-    N27: TMenuItem;
-    N28: TMenuItem;
+    N_Furnitura_in_Norma: TMenuItem;
+    N_Detali_in_Norma: TMenuItem;
     N29: TMenuItem;
     N30: TMenuItem;
     N_Rashod_na_gotovprod_furnitura: TMenuItem;
@@ -176,7 +176,9 @@ type
     procedure N_Get_zakaz_ostalosi_sdelatiClick(Sender: TObject);
     procedure N_materialy_Ostatok_skladClick(Sender: TObject);
     procedure N_Rashod_na_gotovprod_furnituraClick(Sender: TObject);
-    procedure N27Click(Sender: TObject);
+    procedure N_Furnitura_in_NormaClick(Sender: TObject);
+    procedure N_Detali_in_NormaClick(Sender: TObject);
+    procedure N_Rashod_na_gotovprod_pilomatClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -188,6 +190,9 @@ type
     function Kolvo_furnitury_na_sklade(id_furnitura: integer; date_check: TDateTime; id_sklad: integer):double;
     procedure AdjustResolution(oForm:TForm);
   end;
+
+const
+  codfiscal_mebeli='1002600022290';
 
 var
   F_Main: TF_Main;
@@ -207,6 +212,7 @@ var
  Is_post_error: boolean;
  id_zakaz: integer;
  id_furnitura: integer;
+ id_contragent: integer;
 implementation
 
 uses mebeli_dm, password_dlg, sotrudniki_f, sklad_f, password_f,
@@ -220,7 +226,8 @@ uses mebeli_dm, password_dlg, sotrudniki_f, sklad_f, password_f,
   gotov_prod_edit_f, Calc_sebestoimosti_f, Ostatok_furnitura_f,
   Ostatok_listy_f, Ostatok_detali_f, Get_zakaz_rabota_f,
   Report_Get_Zakaz_Ostalosi_Sdelati_f, Report_Ostatok_materialy_f,
-  Rashod_na_gotovprod_furnitura_f, Print_Furnitura_In_Norma_f;
+  Rashod_na_gotovprod_furnitura_f, Print_Furnitura_In_Norma_f,
+  Print_Detali_In_Norma_f, Rashod_na_gotovprod_detali_f;
 
 {$R *.dfm}
 
@@ -1627,10 +1634,24 @@ begin
   reopen_tables;
 end;
 
-procedure TF_Main.N27Click(Sender: TObject);
+procedure TF_Main.N_Furnitura_in_NormaClick(Sender: TObject);
 begin
   id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
   F_Print_Furnitura_In_Norma.ShowModal;
+  reopen_tables;
+end;
+
+procedure TF_Main.N_Detali_in_NormaClick(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  F_Print_Detali_In_Norma.ShowModal;
+  reopen_tables;
+end;
+
+procedure TF_Main.N_Rashod_na_gotovprod_pilomatClick(Sender: TObject);
+begin
+  id_zakaz:=DM_Mebeli.IB_Zakaz_0.FieldByName('id').AsInteger;
+  F_Rashod_na_gotovprod_detali.ShowModal;
   reopen_tables;
 end;
 

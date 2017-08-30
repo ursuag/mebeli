@@ -88,7 +88,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
       OnClick = B_Podrobno_CloseClick
     end
     object DBG_Podrodno: TDBGrid
-      Left = 11
+      Left = 3
       Top = 9
       Width = 1166
       Height = 168
@@ -129,7 +129,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
           FieldName = 'GRUPA_NAME'
           Title.Alignment = taCenter
           Title.Caption = #1043#1056#1059#1055#1055#1040
-          Width = 227
+          Width = 249
           Visible = True
         end
         item
@@ -137,7 +137,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
           FieldName = 'TOVAR_NAME'
           Title.Alignment = taCenter
           Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045
-          Width = 253
+          Width = 433
           Visible = True
         end
         item
@@ -161,7 +161,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
           FieldName = 'SUMMA'
           Title.Alignment = taCenter
           Title.Caption = #1057#1059#1052#1052#1040
-          Width = 116
+          Width = 103
           Visible = True
         end>
     end
@@ -172,10 +172,10 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
     Width = 1176
     Height = 233
     DataSource = DM_Mebeli.DS_Akt_vip_prod_0
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -16
+    Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
@@ -223,17 +223,17 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
         Visible = True
       end>
   end
-  object DBGrid2: TDBGrid
+  object DBG_GotovProd: TDBGrid
     Left = 1
     Top = 240
     Width = 1176
     Height = 169
     TabStop = False
     DataSource = DM_Mebeli.DS_Akt_vip_prod_1
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Height = -16
+    Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
@@ -258,7 +258,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
         FieldName = 'GRUPA_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1043#1056#1059#1055#1055#1040
-        Width = 385
+        Width = 335
         Visible = True
       end
       item
@@ -266,7 +266,7 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
         FieldName = 'GOTOVPROD_NAME'
         Title.Alignment = taCenter
         Title.Caption = #1053#1040#1048#1052#1045#1053#1054#1042#1040#1053#1048#1045
-        Width = 427
+        Width = 398
         Visible = True
       end
       item
@@ -274,8 +274,24 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
         FieldName = 'KOL_VO'
         Title.Alignment = taCenter
         Title.Caption = #1050#1054#1051'-'#1042#1054
-        Width = 186
+        Width = 107
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUMMA'
+        Title.Alignment = taCenter
+        Title.Caption = #1057#1091#1084#1084#1072
+        Width = -1
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'PRICE'
+        Title.Alignment = taCenter
+        Title.Caption = #1062#1077#1085#1072
+        Width = -1
+        Visible = False
       end>
   end
   object Panel1: TPanel
@@ -338,15 +354,15 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
   end
   object DBG_Detali: TDBGrid
     Left = 0
-    Top = 408
+    Top = 412
     Width = 545
     Height = 209
     TabStop = False
     DataSource = DS_Rashod_detali
-    Font.Charset = DEFAULT_CHARSET
+    Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
-    Font.Name = 'MS Sans Serif'
+    Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     ParentFont = False
@@ -393,14 +409,14 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
   end
   object DBG_Furnitura: TDBGrid
     Left = 544
-    Top = 408
+    Top = 412
     Width = 625
     Height = 209
     TabStop = False
     DataSource = DS_Rashod_furnitura_F
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -16
     Font.Name = 'Arial'
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
@@ -560,15 +576,18 @@ object F_Akt_vip_prod_jurnal: TF_Akt_vip_prod_jurnal
       Caption = #1044#1086#1082#1091#1084#1077#1085#1090
       object N_Insert_main: TMenuItem
         Caption = #1053#1086#1074#1099#1081
+        OnClick = N_Insert_mainClick
       end
       object N_Edit_main: TMenuItem
         Caption = #1048#1079#1084#1077#1085#1080#1090#1100
+        OnClick = N_Edit_mainClick
       end
       object N5: TMenuItem
         Caption = '-'
       end
       object N_Delete_main: TMenuItem
         Caption = #1059#1076#1072#1083#1080#1090#1100
+        OnClick = N_Delete_mainClick
       end
       object N6: TMenuItem
         Caption = '-'

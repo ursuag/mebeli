@@ -40,6 +40,13 @@ object F_pilomat_grupa: TF_pilomat_grupa
     Height = 18
     Caption = #1050#1086#1076' '#1087#1086#1089#1090#1072#1074#1097#1080#1082#1072
   end
+  object Label4: TLabel
+    Left = 20
+    Top = 120
+    Width = 104
+    Height = 18
+    Caption = #1052#1072#1082#1089' '#1086#1090#1093#1086#1076', %'
+  end
   object DBGrid1: TDBGrid
     Left = 0
     Top = 145
@@ -47,7 +54,7 @@ object F_pilomat_grupa: TF_pilomat_grupa
     Height = 209
     DataSource = DM_Mebeli.DS_Pilomat_grupa_vidrabot
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-    TabOrder = 4
+    TabOrder = 5
     TitleFont.Charset = RUSSIAN_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -16
@@ -88,7 +95,7 @@ object F_pilomat_grupa: TF_pilomat_grupa
     Height = 57
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    TabOrder = 5
+    TabOrder = 6
     object B_Exit: TButton
       Left = 552
       Top = 12
@@ -142,6 +149,17 @@ object F_pilomat_grupa: TF_pilomat_grupa
     DataField = 'MANUFACTURER_CODE'
     DataSource = DM_Mebeli.DS_Pilomat_grupa
     TabOrder = 3
+    OnExit = DBE_Grupa_nameExit
+  end
+  object DBE_MAX_OTHOD_PRC: TDBEdit
+    Left = 135
+    Top = 116
+    Width = 93
+    Height = 26
+    BevelOuter = bvRaised
+    DataField = 'MAX_OTHOD_PRC'
+    DataSource = DM_Mebeli.DS_Pilomat_grupa
+    TabOrder = 4
     OnExit = DBE_Grupa_nameExit
   end
 end

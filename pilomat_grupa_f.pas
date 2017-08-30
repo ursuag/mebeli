@@ -19,6 +19,8 @@ type
     DBE_Article: TDBEdit;
     DB_MANUFACTURER_CODE: TDBEdit;
     Label3: TLabel;
+    Label4: TLabel;
+    DBE_MAX_OTHOD_PRC: TDBEdit;
     procedure B_ExitClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure B_OkClick(Sender: TObject);

@@ -1,6 +1,6 @@
 object F_Print_Furnitura_In_Norma: TF_Print_Furnitura_In_Norma
-  Left = 2
-  Top = 124
+  Left = 24
+  Top = 130
   Width = 906
   Height = 624
   BorderIcons = [biMinimize, biMaximize]

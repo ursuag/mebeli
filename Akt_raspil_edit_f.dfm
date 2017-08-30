@@ -194,7 +194,6 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Height = 33
       Hint = '[Ctrl+End] '#1089#1086#1093#1088#1072#1085#1080#1090#1100' '#1080' '#1074#1099#1081#1090#1080
       Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
-      Default = True
       TabOrder = 0
       OnClick = B_OkClick
     end
@@ -338,6 +337,7 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Top = 8
       Width = 65
       Height = 24
+      TabStop = False
       DataField = 'ID'
       DataSource = DM_Mebeli.DS_Akt_raspil
       ReadOnly = True
@@ -359,11 +359,12 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Top = 36
       Width = 89
       Height = 24
+      TabStop = False
       AutoSize = False
       DataField = 'OTHOD_M2'
       DataSource = DM_Mebeli.DS_Akt_raspil
       ReadOnly = True
-      TabOrder = 3
+      TabOrder = 6
     end
     object DBEdit4: TDBEdit
       Left = 72
@@ -378,7 +379,7 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Font.Name = 'Arial Unicode MS'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 3
     end
     object DBE_ID_Zakaz: TDBEdit
       Left = 340
@@ -397,7 +398,7 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Height = 24
       DataField = 'SOTRUDNIK1_NAME'
       DataSource = DM_Mebeli.DS_Akt_raspil
-      TabOrder = 5
+      TabOrder = 4
     end
     object DBLookupComboBox2: TDBLookupComboBox
       Left = 72
@@ -406,13 +407,14 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
       Height = 24
       DataField = 'SOTRUDNIK2_NAME'
       DataSource = DM_Mebeli.DS_Akt_raspil
-      TabOrder = 6
+      TabOrder = 5
     end
     object E_Ostatok: TEdit
       Left = 72
       Top = 36
       Width = 113
       Height = 24
+      TabStop = False
       ReadOnly = True
       TabOrder = 7
       Text = 'E_Ostatok'
@@ -448,6 +450,7 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
     TitleFont.Height = -13
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
+    OnExit = DBGR_OSTATKIExit
     Columns = <
       item
         Expanded = False
@@ -495,6 +498,7 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
     ListField = 'NAME'
     ListSource = DM_Mebeli.DS_Pilomat_detali
     TabOrder = 5
+    TabStop = False
     OnCloseUp = DBL_DetaliCloseUp
   end
   object DBL_Detali_Grupa: TDBLookupComboBox
@@ -509,6 +513,7 @@ object F_Akt_raspil_edit: TF_Akt_raspil_edit
     ListField = 'NAME'
     ListSource = DM_Mebeli.DS_Pilomat_grupa
     TabOrder = 6
+    TabStop = False
     OnCloseUp = DBL_Detali_GrupaCloseUp
   end
   object IB_Akt_raspil_detali: TIBDataSet

@@ -1,6 +1,6 @@
 object F_Main: TF_Main
   Left = 0
-  Top = 154
+  Top = 132
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = #1052#1077#1073#1077#1083#1100#1085#1099#1081' '#1094#1077#1093
@@ -6383,8 +6383,8 @@ object F_Main: TF_Main
         Expanded = False
         FieldName = 'ID'
         Title.Alignment = taCenter
-        Title.Caption = #8470' '#1079#1072#1082#1072#1079#1072
-        Width = 116
+        Title.Caption = #8470
+        Width = 87
         Visible = True
       end
       item
@@ -6398,10 +6398,31 @@ object F_Main: TF_Main
       end
       item
         Expanded = False
+        FieldName = 'GOTOVPROD_VSEGO'
+        Title.Alignment = taCenter
+        Title.Caption = #1042#1089#1077#1075#1086', '#1096#1090
+        Width = 97
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ZAKAZ_PRC'
+        Title.Alignment = taCenter
+        Title.Caption = '% '#1074#1099#1087
+        Width = 90
+        Visible = True
+      end
+      item
+        Expanded = False
+        Width = 22
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'PRIMECHANIE'
         Title.Alignment = taCenter
         Title.Caption = #1055#1056#1048#1052#1045#1063#1040#1053#1048#1045
-        Width = 883
+        Width = 637
         Visible = True
       end>
   end
@@ -6456,6 +6477,13 @@ object F_Main: TF_Main
         Title.Alignment = taCenter
         Title.Caption = #1050#1086#1083'-'#1074#1086
         Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ZAKAZ_PRC'
+        Title.Alignment = taCenter
+        Title.Caption = '% '#1074#1099#1087
         Visible = True
       end>
   end
@@ -6723,12 +6751,13 @@ object F_Main: TF_Main
       end
       object N26: TMenuItem
         Caption = #1059#1095#1072#1089#1090#1080#1077' '#1074' '#1085#1086#1088#1084#1072#1093
-        object N27: TMenuItem
+        object N_Furnitura_in_Norma: TMenuItem
           Caption = #1052#1072#1090#1077#1088#1080#1072#1083#1099
-          OnClick = N27Click
+          OnClick = N_Furnitura_in_NormaClick
         end
-        object N28: TMenuItem
+        object N_Detali_in_Norma: TMenuItem
           Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099
+          OnClick = N_Detali_in_NormaClick
         end
       end
       object N30: TMenuItem
@@ -6739,6 +6768,7 @@ object F_Main: TF_Main
         end
         object N_Rashod_na_gotovprod_pilomat: TMenuItem
           Caption = #1055#1080#1083#1086#1084#1072#1090#1077#1088#1080#1072#1083#1099
+          OnClick = N_Rashod_na_gotovprod_pilomatClick
         end
       end
     end
@@ -7008,7 +7038,16 @@ object F_Main: TF_Main
     SelectSQL.Strings = (
       
         'select gp0.article article , gpg.name grupa_name, gp0.name gotov' +
-        'prod_name, z1.kol_vo kol_vo, z1.prioritet prioritet'
+        'prod_name, z1.kol_vo kol_vo,'
+      'coalesce( (select sum(prgp1s.kol_vo)'
+      
+        'from prodaja_gotovprod_0 prgp0, prodaja_gotovprod_1 prgp1, proda' +
+        'ja_gotovprod_1_sebest prgp1s'
+      'where (prgp0.id=prgp1.id_parent) and (prgp1.id=prgp1s.id_parent)'
+      
+        'and (z1.id_parent=prgp1.id_zakaz) and (prgp1.id_gotov_prod=z1.id' +
+        '_gotov_prod) ),0)'
+      '/ cast(z1.kol_vo as numeric(15,2))*100 zakaz_prc'
       'from zakaz_1 z1, gotov_prod_0 gp0, gotov_prod_grupa gpg'
       
         'where (z1.id_parent=:ID) and (gp0.id_grupa=gpg.id) and (z1.id_go' +

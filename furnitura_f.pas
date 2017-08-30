@@ -31,7 +31,7 @@ type
     N_Import_new: TMenuItem;
     N_Import_names: TMenuItem;
     PM_DBG_Furnitura: TPopupMenu;
-    N2: TMenuItem;
+    N_Add_to_List: TMenuItem;
     procedure FormActivate(Sender: TObject);
     procedure N_CloseClick(Sender: TObject);
     procedure N_Insert_grupaClick(Sender: TObject);
@@ -57,7 +57,7 @@ type
     procedure DBG_FurnituraKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure N_Import_namesClick(Sender: TObject);
-    procedure N2Click(Sender: TObject);
+    procedure N_Add_to_ListClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -320,7 +320,7 @@ begin
   ShowMessage('Imported '+IntToStr(j)+' rows');
 end;
 
-procedure TF_Furnitura.N2Click(Sender: TObject);
+procedure TF_Furnitura.N_Add_to_ListClick(Sender: TObject);
 begin
   furnitura_add_to_list;
 end;

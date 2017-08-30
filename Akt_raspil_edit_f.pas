@@ -95,6 +95,7 @@ type
     procedure DBGR_DETALIDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure DBE_Date_RExit(Sender: TObject);
+    procedure DBGR_OSTATKIExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -557,6 +558,12 @@ procedure TF_Akt_raspil_edit.DBE_Date_RExit(Sender: TObject);
 begin
   IF (DM_Mebeli.IB_Akt_raspil.FieldByName('DATE_R').Value<=DataZapretaRedakt) AND (Role_name<>'CONTSUPERIOR') AND (Role_name<>'ADMIN') Then
     ShowMessage('Дата документа меньше даты запрета редактирования');
+end;
+
+procedure TF_Akt_raspil_edit.DBGR_OSTATKIExit(Sender: TObject);
+begin
+  if (DM_Mebeli.IB_Akt_raspil_ostatok.State=dsEdit) or (DM_Mebeli.IB_Akt_raspil_ostatok.State=dsInsert) then
+    DM_Mebeli.IB_Akt_raspil_ostatok.post;
 end;
 
 end.

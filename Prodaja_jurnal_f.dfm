@@ -4,7 +4,7 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
   AutoScroll = False
   Caption = #1046#1091#1088#1085#1072#1083' "'#1054#1090#1075#1088#1091#1079#1082#1072' '#1075#1086#1090#1086#1074#1086#1081' '#1087#1088#1086#1076#1091#1082#1094#1080#1080'"'
   ClientHeight = 682
-  ClientWidth = 1136
+  ClientWidth = 1174
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
   Font.Color = clWindowText
@@ -70,7 +70,7 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
         FieldName = 'PRIMECHANIE'
         Title.Alignment = taCenter
         Title.Caption = #1055#1056#1048#1052#1045#1063#1040#1053#1048#1045
-        Width = 503
+        Width = 396
         Visible = True
       end
       item
@@ -78,7 +78,15 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
         FieldName = 'SIGNED'
         Title.Alignment = taCenter
         Title.Caption = #1055#1086#1076#1087#1080#1089#1072#1085
-        Width = 97
+        Width = 89
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUMMA'
+        Title.Alignment = taCenter
+        Title.Caption = #1057#1059#1052#1052#1040
+        Width = 155
         Visible = True
       end>
   end
@@ -295,7 +303,10 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
         't_name,'
       
         'iif((select is_signed from CHECK_IS_SIGNED('#39'PRODAJA_GOTOVPROD_0'#39 +
-        ',prgp0.id))=1,'#39#1044#1072#39','#39#1053#1077#1090#39') signed'
+        ',prgp0.id))=1,'#39#1044#1072#39','#39#1053#1077#1090#39') signed,'
+      
+        '(select sum(price*kol_vo) from prodaja_gotovprod_1 where id_pare' +
+        'nt=prgp0.id) summa'
       'from PRODAJA_GOTOVPROD_0 as prgp0, contragenty_1 as c1'
       
         'where (prgp0.ID_CONTRAGENT=c1.id) and (prgp0.date_pro>=:date_sta' +
@@ -305,6 +316,44 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
       '')
     Left = 40
     Top = 64
+    object IB_Prodaja_0ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'PRODAJA_GOTOVPROD_0.ID'
+      Required = True
+    end
+    object IB_Prodaja_0NOMER_AKT: TIntegerField
+      FieldName = 'NOMER_AKT'
+      Origin = 'PRODAJA_GOTOVPROD_0.ID'
+      Required = True
+    end
+    object IB_Prodaja_0DATE_AKT: TDateField
+      FieldName = 'DATE_AKT'
+      Origin = 'PRODAJA_GOTOVPROD_0.DATE_PRO'
+      Required = True
+    end
+    object IB_Prodaja_0PRIMECHANIE: TIBStringField
+      FieldName = 'PRIMECHANIE'
+      Origin = 'PRODAJA_GOTOVPROD_0.PRIMECHANIE'
+      Size = 200
+    end
+    object IB_Prodaja_0CONTRAGENT_NAME: TIBStringField
+      FieldName = 'CONTRAGENT_NAME'
+      Origin = 'CONTRAGENTY_1.NAME'
+      Required = True
+      Size = 50
+    end
+    object IB_Prodaja_0SIGNED: TIBStringField
+      FieldName = 'SIGNED'
+      Required = True
+      FixedChar = True
+      Size = 3
+    end
+    object IB_Prodaja_0SUMMA: TIBBCDField
+      FieldName = 'SUMMA'
+      DisplayFormat = '### ##0'
+      Precision = 18
+      Size = 2
+    end
   end
   object DS_Prodaja_0: TDataSource
     AutoEdit = False
@@ -339,6 +388,42 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
     DataSource = DS_Prodaja_0
     Left = 40
     Top = 96
+    object IB_Prodaja_1GRUPA_NAME: TIBStringField
+      FieldName = 'GRUPA_NAME'
+      Origin = 'GOTOV_PROD_GRUPA.NAME'
+      Required = True
+      Size = 60
+    end
+    object IB_Prodaja_1ARTICLE: TIntegerField
+      FieldName = 'ARTICLE'
+      Origin = 'GOTOV_PROD_0.ARTICLE'
+    end
+    object IB_Prodaja_1GOTOVPROD_NAME: TIBStringField
+      FieldName = 'GOTOVPROD_NAME'
+      Origin = 'GOTOV_PROD_0.NAME'
+      Size = 50
+    end
+    object IB_Prodaja_1KOL_VO: TIntegerField
+      FieldName = 'KOL_VO'
+      Origin = 'PRODAJA_GOTOVPROD_1.KOL_VO'
+      Required = True
+    end
+    object IB_Prodaja_1ID_ZAKAZ: TIntegerField
+      FieldName = 'ID_ZAKAZ'
+      Origin = 'PRODAJA_GOTOVPROD_1.ID_ZAKAZ'
+      Required = True
+    end
+    object IB_Prodaja_1ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'PRODAJA_GOTOVPROD_1.ID'
+      Required = True
+    end
+    object IB_Prodaja_1SUMMA: TIBBCDField
+      FieldName = 'SUMMA'
+      DisplayFormat = '### ##0'
+      Precision = 18
+      Size = 2
+    end
   end
   object MainMenu1: TMainMenu
     Left = 216
@@ -365,6 +450,10 @@ object F_Prodaja_jurnal: TF_Prodaja_jurnal
         Caption = #1057#1085#1103#1090#1100' '#1087#1086#1076#1087#1080#1089#1100
         OnClick = N_UnsignClick
       end
+    end
+    object N_Export_prodaja: TMenuItem
+      Caption = #1042#1099#1075#1088#1091#1079#1080#1090#1100' '#1074' Main'
+      OnClick = N_Export_prodajaClick
     end
   end
   object IB_Prodaja_1_sebest: TIBDataSet

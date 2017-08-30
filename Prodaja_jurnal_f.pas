@@ -30,6 +30,21 @@ type
     N2: TMenuItem;
     N_Sign: TMenuItem;
     N_Unsign: TMenuItem;
+    N_Export_prodaja: TMenuItem;
+    IB_Prodaja_0ID: TIntegerField;
+    IB_Prodaja_0NOMER_AKT: TIntegerField;
+    IB_Prodaja_0DATE_AKT: TDateField;
+    IB_Prodaja_0PRIMECHANIE: TIBStringField;
+    IB_Prodaja_0CONTRAGENT_NAME: TIBStringField;
+    IB_Prodaja_0SIGNED: TIBStringField;
+    IB_Prodaja_0SUMMA: TIBBCDField;
+    IB_Prodaja_1GRUPA_NAME: TIBStringField;
+    IB_Prodaja_1ARTICLE: TIntegerField;
+    IB_Prodaja_1GOTOVPROD_NAME: TIBStringField;
+    IB_Prodaja_1KOL_VO: TIntegerField;
+    IB_Prodaja_1ID_ZAKAZ: TIntegerField;
+    IB_Prodaja_1ID: TIntegerField;
+    IB_Prodaja_1SUMMA: TIBBCDField;
     procedure FormActivate(Sender: TObject);
     procedure N_Period_of_viewClick(Sender: TObject);
     procedure B_EditClick(Sender: TObject);
@@ -41,6 +56,7 @@ type
     procedure N_PodrobnoClick(Sender: TObject);
     procedure N_SignClick(Sender: TObject);
     procedure N_UnsignClick(Sender: TObject);
+    procedure N_Export_prodajaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -203,6 +219,66 @@ begin
   ib_sign.Free;
   DM_Mebeli.IBTransaction1.Commit;
   reopen_tables;
+end;
+
+procedure TF_Prodaja_jurnal.N_Export_prodajaClick(Sender: TObject);
+var
+  sql_temp: TIBDataSet;
+  f: textfile;
+  s: string;
+ filename: string;
+ SaveDialog1: TSaveDialog;
+begin
+  sql_temp:=TIBDataSet.Create(nil);
+  sql_temp.Database:=DM_Mebeli.IB_Sklad.Database;
+  sql_temp.SelectSQL.Add('select is_signed from CHECK_IS_SIGNED(:tablename,:id_doc)');
+  sql_temp.ParamByName('tablename').Value:='PRODAJA_GOTOVPROD_0';
+  sql_temp.ParamByName('id_doc').Value:=IB_Prodaja_0.FieldByName('NOMER_AKT').AsInteger;
+  sql_temp.Open;
+  if sql_temp.FieldByName('is_signed').AsInteger=0 then
+    begin
+      sql_temp.Free;
+      ShowMessage('Документ не подписан');
+      exit;
+    end;
+  SaveDialog1:=TSaveDialog.Create(nil);
+  SaveDialog1.Filter:='Text files  |*.txt';
+  SaveDialog1.DefaultExt:='txt';
+  SaveDialog1.Options := [ofOverwritePrompt];
+  SaveDialog1.FileName:='export_'+FormatDateTime('yyyymmdd', IB_Prodaja_0.FieldByName('DATE_AKT').AsDateTime)+'_'+IB_Prodaja_0.FieldByName('NOMER_AKT').AsString;
+  if not SaveDialog1.Execute then
+    begin
+      SaveDialog1.Free;
+      sql_temp.Free;
+      exit;
+    end;
+
+  filename:=SaveDialog1.FileName;
+  SaveDialog1.Free;
+
+  AssignFile(f, filename);
+  Rewrite(f);
+  s:=IB_Prodaja_0.FieldByName('NOMER_AKT').AsString+','+IB_Prodaja_0.FieldByName('CONTRAGENT_NAME').AsString+','+codfiscal_mebeli+',,,'+FormatDateTime('yyyymmdd', IB_Prodaja_0.FieldByName('DATE_AKT').AsDateTime);
+  WriteLn(f,s);
+  sql_temp.Close;
+  sql_temp.SelectSQL.Clear;
+  sql_temp.SelectSQL.Add('select (select article from gotov_prod_0 where id=id_gotov_prod) article, sum(kol_vo) kol_vo, price*sum(kol_vo) summa');
+  sql_temp.SelectSQL.Add('from prodaja_gotovprod_1');
+  sql_temp.SelectSQL.Add('where id_parent=:id_prodaja');
+  sql_temp.SelectSQL.Add('group by id_gotov_prod, price');
+  sql_temp.SelectSQL.Add('order by article');
+  sql_temp.ParamByName('id_prodaja').Value:=IB_Prodaja_0.FieldByName('NOMER_AKT').AsInteger;
+  sql_temp.Open;
+  while not sql_temp.Eof do
+    begin
+      s:=sql_temp.FieldByname('article').AsString+','+sql_temp.FieldByname('kol_vo').AsString+','+sql_temp.FieldByname('summa').AsString+',buc,NULL,NULL';
+      WriteLn(f,s);
+      sql_temp.Next;
+    end;
+
+  CloseFile(f);
+  sql_temp.Free;
+  ShowMessage('Данные выгружены');
 end;
 
 end.

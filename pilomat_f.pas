@@ -46,6 +46,10 @@ type
     OpenDialog1: TOpenDialog;
     N2: TMenuItem;
     N_Import_grupa_name: TMenuItem;
+    PM_Add_detali_in_list: TPopupMenu;
+    N_Add_detali_to_List: TMenuItem;
+    N3: TMenuItem;
+    N_Add_grupa_to_List: TMenuItem;
     procedure N_Insert_grupaClick(Sender: TObject);
     procedure N_edit_grupaClick(Sender: TObject);
     procedure N_Insert_listyClick(Sender: TObject);
@@ -85,6 +89,9 @@ type
     procedure N_Import_listyClick(Sender: TObject);
     procedure N_Import_detaliClick(Sender: TObject);
     procedure N_Import_grupa_nameClick(Sender: TObject);
+    procedure N_Add_detali_to_ListClick(Sender: TObject);
+    procedure PM_Add_detali_in_listPopup(Sender: TObject);
+    procedure N_Add_grupa_to_ListClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -106,8 +113,40 @@ uses mebeli_dm, pilomat_grupa_f, main_f, pilomat_listy_f,
   Spisanie_jurnal_print_f;
 
 {$R *.dfm}
-Procedure Reopen_Tables;
+procedure detali_add_to_list;
+var detali_select: TIBDataSet;
+begin
+  detali_select:=TIBDataSet.Create(nil);
+  detali_select.Database:=DM_Mebeli.IB_Sklad.Database;
+  detali_select.SelectSQL.Add('update or insert into DETALI_LIST_FOR_REPORT (id_detali) values (:id_detali) matching (id_detali)');
+  detali_select.ParamByName('id_detali').Value:=F_Pilomat.IB_Pilomat_detali_F.FieldByName('id').AsInteger;
+  try
+    detali_select.ExecSQL;
+  finally
+    detali_select.Free;
+  end;
+end;
 
+procedure grupa_add_to_list;
+var detali_select: TIBDataSet;
+begin
+  detali_select:=TIBDataSet.Create(nil);
+  detali_select.Database:=DM_Mebeli.IB_Sklad.Database;
+  detali_select.SelectSQL.Add('merge into DETALI_LIST_FOR_REPORT detl');
+  detali_select.SelectSQL.Add('using (select id from pilomat_detali where id_grupa=:id_grupa) pd');
+  detali_select.SelectSQL.Add('on detl.id_detali = pd.id');
+  detali_select.SelectSQL.Add('when matched then');
+  detali_select.SelectSQL.Add('update set detl.id_detali = pd.id');
+  detali_select.SelectSQL.Add('when not matched then insert (id_detali) values (pd.id)');
+  detali_select.ParamByName('id_grupa').Value:=F_Pilomat.IB_Pilomat_grupa_F.FieldByName('id').AsInteger;
+  try
+    detali_select.ExecSQL;
+  finally
+    detali_select.Free;
+  end;
+end;
+
+procedure Reopen_Tables;
 begin
   DM_Mebeli.IB_Pilomat_grupa.Close;
   DM_Mebeli.IB_Pilomat_listy.Close;
@@ -246,7 +285,7 @@ begin
       DM_Mebeli.IB_Pilomat_detali.Locate('ID',id_detali,[]);
     end//IF 'SELECT'
   ELSE
-    IF operation='SELECT' Then
+    IF (operation='SELECT') or (operation='SELECT_FOR_LIST') Then
       begin
         DBG_Grupa.DataSource:=DS_Pilomat_grupa_F;
         DBG_Listy.DataSource:=DS_Pilomat_Listy_F;
@@ -364,17 +403,19 @@ end;//proc
 
 procedure TF_Pilomat.DBG_ListyDblClick(Sender: TObject);
 begin
-  IF Pos('SELECT',operation)>0 Then
-    B_SelectClick(Sender)
-  ELSE
+  IF (operation='SELECT') or (operation='SELECT_STOCKS') Then
+    B_SelectClick(Sender);
+  if operation='' then
     N_edit_listyClick(Sender);
 end;//proc
 
 procedure TF_Pilomat.DBG_DetaliDblClick(Sender: TObject);
 begin
-  IF Pos('SELECT',operation)>0 Then
-    B_SelectClick(Sender)
-  ELSE
+  if operation='SELECT_FOR_LIST' Then
+    detali_add_to_list;
+  if (operation='SELECT') or (operation='SELECT_STOCKS') then
+    B_SelectClick(Sender);
+  if operation='' then
     N_edit_detaliClick(Sender);
 end;//proc
 
@@ -738,6 +779,26 @@ begin
   Excel:=Unassigned;
   reopen_tables;
   ShowMessage('Imported '+IntToStr(j)+' rows');
+end;
+
+procedure TF_Pilomat.N_Add_detali_to_ListClick(Sender: TObject);
+begin
+  detali_add_to_list;
+end;
+
+procedure TF_Pilomat.PM_Add_detali_in_listPopup(Sender: TObject);
+begin
+  PM_Add_detali_in_list.Items[0].Enabled:=true;
+  PM_Add_detali_in_list.Items[2].Enabled:=true;
+  if F_Pilomat.ActiveControl=DBG_Grupa then
+    PM_Add_detali_in_list.Items[0].Enabled:=false;
+  if F_Pilomat.ActiveControl=DBG_Detali then
+    PM_Add_detali_in_list.Items[2].Enabled:=false;
+end;
+
+procedure TF_Pilomat.N_Add_grupa_to_ListClick(Sender: TObject);
+begin
+  grupa_add_to_list;
 end;
 
 end.

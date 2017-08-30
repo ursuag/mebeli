@@ -83,7 +83,9 @@ uses
   Report_Ostatok_materialy_f in 'Report_Ostatok_materialy_f.pas' {F_Report_Ostatok_materialy},
   Contragenty_edit_f in 'Contragenty_edit_f.pas' {F_Contragenty_edit},
   Rashod_na_gotovprod_furnitura_f in 'Rashod_na_gotovprod_furnitura_f.pas' {F_Rashod_na_gotovprod_furnitura},
-  Print_Furnitura_In_Norma_f in 'Print_Furnitura_In_Norma_f.pas' {F_Print_Furnitura_In_Norma};
+  Print_Furnitura_In_Norma_f in 'Print_Furnitura_In_Norma_f.pas' {F_Print_Furnitura_In_Norma},
+  Print_Detali_In_Norma_f in 'Print_Detali_In_Norma_f.pas' {F_Print_Detali_In_Norma},
+  Rashod_na_gotovprod_detali_f in 'Rashod_na_gotovprod_detali_f.pas' {F_Rashod_na_gotovprod_detali};
 
 {$R *.res}
 
@@ -169,5 +171,7 @@ begin
   Application.CreateForm(TF_Contragenty_edit, F_Contragenty_edit);
   Application.CreateForm(TF_Rashod_na_gotovprod_furnitura, F_Rashod_na_gotovprod_furnitura);
   Application.CreateForm(TF_Print_Furnitura_In_Norma, F_Print_Furnitura_In_Norma);
+  Application.CreateForm(TF_Print_Detali_In_Norma, F_Print_Detali_In_Norma);
+  Application.CreateForm(TF_Rashod_na_gotovprod_detali, F_Rashod_na_gotovprod_detali);
   Application.Run;
 end.

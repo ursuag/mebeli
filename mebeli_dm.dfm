@@ -292,15 +292,21 @@ object DM_Mebeli: TDM_Mebeli
       '  ID = :OLD_ID')
     InsertSQL.Strings = (
       'insert into PILOMAT_GRUPA'
-      '  (ID, NAME, ARTICLE, MANUFACTURER_CODE)'
+      
+        '  (ID, NAME, ARTICLE, MANUFACTURER_CODE, IS_ZERKALO, MAX_OTHOD_P' +
+        'RC)'
       'values'
-      '  (:ID, :NAME, :ARTICLE, :MANUFACTURER_CODE)')
+      
+        '  (:ID, :NAME, :ARTICLE, :MANUFACTURER_CODE, :IS_ZERKALO, :MAX_O' +
+        'THOD_PRC)')
     RefreshSQL.Strings = (
       'Select '
       '  ID,'
       '  NAME,'
       '  ARTICLE,'
-      '  MANUFACTURER_CODE'
+      '  MANUFACTURER_CODE,'
+      '  IS_ZERKALO,'
+      '  MAX_OTHOD_PRC'
       'from PILOMAT_GRUPA '
       'where'
       '  ID = :ID')
@@ -314,7 +320,9 @@ object DM_Mebeli: TDM_Mebeli
       '  ID = :ID,'
       '  NAME = :NAME,'
       '  ARTICLE = :ARTICLE,'
-      '  MANUFACTURER_CODE = :MANUFACTURER_CODE'
+      '  MANUFACTURER_CODE = :MANUFACTURER_CODE,'
+      '  IS_ZERKALO = :IS_ZERKALO,'
+      '  MAX_OTHOD_PRC = :MAX_OTHOD_PRC'
       'where'
       '  ID = :OLD_ID')
     GeneratorField.Field = 'ID'
@@ -340,6 +348,14 @@ object DM_Mebeli: TDM_Mebeli
       FieldName = 'MANUFACTURER_CODE'
       Origin = 'PILOMAT_GRUPA.MANUFACTURER_CODE'
       Size = 100
+    end
+    object IB_Pilomat_grupaIS_ZERKALO: TSmallintField
+      FieldName = 'IS_ZERKALO'
+      Origin = 'PILOMAT_GRUPA.IS_ZERKALO'
+    end
+    object IB_Pilomat_grupaMAX_OTHOD_PRC: TSmallintField
+      FieldName = 'MAX_OTHOD_PRC'
+      Origin = 'PILOMAT_GRUPA.MAX_OTHOD_PRC'
     end
   end
   object IB_Pilomat_grupa_vidrabot: TIBDataSet
@@ -676,8 +692,22 @@ object DM_Mebeli: TDM_Mebeli
       'where'
       '  ID = :ID')
     SelectSQL.Strings = (
-      'select *  from zakaz_0'
-      'where id>0'
+      
+        'select id, date_z, PRIMECHANIE, (select sum(kol_vo) from zakaz_1' +
+        ' where id_parent=z0.id) gotovprod_vsego,'
+      '('
+      ' select sum(prgp1s.kol_vo)'
+      
+        ' from prodaja_gotovprod_0 prgp0, prodaja_gotovprod_1 prgp1, prod' +
+        'aja_gotovprod_1_sebest prgp1s'
+      
+        ' where (prgp0.id=prgp1.id_parent) and (prgp1.id=prgp1s.id_parent' +
+        ')'
+      ' and (prgp1.id_zakaz=z0.id)'
+      
+        ')/cast((select sum(kol_vo) from zakaz_1 where id_parent=z0.id) a' +
+        's numeric(15,4))*100 zakaz_prc'
+      'from zakaz_0 z0'
       'order by date_z, id')
     ModifySQL.Strings = (
       'update zakaz_0'
@@ -692,6 +722,30 @@ object DM_Mebeli: TDM_Mebeli
     GeneratorField.Generator = 'GEN_ZAKAZ_0_ID'
     Left = 520
     Top = 16
+    object IB_Zakaz_0ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ZAKAZ_0.ID'
+      Required = True
+    end
+    object IB_Zakaz_0DATE_Z: TDateField
+      FieldName = 'DATE_Z'
+      Origin = 'ZAKAZ_0.DATE_Z'
+      Required = True
+    end
+    object IB_Zakaz_0PRIMECHANIE: TIBStringField
+      FieldName = 'PRIMECHANIE'
+      Origin = 'ZAKAZ_0.PRIMECHANIE'
+      Size = 100
+    end
+    object IB_Zakaz_0GOTOVPROD_VSEGO: TLargeintField
+      FieldName = 'GOTOVPROD_VSEGO'
+    end
+    object IB_Zakaz_0ZAKAZ_PRC: TIBBCDField
+      FieldName = 'ZAKAZ_PRC'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 4
+    end
   end
   object IB_Zakaz_1: TIBDataSet
     Database = DB_Mebeli
@@ -888,7 +942,57 @@ object DM_Mebeli: TDM_Mebeli
       'where'
       '  ID = :ID')
     SelectSQL.Strings = (
-      'select *  from AKT_VIP_PROD_1'
+      'select id, id_parent, id_gotov_prod, kol_vo,'
+      '( select sum(summa) from'
+      '('
+      'select rashdp.summa summa'
+      
+        'from RASHOD_DETALI rashd, RASHOD_DETALI_PRICE rashdp, pilomat_gr' +
+        'upa pg, pilomat_detali pd'
+      
+        'where (rashd.id_akt_vip_prod=avp1.id_parent) and (rashd.id_pilom' +
+        'at_detali=pd.id) and (pg.id=pd.id_grupa) and (rashd.id=rashdp.id' +
+        '_parent)'
+      '  union all'
+      'select rashfp.summa'
+      
+        'from RASHOD_FURNITURA rashf, RASHOD_FURNITURA_PRICE rashfp, furn' +
+        'itura_grupa fg, furnitura f'
+      
+        'where (rashf.id_akt_vip_prod=avp1.id_parent) and (rashf.id_furni' +
+        'tura=f.id) and (fg.id=f.id_parent) and (rashf.id=rashfp.id_paren' +
+        't)'
+      '   union all'
+      
+        'select suma_furnitura from AKT_VIP_PROD_FROM_RASH_FURN where id_' +
+        'akt_vip_prod1=avp1.id'
+      ') ) summa,'
+      '( select sum(summa) from'
+      '('
+      'select rashdp.summa summa'
+      
+        'from RASHOD_DETALI rashd, RASHOD_DETALI_PRICE rashdp, pilomat_gr' +
+        'upa pg, pilomat_detali pd'
+      
+        'where (rashd.id_akt_vip_prod=avp1.id_parent) and (rashd.id_pilom' +
+        'at_detali=pd.id) and (pg.id=pd.id_grupa) and (rashd.id=rashdp.id' +
+        '_parent)'
+      '   union all'
+      'select rashfp.summa'
+      
+        'from RASHOD_FURNITURA rashf, RASHOD_FURNITURA_PRICE rashfp, furn' +
+        'itura_grupa fg, furnitura f'
+      
+        'where (rashf.id_akt_vip_prod=avp1.id_parent) and (rashf.id_furni' +
+        'tura=f.id) and (fg.id=f.id_parent) and (rashf.id=rashfp.id_paren' +
+        't)'
+      '   union all'
+      
+        'select suma_furnitura from AKT_VIP_PROD_FROM_RASH_FURN where id_' +
+        'akt_vip_prod1=avp1.id'
+      ') )/avp1.kol_vo price'
+      ''
+      'from AKT_VIP_PROD_1 avp1'
       'where id_parent=:NOMER')
     ModifySQL.Strings = (
       'update AKT_VIP_PROD_1'
@@ -938,6 +1042,18 @@ object DM_Mebeli: TDM_Mebeli
       FieldKind = fkCalculated
       FieldName = 'ARTICLE'
       Calculated = True
+    end
+    object IB_Akt_vip_prod_1SUMMA: TIBBCDField
+      FieldName = 'SUMMA'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 3
+    end
+    object IB_Akt_vip_prod_1PRICE: TIBBCDField
+      FieldName = 'PRICE'
+      DisplayFormat = '0.00'
+      Precision = 18
+      Size = 3
     end
   end
   object IB_Akt_raspil_listy: TIBDataSet
@@ -4002,111 +4118,6 @@ object DM_Mebeli: TDM_Mebeli
     Left = 296
     Top = 80
   end
-  object IB_Contragenty_0: TIBDataSet
-    Database = DB_Mebeli
-    Transaction = IBTransaction1
-    ForcedRefresh = True
-    BufferChunks = 1000
-    CachedUpdates = False
-    DeleteSQL.Strings = (
-      'delete from contragenty_0'
-      'where'
-      '  ID = :OLD_ID')
-    InsertSQL.Strings = (
-      'insert into contragenty_0'
-      '  (ID, NAME)'
-      'values'
-      '  (:ID, :NAME)')
-    RefreshSQL.Strings = (
-      'Select *'
-      'from contragenty_0 '
-      'where'
-      '  ID = :ID')
-    SelectSQL.Strings = (
-      'select *  from contragenty_0'
-      'order by NAME')
-    ModifySQL.Strings = (
-      'update contragenty_0'
-      'set'
-      '  ID = :ID,'
-      '  NAME = :NAME'
-      'where'
-      '  ID = :OLD_ID')
-    GeneratorField.Field = 'ID'
-    GeneratorField.Generator = 'GEN_CONTRAGENTY_0_ID'
-    Left = 248
-    Top = 648
-  end
-  object DS_Contragenty_0: TDataSource
-    AutoEdit = False
-    DataSet = IB_Contragenty_0
-    Left = 328
-    Top = 648
-  end
-  object DS_Contragenty_1: TDataSource
-    DataSet = IB_Contragenty_1
-    Left = 328
-    Top = 696
-  end
-  object IB_Contragenty_1: TIBDataSet
-    Database = DB_Mebeli
-    Transaction = IBTransaction1
-    ForcedRefresh = True
-    OnNewRecord = IB_Contragenty_1NewRecord
-    BufferChunks = 1000
-    CachedUpdates = False
-    DeleteSQL.Strings = (
-      'delete from contragenty_1'
-      'where'
-      '  ID = :OLD_ID')
-    InsertSQL.Strings = (
-      'insert into contragenty_1'
-      '  (ID, ID_PARENT, NAME, CODFISCAL)'
-      'values'
-      '  (:ID, :ID_PARENT, :NAME, :CODFISCAL)')
-    RefreshSQL.Strings = (
-      'Select *'
-      'from contragenty_1 '
-      'where'
-      '  ID = :ID')
-    SelectSQL.Strings = (
-      'select *  from contragenty_1'
-      ''
-      'order by NAME')
-    ModifySQL.Strings = (
-      'update contragenty_1'
-      'set'
-      '  ID = :ID,'
-      '  ID_PARENT = :ID_PARENT,'
-      '  NAME = :NAME,'
-      '  CODFISCAL = :CODFISCAL'
-      'where'
-      '  ID = :OLD_ID')
-    GeneratorField.Field = 'ID'
-    GeneratorField.Generator = 'GEN_CONTRAGENTY_1_ID'
-    DataSource = DS_Contragenty_0
-    Left = 248
-    Top = 696
-    object IB_Contragenty_1ID: TIntegerField
-      FieldName = 'ID'
-      Origin = 'CONTRAGENTY_1.ID'
-      Required = True
-    end
-    object IB_Contragenty_1ID_PARENT: TIntegerField
-      FieldName = 'ID_PARENT'
-      Origin = 'CONTRAGENTY_1.ID_PARENT'
-    end
-    object IB_Contragenty_1NAME: TIBStringField
-      FieldName = 'NAME'
-      Origin = 'CONTRAGENTY_1.NAME'
-      Required = True
-      Size = 50
-    end
-    object IB_Contragenty_1CODFISCAL: TIBStringField
-      FieldName = 'CODFISCAL'
-      Origin = 'CONTRAGENTY_1.CODFISCAL'
-    end
-  end
   object IB_GOTOV_PROD_grupa_name: TIBDataSet
     Database = DB_Mebeli
     Transaction = IBTransaction1
@@ -4430,5 +4441,110 @@ object DM_Mebeli: TDM_Mebeli
     AutoStopAction = saNone
     Left = 224
     Top = 16
+  end
+  object IB_Contragenty_0: TIBDataSet
+    Database = DB_Mebeli
+    Transaction = IBTransaction1
+    ForcedRefresh = True
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from contragenty_0'
+      'where'
+      '  ID = :OLD_ID')
+    InsertSQL.Strings = (
+      'insert into contragenty_0'
+      '  (ID, NAME)'
+      'values'
+      '  (:ID, :NAME)')
+    RefreshSQL.Strings = (
+      'Select *'
+      'from contragenty_0 '
+      'where'
+      '  ID = :ID')
+    SelectSQL.Strings = (
+      'select *  from contragenty_0'
+      'order by NAME')
+    ModifySQL.Strings = (
+      'update contragenty_0'
+      'set'
+      '  ID = :ID,'
+      '  NAME = :NAME'
+      'where'
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    GeneratorField.Generator = 'GEN_CONTRAGENTY_0_ID'
+    Left = 232
+    Top = 571
+  end
+  object DS_Contragenty_0: TDataSource
+    AutoEdit = False
+    DataSet = IB_Contragenty_0
+    Left = 312
+    Top = 571
+  end
+  object DS_Contragenty_1: TDataSource
+    DataSet = IB_Contragenty_1
+    Left = 312
+    Top = 619
+  end
+  object IB_Contragenty_1: TIBDataSet
+    Database = DB_Mebeli
+    Transaction = IBTransaction1
+    ForcedRefresh = True
+    OnNewRecord = IB_Contragenty_1NewRecord
+    BufferChunks = 1000
+    CachedUpdates = False
+    DeleteSQL.Strings = (
+      'delete from contragenty_1'
+      'where'
+      '  ID = :OLD_ID')
+    InsertSQL.Strings = (
+      'insert into contragenty_1'
+      '  (ID, ID_PARENT, NAME, CODFISCAL)'
+      'values'
+      '  (:ID, :ID_PARENT, :NAME, :CODFISCAL)')
+    RefreshSQL.Strings = (
+      'Select *'
+      'from contragenty_1 '
+      'where'
+      '  ID = :ID')
+    SelectSQL.Strings = (
+      'select *  from contragenty_1'
+      ''
+      'order by NAME')
+    ModifySQL.Strings = (
+      'update contragenty_1'
+      'set'
+      '  ID = :ID,'
+      '  ID_PARENT = :ID_PARENT,'
+      '  NAME = :NAME,'
+      '  CODFISCAL = :CODFISCAL'
+      'where'
+      '  ID = :OLD_ID')
+    GeneratorField.Field = 'ID'
+    GeneratorField.Generator = 'GEN_CONTRAGENTY_1_ID'
+    DataSource = DS_Contragenty_0
+    Left = 232
+    Top = 619
+    object IB_Contragenty_1ID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'CONTRAGENTY_1.ID'
+      Required = True
+    end
+    object IB_Contragenty_1ID_PARENT: TIntegerField
+      FieldName = 'ID_PARENT'
+      Origin = 'CONTRAGENTY_1.ID_PARENT'
+    end
+    object IB_Contragenty_1NAME: TIBStringField
+      FieldName = 'NAME'
+      Origin = 'CONTRAGENTY_1.NAME'
+      Required = True
+      Size = 50
+    end
+    object IB_Contragenty_1CODFISCAL: TIBStringField
+      FieldName = 'CODFISCAL'
+      Origin = 'CONTRAGENTY_1.CODFISCAL'
+    end
   end
 end

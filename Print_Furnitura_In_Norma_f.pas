@@ -221,7 +221,8 @@ begin
 end;
 
 procedure TF_Print_Furnitura_In_Norma.B_Clear_listClick(Sender: TObject);
-  var furn_select: TIBDataSet;
+var
+  furn_select: TIBDataSet;
 begin
   IF MessageDlg('¬ы уверены, что хотите очистить список?',mtWarning,[mbOk,mbNo],0)=mrOk Then
      begin
