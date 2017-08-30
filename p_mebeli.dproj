@@ -1,0 +1,192 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{e615ede6-8149-4892-87c8-5ac7933bf039}</ProjectGuid>
+    <MainSource>p_mebeli.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>p_mebeli.exe</DCC_DependencyCheckOutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_IntegerOverflowCheck>True</DCC_IntegerOverflowCheck>
+    <DCC_RangeChecking>True</DCC_RangeChecking>
+    <DCC_StrictVarStrings>False</DCC_StrictVarStrings>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_Define>RELEASE</DCC_Define>
+    <DCC_Description>Мебельный цех</DCC_Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_IntegerOverflowCheck>True</DCC_IntegerOverflowCheck>
+    <DCC_RangeChecking>True</DCC_RangeChecking>
+    <DCC_StrictVarStrings>False</DCC_StrictVarStrings>
+    <DCC_Define>DEBUG</DCC_Define>
+    <DCC_Description>Мебельный цех</DCC_Description>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject xmlns=""> <Delphi.Personality>   <Parameters>
+      <Parameters Name="UseLauncher">False</Parameters>
+      <Parameters Name="LoadAllSymbols">True</Parameters>
+      <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+    </Parameters>
+    <VersionInfo>
+      <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+      <VersionInfo Name="AutoIncBuild">True</VersionInfo>
+      <VersionInfo Name="MajorVer">2</VersionInfo>
+      <VersionInfo Name="MinorVer">1</VersionInfo>
+      <VersionInfo Name="Release">0</VersionInfo>
+      <VersionInfo Name="Build">6</VersionInfo>
+      <VersionInfo Name="Debug">False</VersionInfo>
+      <VersionInfo Name="PreRelease">True</VersionInfo>
+      <VersionInfo Name="Special">False</VersionInfo>
+      <VersionInfo Name="Private">True</VersionInfo>
+      <VersionInfo Name="DLL">False</VersionInfo>
+      <VersionInfo Name="Locale">1049</VersionInfo>
+      <VersionInfo Name="CodePage">1251</VersionInfo>
+    </VersionInfo>
+    <VersionInfoKeys>
+      <VersionInfoKeys Name="CompanyName">Ursu Andrei (c) 2008</VersionInfoKeys>
+      <VersionInfoKeys Name="FileDescription">Мебельный цех</VersionInfoKeys>
+      <VersionInfoKeys Name="FileVersion">2.1.0.6</VersionInfoKeys>
+      <VersionInfoKeys Name="InternalName">p_mebeli.exe</VersionInfoKeys>
+      <VersionInfoKeys Name="LegalCopyright">Ursu Andrei (c) 2007</VersionInfoKeys>
+      <VersionInfoKeys Name="LegalTrademarks">LiniaH2O</VersionInfoKeys>
+      <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
+      <VersionInfoKeys Name="ProductName"></VersionInfoKeys>
+      <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+      <VersionInfoKeys Name="Comments">Программа для автоматизации учета в мебельном цеху</VersionInfoKeys>
+      <VersionInfoKeys Name="PrivateBuild"></VersionInfoKeys>
+    </VersionInfoKeys>
+    <Source>
+      <Source Name="MainSource">p_mebeli.dpr</Source>
+    </Source>
+  </Delphi.Personality> </BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <ItemGroup />
+  <ItemGroup>
+    <DelphiCompile Include="p_mebeli.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="about.pas">
+      <Form>F_About</Form>
+    </DCCReference>
+    <DCCReference Include="Akt_raspil_edit_f.pas">
+      <Form>F_Akt_raspil_edit</Form>
+    </DCCReference>
+    <DCCReference Include="akt_raspil_jurnal_f.pas">
+      <Form>F_Akt_raspil_jurnal</Form>
+    </DCCReference>
+    <DCCReference Include="akt_vip_prod_edit_f.pas">
+      <Form>F_Akt_vip_prod_edit</Form>
+    </DCCReference>
+    <DCCReference Include="akt_vip_prod_jurnal_f.pas">
+      <Form>F_Akt_vip_prod_jurnal</Form>
+    </DCCReference>
+    <DCCReference Include="akt_vip_rabot_jurnal_f.pas">
+      <Form>F_Akt_vip_rabot_jurnal</Form>
+    </DCCReference>
+    <DCCReference Include="Akt_vip_rab_edit_f.pas">
+      <Form>F_Akt_vip_rab_edit</Form>
+    </DCCReference>
+    <DCCReference Include="furnitura_edit_f.pas">
+      <Form>F_Furnitura_edit</Form>
+    </DCCReference>
+    <DCCReference Include="furnitura_f.pas">
+      <Form>F_Furnitura</Form>
+    </DCCReference>
+    <DCCReference Include="furnitura_grupa_vidrabot_f.pas">
+      <Form>F_furnitura_grupa_vidrabot</Form>
+    </DCCReference>
+    <DCCReference Include="gotov_prod_edit_f.pas">
+      <Form>F_Gotov_prod_edit</Form>
+    </DCCReference>
+    <DCCReference Include="gotov_prod_f.pas">
+      <Form>F_Gotov_prod</Form>
+    </DCCReference>
+    <DCCReference Include="main_f.pas">
+      <Form>F_Main</Form>
+    </DCCReference>
+    <DCCReference Include="mebeli_dm.pas">
+      <Form>DM_Mebeli</Form>
+    </DCCReference>
+    <DCCReference Include="password_dlg.pas">
+      <Form>PasswordDlg</Form>
+    </DCCReference>
+    <DCCReference Include="password_f.pas">
+      <Form>F_Password</Form>
+    </DCCReference>
+    <DCCReference Include="Peremeschenie_edit_f.pas">
+      <Form>F_Peremeschenie_edit</Form>
+    </DCCReference>
+    <DCCReference Include="Peremeschenie_jurnal_f.pas">
+      <Form>F_Peremeschenie_jurnal</Form>
+    </DCCReference>
+    <DCCReference Include="pilomat_detali_f.pas">
+      <Form>F_Pilomat_detali</Form>
+    </DCCReference>
+    <DCCReference Include="pilomat_f.pas">
+      <Form>F_Pilomat</Form>
+    </DCCReference>
+    <DCCReference Include="pilomat_grupa_f.pas">
+      <Form>F_pilomat_grupa</Form>
+    </DCCReference>
+    <DCCReference Include="pilomat_listy_f.pas">
+      <Form>F_Pilomat_listy</Form>
+    </DCCReference>
+    <DCCReference Include="Prihod_detali_edit_f.pas">
+      <Form>F_Prihod_detali_edit</Form>
+    </DCCReference>
+    <DCCReference Include="Prihod_detali_jurnal_f.pas">
+      <Form>F_Prihod_detali_jurnal</Form>
+    </DCCReference>
+    <DCCReference Include="prihod_furnitura_edit_f.pas">
+      <Form>F_prihod_furnitura_edit</Form>
+    </DCCReference>
+    <DCCReference Include="prihod_furnitura_jurnal_f.pas">
+      <Form>F_Prihod_furnitura_jurnal</Form>
+    </DCCReference>
+    <DCCReference Include="prihod_listy_edit_f.pas">
+      <Form>F_Prihod_listy_edit</Form>
+    </DCCReference>
+    <DCCReference Include="prihod_listy_jurnal_f.pas">
+      <Form>F_Prihod_listy_jurnal</Form>
+    </DCCReference>
+    <DCCReference Include="print_forms.pas">
+      <Form>F_Print_Forms</Form>
+    </DCCReference>
+    <DCCReference Include="reports_f.pas">
+      <Form>F_Reports</Form>
+    </DCCReference>
+    <DCCReference Include="sklad_f.pas">
+      <Form>F_Sklad</Form>
+    </DCCReference>
+    <DCCReference Include="sotrudniki_f.pas">
+      <Form>F_Sotrudniki</Form>
+    </DCCReference>
+    <DCCReference Include="spisanie_edit_f.pas">
+      <Form>F_Spisanie_edit</Form>
+    </DCCReference>
+    <DCCReference Include="spisanie_jurnal_f.pas">
+      <Form>F_Spisanie_jurnal</Form>
+    </DCCReference>
+    <DCCReference Include="vidy_rabot_f.pas">
+      <Form>F_Vidy_rabot</Form>
+    </DCCReference>
+    <DCCReference Include="Vidy_rabot_stoimosti_edit_f.pas">
+      <Form>F_Vidy_rabot_stoimosti_edit</Form>
+    </DCCReference>
+    <DCCReference Include="zakaz_edit_f.pas">
+      <Form>F_Zakaz_edit</Form>
+    </DCCReference>
+    <DCCReference Include="zakaz_select_f.pas">
+      <Form>F_Zakaz_select</Form>
+    </DCCReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+</Project>

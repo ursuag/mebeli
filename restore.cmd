@@ -1,0 +1,1 @@
+"c:\Program Files (x86)\Firebird\Firebird_2_1\bin\nbackup.exe" -U SYSDBA -P miscacosolap -R mebeli.fdb %1 %2 %3
